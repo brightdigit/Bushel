@@ -11,7 +11,7 @@ import SwiftUI
 struct Bushel_downloadApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            DownloadView()
         }
     }
 }

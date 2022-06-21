@@ -29,7 +29,6 @@ struct VirtualMachineView : NSViewRepresentable {
 }
 
 
-@main
 class AppDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegate {
   private var installationObserver: NSKeyValueObservation?
   var window: NSWindow!

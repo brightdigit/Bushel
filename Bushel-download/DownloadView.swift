@@ -70,7 +70,7 @@ class Downloader : NSObject, ObservableObject, URLSessionDownloadDelegate {
 
 
 
-struct ContentView: View {
+struct DownloadView: View {
   @StateObject var downloader = Downloader(downloadURL: downloadURL, configuration: nil, queue: nil)
   //@State var total : Int64?
   //@State var written : Int64 = 0
@@ -114,6 +114,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        DownloadView()
     }
 }

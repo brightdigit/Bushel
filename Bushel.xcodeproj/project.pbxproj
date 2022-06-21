@@ -28,7 +28,6 @@
 		B32BF3A2285EA978006842C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B32BF3A1285EA978006842C7 /* Assets.xcassets */; };
 		B32BF3A5285EA978006842C7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B32BF3A4285EA978006842C7 /* Preview Assets.xcassets */; };
 		B32BF3AC285EA99B006842C7 /* MachineDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32BF3AB285EA99B006842C7 /* MachineDialogView.swift */; };
-		B335192C2860FDFD00E2E10B /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = B335192A2860FDFD00E2E10B /* MainMenu.xib */; };
 		B33519372860FE2100E2E10B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B33519352860FE2100E2E10B /* Assets.xcassets */; };
 		B33519382860FE2100E2E10B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33519362860FE2100E2E10B /* AppDelegate.swift */; };
 		B34ABE9128443EFB00F22379 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34ABE9028443EFB00F22379 /* Downloader.swift */; };
@@ -66,7 +65,7 @@
 		B3BB2FB0283E7B3B00F3E336 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3BB2FAF283E7B3B00F3E336 /* Assets.xcassets */; };
 		B3BB2FB3283E7B3B00F3E336 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3BB2FB2283E7B3B00F3E336 /* Preview Assets.xcassets */; };
 		B3BB2FF6283FB62D00F3E336 /* Bushel_downloadApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BB2FF5283FB62D00F3E336 /* Bushel_downloadApp.swift */; };
-		B3BB2FF8283FB62D00F3E336 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BB2FF7283FB62D00F3E336 /* ContentView.swift */; };
+		B3BB2FF8283FB62D00F3E336 /* DownloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BB2FF7283FB62D00F3E336 /* DownloadView.swift */; };
 		B3BB2FFA283FB62E00F3E336 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3BB2FF9283FB62E00F3E336 /* Assets.xcassets */; };
 		B3BB2FFD283FB62E00F3E336 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3BB2FFC283FB62E00F3E336 /* Preview Assets.xcassets */; };
 		B3CED9092848062A0072CACC /* RestoreImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CED9082848062A0072CACC /* RestoreImageView.swift */; };
@@ -75,6 +74,7 @@
 		B3E21B682860FFB7008102A6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E21B5F2860FFB7008102A6 /* ContentView.swift */; };
 		B3E21B692860FFB7008102A6 /* FileCreationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E21B662860FFB7008102A6 /* FileCreationError.swift */; };
 		B3E21B6A2860FFB7008102A6 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E21B652860FFB7008102A6 /* FileManager.swift */; };
+		B3E21B742862327D008102A6 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E21B732862327D008102A6 /* main.swift */; };
 		B3F9821328482E0C00EF5E29 /* MachineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F9821228482E0C00EF5E29 /* MachineView.swift */; };
 /* End PBXBuildFile section */
 
@@ -138,7 +138,6 @@
 		B32BF3A7285EA978006842C7 /* BshillDoc.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BshillDoc.entitlements; sourceTree = "<group>"; };
 		B32BF3AB285EA99B006842C7 /* MachineDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineDialogView.swift; sourceTree = "<group>"; };
 		B33519242860FDFC00E2E10B /* BshAppDelegate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BshAppDelegate.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B335192B2860FDFD00E2E10B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		B33519352860FE2100E2E10B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B33519362860FE2100E2E10B /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B33519392860FE2B00E2E10B /* BshAppDelegate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BshAppDelegate.entitlements; sourceTree = "<group>"; };
@@ -183,7 +182,7 @@
 		B3BB2FB4283E7B3B00F3E336 /* Bushel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bushel.entitlements; sourceTree = "<group>"; };
 		B3BB2FF3283FB62D00F3E336 /* Bushel-download.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bushel-download.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3BB2FF5283FB62D00F3E336 /* Bushel_downloadApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bushel_downloadApp.swift; sourceTree = "<group>"; };
-		B3BB2FF7283FB62D00F3E336 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B3BB2FF7283FB62D00F3E336 /* DownloadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadView.swift; sourceTree = "<group>"; };
 		B3BB2FF9283FB62E00F3E336 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B3BB2FFC283FB62E00F3E336 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B3BB2FFE283FB62E00F3E336 /* Bushel_download.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bushel_download.entitlements; sourceTree = "<group>"; };
@@ -194,6 +193,7 @@
 		B3E21B642860FFB7008102A6 /* VZVirtualMachineConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VZVirtualMachineConfiguration.swift; sourceTree = "<group>"; };
 		B3E21B652860FFB7008102A6 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		B3E21B662860FFB7008102A6 /* FileCreationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCreationError.swift; sourceTree = "<group>"; };
+		B3E21B732862327D008102A6 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		B3F9821228482E0C00EF5E29 /* MachineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -315,8 +315,8 @@
 				B3E21B642860FFB7008102A6 /* VZVirtualMachineConfiguration.swift */,
 				B33519362860FE2100E2E10B /* AppDelegate.swift */,
 				B33519352860FE2100E2E10B /* Assets.xcassets */,
-				B335192A2860FDFD00E2E10B /* MainMenu.xib */,
 				B33519392860FE2B00E2E10B /* BshAppDelegate.entitlements */,
+				B3E21B732862327D008102A6 /* main.swift */,
 			);
 			path = BshAppDelegate;
 			sourceTree = "<group>";
@@ -444,7 +444,7 @@
 			isa = PBXGroup;
 			children = (
 				B3BB2FF5283FB62D00F3E336 /* Bushel_downloadApp.swift */,
-				B3BB2FF7283FB62D00F3E336 /* ContentView.swift */,
+				B3BB2FF7283FB62D00F3E336 /* DownloadView.swift */,
 				B3BB2FF9283FB62E00F3E336 /* Assets.xcassets */,
 				B3BB2FFE283FB62E00F3E336 /* Bushel_download.entitlements */,
 				B3BB2FFB283FB62E00F3E336 /* Preview Content */,
@@ -740,7 +740,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B33519372860FE2100E2E10B /* Assets.xcassets in Resources */,
-				B335192C2860FDFD00E2E10B /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -821,6 +820,7 @@
 			files = (
 				B3E21B6A2860FFB7008102A6 /* FileManager.swift in Sources */,
 				B3E21B672860FFB7008102A6 /* VZVirtualMachineConfiguration.swift in Sources */,
+				B3E21B742862327D008102A6 /* main.swift in Sources */,
 				B3E21B692860FFB7008102A6 /* FileCreationError.swift in Sources */,
 				B33519382860FE2100E2E10B /* AppDelegate.swift in Sources */,
 				B3E21B682860FFB7008102A6 /* ContentView.swift in Sources */,
@@ -888,23 +888,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3BB2FF8283FB62D00F3E336 /* ContentView.swift in Sources */,
+				B3BB2FF8283FB62D00F3E336 /* DownloadView.swift in Sources */,
 				B3BB2FF6283FB62D00F3E336 /* Bushel_downloadApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		B335192A2860FDFD00E2E10B /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B335192B2860FDFD00E2E10B /* Base */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B300D7DB285F68C700798E84 /* Debug */ = {
