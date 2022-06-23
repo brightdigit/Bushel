@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B301F24F286402160038E9F7 /* BshIllApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B301F24E286402160038E9F7 /* BshIllApp.swift */; };
+		B301F251286402160038E9F7 /* MachineDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = B301F250286402160038E9F7 /* MachineDocument.swift */; };
+		B301F253286402160038E9F7 /* MachineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B301F252286402160038E9F7 /* MachineView.swift */; };
+		B301F258286402160038E9F7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B301F257286402160038E9F7 /* Preview Assets.xcassets */; };
+		B301F262286402270038E9F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3BB2FAF283E7B3B00F3E336 /* Assets.xcassets */; };
+		B301F264286403B30038E9F7 /* ImageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B301F263286403B30038E9F7 /* ImageCollectionView.swift */; };
+		B301F266286404BF0038E9F7 /* RestoreImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B301F265286404BF0038E9F7 /* RestoreImageView.swift */; };
+		B301F268286405140038E9F7 /* RestoreImageDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = B301F267286405140038E9F7 /* RestoreImageDocument.swift */; };
 		B315106E2841127500299415 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315106D2841127500299415 /* MainView.swift */; };
 		B315D8362843D0310012628A /* ImageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315D8352843D0310012628A /* ImageList.swift */; };
 		B33519382860FE2100E2E10B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33519362860FE2100E2E10B /* AppDelegate.swift */; };
@@ -96,6 +104,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B301F24C286402160038E9F7 /* BshIll.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BshIll.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B301F24E286402160038E9F7 /* BshIllApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BshIllApp.swift; sourceTree = "<group>"; };
+		B301F250286402160038E9F7 /* MachineDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineDocument.swift; sourceTree = "<group>"; };
+		B301F252286402160038E9F7 /* MachineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineView.swift; sourceTree = "<group>"; };
+		B301F257286402160038E9F7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B301F259286402160038E9F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B301F25A286402160038E9F7 /* BshIll.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BshIll.entitlements; sourceTree = "<group>"; };
+		B301F263286403B30038E9F7 /* ImageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionView.swift; sourceTree = "<group>"; };
+		B301F265286404BF0038E9F7 /* RestoreImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreImageView.swift; sourceTree = "<group>"; };
+		B301F267286405140038E9F7 /* RestoreImageDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreImageDocument.swift; sourceTree = "<group>"; };
 		B315106D2841127500299415 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		B3157F552852C44800DB5077 /* MachineListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineListView.swift; sourceTree = "<group>"; };
 		B3157F5B2852C4A900DB5077 /* ImageListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListView.swift; sourceTree = "<group>"; };
@@ -158,6 +176,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B301F249286402160038E9F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B33519212860FDFC00E2E10B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -175,6 +200,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B301F24D286402160038E9F7 /* BshIll */ = {
+			isa = PBXGroup;
+			children = (
+				B301F24E286402160038E9F7 /* BshIllApp.swift */,
+				B301F250286402160038E9F7 /* MachineDocument.swift */,
+				B301F252286402160038E9F7 /* MachineView.swift */,
+				B301F259286402160038E9F7 /* Info.plist */,
+				B301F25A286402160038E9F7 /* BshIll.entitlements */,
+				B301F256286402160038E9F7 /* Preview Content */,
+				B301F263286403B30038E9F7 /* ImageCollectionView.swift */,
+				B301F265286404BF0038E9F7 /* RestoreImageView.swift */,
+				B301F267286405140038E9F7 /* RestoreImageDocument.swift */,
+			);
+			path = BshIll;
+			sourceTree = "<group>";
+		};
+		B301F256286402160038E9F7 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				B301F257286402160038E9F7 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		B33519252860FDFC00E2E10B /* BshAppDelegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -226,6 +275,7 @@
 				B3CED8F92847FE070072CACC /* macOSVirtualMachineSampleApp.xcodeproj */,
 				B3BB2FAA283E7B3A00F3E336 /* Bushel */,
 				B33519252860FDFC00E2E10B /* BshAppDelegate */,
+				B301F24D286402160038E9F7 /* BshIll */,
 				B3BB2FA9283E7B3A00F3E336 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -235,6 +285,7 @@
 			children = (
 				B3BB2FA8283E7B3A00F3E336 /* Bushel.app */,
 				B33519242860FDFC00E2E10B /* BshAppDelegate.app */,
+				B301F24C286402160038E9F7 /* BshIll.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -302,6 +353,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B301F24B286402160038E9F7 /* BshIll */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B301F261286402160038E9F7 /* Build configuration list for PBXNativeTarget "BshIll" */;
+			buildPhases = (
+				B301F248286402160038E9F7 /* Sources */,
+				B301F249286402160038E9F7 /* Frameworks */,
+				B301F24A286402160038E9F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BshIll;
+			productName = BshIll;
+			productReference = B301F24C286402160038E9F7 /* BshIll.app */;
+			productType = "com.apple.product-type.application";
+		};
 		B33519232860FDFC00E2E10B /* BshAppDelegate */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B33519342860FDFD00E2E10B /* Build configuration list for PBXNativeTarget "BshAppDelegate" */;
@@ -343,9 +411,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1340;
+				LastSwiftUpdateCheck = 1400;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
+					B301F24B286402160038E9F7 = {
+						CreatedOnToolsVersion = 14.0;
+					};
 					B33519232860FDFC00E2E10B = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
@@ -375,6 +446,7 @@
 			targets = (
 				B3BB2FA7283E7B3A00F3E336 /* Bushel */,
 				B33519232860FDFC00E2E10B /* BshAppDelegate */,
+				B301F24B286402160038E9F7 /* BshIll */,
 			);
 		};
 /* End PBXProject section */
@@ -411,6 +483,15 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B301F24A286402160038E9F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B301F262286402270038E9F7 /* Assets.xcassets in Resources */,
+				B301F258286402160038E9F7 /* Preview Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B33519222860FDFC00E2E10B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -433,6 +514,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B301F248286402160038E9F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B301F251286402160038E9F7 /* MachineDocument.swift in Sources */,
+				B301F24F286402160038E9F7 /* BshIllApp.swift in Sources */,
+				B301F264286403B30038E9F7 /* ImageCollectionView.swift in Sources */,
+				B301F266286404BF0038E9F7 /* RestoreImageView.swift in Sources */,
+				B301F253286402160038E9F7 /* MachineView.swift in Sources */,
+				B301F268286405140038E9F7 /* RestoreImageDocument.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B33519202860FDFC00E2E10B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -500,6 +594,64 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		B301F25B286402160038E9F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BshIll/BshIll.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"BshIll/Preview Content\"";
+				DEVELOPMENT_TEAM = MLT7M394S7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BshIll/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brightdigit.BshIll;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B301F25C286402160038E9F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BshIll/BshIll.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"BshIll/Preview Content\"";
+				DEVELOPMENT_TEAM = MLT7M394S7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BshIll/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brightdigit.BshIll;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		B335192E2860FDFD00E2E10B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -722,6 +874,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B301F261286402160038E9F7 /* Build configuration list for PBXNativeTarget "BshIll" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B301F25B286402160038E9F7 /* Debug */,
+				B301F25C286402160038E9F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B33519342860FDFD00E2E10B /* Build configuration list for PBXNativeTarget "BshAppDelegate" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
