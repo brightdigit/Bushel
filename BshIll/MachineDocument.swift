@@ -9,8 +9,8 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 extension UTType {
-    static var exampleText: UTType {
-        UTType(importedAs: "com.example.plain-text")
+    static var virtualMachine: UTType {
+        UTType(importedAs: "com.brightdigit.bshill-vm")
     }
 }
 
@@ -21,7 +21,7 @@ struct MachineDocument: FileDocument {
         self.text = text
     }
 
-    static var readableContentTypes: [UTType] { [.exampleText] }
+    static let readableContentTypes: [UTType] = [.virtualMachine] 
 
     init(configuration: ReadConfiguration) throws {
         guard let data = configuration.file.regularFileContents,
