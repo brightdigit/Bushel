@@ -11,7 +11,7 @@ import SwiftUI
 struct BshIllApp: App {
     var body: some Scene {
         DocumentGroup(newDocument: MachineDocument()) { file in
-            MachineView(document: file.$document)
+            MachineView(document: file.$document, restoreImageChoices: [])
         }.commands {
             CommandMenu("Machines") {
                 Button("Import Machine...") {

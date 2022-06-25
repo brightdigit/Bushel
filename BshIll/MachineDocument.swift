@@ -8,6 +8,10 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
+struct Machine {
+    
+}
+
 extension UTType {
     static var virtualMachine: UTType {
         UTType(importedAs: "com.brightdigit.bshill-vm")
@@ -15,25 +19,20 @@ extension UTType {
 }
 
 struct MachineDocument: FileDocument {
-    var text: String
+    var machine: Machine
 
-    init(text: String = "Hello, world!") {
-        self.text = text
+    init(machine : Machine = .init()) {
+        self.machine = machine
     }
 
     static let readableContentTypes: [UTType] = [.virtualMachine] 
 
     init(configuration: ReadConfiguration) throws {
-        guard let data = configuration.file.regularFileContents,
-              let string = String(data: data, encoding: .utf8)
-        else {
-            throw CocoaError(.fileReadCorruptFile)
-        }
-        text = string
+        self.init()
     }
     
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        let data = text.data(using: .utf8)!
-        return .init(regularFileWithContents: data)
+        
+        return .init(directoryWithFileWrappers: [String : FileWrapper]())
     }
 }
