@@ -52,6 +52,9 @@ struct BshIllApp: App {
                 
             }
         }
+        DocumentGroup(newDocument: RestoreImageLibraryDocument()) { file in
+            RestoreImageLibraryDocumentView(document: file.$document)
+        }
         DocumentGroup(viewing: RestoreImageDocument.self) { file in
             RestoreImageView(document: file.$document)
         }

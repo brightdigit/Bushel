@@ -27,6 +27,20 @@
 			<key>NSUbiquitousDocumentUserActivityType</key>
 			<string>$(PRODUCT_BUNDLE_IDENTIFIER).bshill-vm</string>
 		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Bshill Image Library</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.brightdigit.bshill-rilib</string>
+			</array>
+			<key>NSUbiquitousDocumentUserActivityType</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER).bshill-rilib</string>
+		</dict>
 	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
@@ -62,6 +76,32 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>bshvm</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>com.apple.package</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Bshill Image Library</string>
+			<key>UTTypeIcons</key>
+			<dict>
+				<key>UTTypeIconBackgroundName</key>
+				<string>Machine-Fill</string>
+				<key>UTTypeIconBadgeName</key>
+				<string>Machine-Icon</string>
+				<key>UTTypeIconText</key>
+				<string>machine</string>
+			</dict>
+			<key>UTTypeIdentifier</key>
+			<string>com.brightdigit.bshill-rilib</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>bshrilib</string>
 				</array>
 			</dict>
 		</dict>
