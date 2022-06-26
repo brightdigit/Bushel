@@ -32,21 +32,34 @@ protocol RestoreImageFactory {
     //func restoreImage(
 }
 struct RestoreImage {
+    internal init(isSupported: Bool, buildVersion: String, operatingSystemVersion: OperatingSystemVersion, sha256: SHA256, contentLength: Int, lastModified: Date, installer: ImageInstaller) {
+        self.isSupported = isSupported
+        self.buildVersion = buildVersion
+        self.operatingSystemVersion = operatingSystemVersion
+        self.sha256 = sha256
+        self.contentLength = contentLength
+        self.lastModified = lastModified
+        self.installer = installer
+    }
+    
     
     let isSupported : Bool
     let buildVersion : String
     let operatingSystemVersion : OperatingSystemVersion
-    
+    let sha256 : SHA256
+      let contentLength : Int
+      let lastModified: Date
     
     let installer : ImageInstaller
-    init(isSupported: Bool, buildVersion: String, operatingSystemVersion: OperatingSystemVersion, installer: ImageInstaller) {
-       self.isSupported = isSupported
-       self.buildVersion = buildVersion
-       self.operatingSystemVersion = operatingSystemVersion
-       self.installer = installer
-   }
+//    init(isSupported: Bool, buildVersion: String, operatingSystemVersion: OperatingSystemVersion, installer: ImageInstaller) {
+//       self.isSupported = isSupported
+//       self.buildVersion = buildVersion
+//       self.operatingSystemVersion = operatingSystemVersion
+//       self.installer = installer
+//   }
    init(imageMetadata : ImageMetadata) {
-       self.init(isSupported: imageMetadata.isSupported, buildVersion: imageMetadata.buildVersion, operatingSystemVersion: imageMetadata.operatingSystemVersion, installer: imageMetadata)
+       self.init(isSupported: imageMetadata.isSupported, buildVersion: imageMetadata.buildVersion, operatingSystemVersion: imageMetadata.operatingSystemVersion, sha256: .init(hexidecialString: "1f9e921f77bbcb5cf78026389d6f7331cdd675bc081ffac77fc00405a7e822b3")!, contentLength: 1600000000000, lastModified: Date(), installer: imageMetadata)
+
        
    }
 }
