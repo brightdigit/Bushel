@@ -44,6 +44,7 @@
 		B37C7040286233FD00D2E235 /* DesignedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39E8C63285181200049FB7F /* DesignedView.swift */; };
 		B37C7041286233FD00D2E235 /* MachineListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3157F552852C44800DB5077 /* MachineListView.swift */; };
 		B37C7042286233FD00D2E235 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3157F5D2852C51300DB5077 /* SettingsView.swift */; };
+		B382A47E2867EB94000E6408 /* OperatingSystemVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B382A4792867EB94000E6408 /* OperatingSystemVersion.swift */; };
 		B38A5D14284D799400427013 /* VZMacPlatformConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38A5D02284D799300427013 /* VZMacPlatformConfiguration.swift */; };
 		B38A5D15284D799400427013 /* VZVirtualMachineConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38A5D07284D799300427013 /* VZVirtualMachineConfiguration.swift */; };
 		B38A5D16284D799400427013 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38A5D08284D799300427013 /* FileManager.swift */; };
@@ -142,6 +143,7 @@
 		B3662AA12846F89A00F8430B /* RestoreImage.Virtualization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoreImage.Virtualization.swift; sourceTree = "<group>"; };
 		B3662AA22846F89B00F8430B /* VZMacOSRestoreImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VZMacOSRestoreImage.swift; sourceTree = "<group>"; };
 		B3662AAF2846F95F00F8430B /* LocalImage.Virtualization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalImage.Virtualization.swift; sourceTree = "<group>"; };
+		B382A4792867EB94000E6408 /* OperatingSystemVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatingSystemVersion.swift; sourceTree = "<group>"; };
 		B38A5D02284D799300427013 /* VZMacPlatformConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VZMacPlatformConfiguration.swift; sourceTree = "<group>"; };
 		B38A5D07284D799300427013 /* VZVirtualMachineConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VZVirtualMachineConfiguration.swift; sourceTree = "<group>"; };
 		B38A5D08284D799300427013 /* FileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				B301F24E286402160038E9F7 /* BshIllApp.swift */,
 				B301F250286402160038E9F7 /* MachineDocument.swift */,
 				B301F252286402160038E9F7 /* MachineView.swift */,
+				B382A4792867EB94000E6408 /* OperatingSystemVersion.swift */,
 				B301F259286402160038E9F7 /* Info.plist */,
 				B301F25A286402160038E9F7 /* BshIll.entitlements */,
 				B301F256286402160038E9F7 /* Preview Content */,
@@ -523,6 +526,7 @@
 				B301F264286403B30038E9F7 /* ImageCollectionView.swift in Sources */,
 				B301F266286404BF0038E9F7 /* RestoreImageView.swift in Sources */,
 				B301F253286402160038E9F7 /* MachineView.swift in Sources */,
+				B382A47E2867EB94000E6408 /* OperatingSystemVersion.swift in Sources */,
 				B301F268286405140038E9F7 /* RestoreImageDocument.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

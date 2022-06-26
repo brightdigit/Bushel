@@ -14,7 +14,7 @@ struct Machine {
 
 extension UTType {
     static var virtualMachine: UTType {
-        UTType(importedAs: "com.brightdigit.bshill-vm")
+        UTType(exportedAs: "com.brightdigit.bshill-vm")
     }
 }
 
