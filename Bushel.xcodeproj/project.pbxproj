@@ -12,13 +12,14 @@
 		B301F253286402160038E9F7 /* MachineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B301F252286402160038E9F7 /* MachineView.swift */; };
 		B301F258286402160038E9F7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B301F257286402160038E9F7 /* Preview Assets.xcassets */; };
 		B301F262286402270038E9F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3BB2FAF283E7B3B00F3E336 /* Assets.xcassets */; };
-		B301F264286403B30038E9F7 /* ImageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B301F263286403B30038E9F7 /* ImageCollectionView.swift */; };
 		B301F266286404BF0038E9F7 /* RestoreImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B301F265286404BF0038E9F7 /* RestoreImageView.swift */; };
 		B301F268286405140038E9F7 /* RestoreImageDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = B301F267286405140038E9F7 /* RestoreImageDocument.swift */; };
 		B315106E2841127500299415 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315106D2841127500299415 /* MainView.swift */; };
 		B315D8362843D0310012628A /* ImageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315D8352843D0310012628A /* ImageList.swift */; };
 		B33519382860FE2100E2E10B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33519362860FE2100E2E10B /* AppDelegate.swift */; };
 		B34ABE9128443EFB00F22379 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34ABE9028443EFB00F22379 /* Downloader.swift */; };
+		B35432D628693C680019BCE3 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35432D528693C680019BCE3 /* WelcomeView.swift */; };
+		B35432DC28693D640019BCE3 /* RrisCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35432DB28693D640019BCE3 /* RrisCollectionView.swift */; };
 		B3662A952846EFD000F8430B /* ImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3662A942846EFD000F8430B /* ImagesView.swift */; };
 		B3662AA52846F89B00F8430B /* RestoreImage.Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3662A982846F89A00F8430B /* RestoreImage.Combine.swift */; };
 		B3662AA62846F89B00F8430B /* PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3662A992846F89A00F8430B /* PreviewProvider.swift */; };
@@ -115,7 +116,6 @@
 		B301F257286402160038E9F7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B301F259286402160038E9F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B301F25A286402160038E9F7 /* BshIll.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BshIll.entitlements; sourceTree = "<group>"; };
-		B301F263286403B30038E9F7 /* ImageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionView.swift; sourceTree = "<group>"; };
 		B301F265286404BF0038E9F7 /* RestoreImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreImageView.swift; sourceTree = "<group>"; };
 		B301F267286405140038E9F7 /* RestoreImageDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreImageDocument.swift; sourceTree = "<group>"; };
 		B315106D2841127500299415 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -135,6 +135,8 @@
 		B33519362860FE2100E2E10B /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B33519392860FE2B00E2E10B /* BshAppDelegate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BshAppDelegate.entitlements; sourceTree = "<group>"; };
 		B34ABE9028443EFB00F22379 /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
+		B35432D528693C680019BCE3 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		B35432DB28693D640019BCE3 /* RrisCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RrisCollectionView.swift; sourceTree = "<group>"; };
 		B3662A942846EFD000F8430B /* ImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesView.swift; sourceTree = "<group>"; };
 		B3662A982846F89A00F8430B /* RestoreImage.Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoreImage.Combine.swift; sourceTree = "<group>"; };
 		B3662A992846F89A00F8430B /* PreviewProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewProvider.swift; sourceTree = "<group>"; };
@@ -221,9 +223,10 @@
 				B301F259286402160038E9F7 /* Info.plist */,
 				B301F25A286402160038E9F7 /* BshIll.entitlements */,
 				B301F256286402160038E9F7 /* Preview Content */,
-				B301F263286403B30038E9F7 /* ImageCollectionView.swift */,
 				B301F265286404BF0038E9F7 /* RestoreImageView.swift */,
 				B301F267286405140038E9F7 /* RestoreImageDocument.swift */,
+				B35432D528693C680019BCE3 /* WelcomeView.swift */,
+				B35432DB28693D640019BCE3 /* RrisCollectionView.swift */,
 			);
 			path = BshIll;
 			sourceTree = "<group>";
@@ -531,11 +534,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3753A9028691D7600A06E0F /* RestoreImageLibraryView.swift in Sources */,
+				B35432DC28693D640019BCE3 /* RrisCollectionView.swift in Sources */,
 				B382A48028680454000E6408 /* SHA256.swift in Sources */,
 				B301F251286402160038E9F7 /* MachineDocument.swift in Sources */,
 				B301F24F286402160038E9F7 /* BshIllApp.swift in Sources */,
-				B301F264286403B30038E9F7 /* ImageCollectionView.swift in Sources */,
 				B301F266286404BF0038E9F7 /* RestoreImageView.swift in Sources */,
+				B35432D628693C680019BCE3 /* WelcomeView.swift in Sources */,
 				B3753A8E286901A700A06E0F /* RestoreImageLibraryDocument.swift in Sources */,
 				B301F253286402160038E9F7 /* MachineView.swift in Sources */,
 				B382A47E2867EB94000E6408 /* OperatingSystemVersion.swift in Sources */,

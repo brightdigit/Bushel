@@ -5,21 +5,23 @@
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.apple.iphone.ipsw</string>
 				<string>com.apple.itunes.ipsw</string>
 			</array>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>
 			<string>Bshill Virtual Machine</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.brightdigit.bshill-vm</string>
@@ -30,10 +32,10 @@
 		<dict>
 			<key>CFBundleTypeName</key>
 			<string>Bshill Image Library</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.brightdigit.bshill-rilib</string>
@@ -89,11 +91,11 @@
 			<key>UTTypeIcons</key>
 			<dict>
 				<key>UTTypeIconBackgroundName</key>
-				<string>Machine-Fill</string>
+				<string>ImageLibrary-Fill</string>
 				<key>UTTypeIconBadgeName</key>
-				<string>Machine-Icon</string>
+				<string>ImageLibrary-Icon</string>
 				<key>UTTypeIconText</key>
-				<string>machine</string>
+				<string>images</string>
 			</dict>
 			<key>UTTypeIdentifier</key>
 			<string>com.brightdigit.bshill-rilib</string>
