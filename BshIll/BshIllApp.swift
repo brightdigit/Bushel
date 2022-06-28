@@ -46,6 +46,16 @@ extension App {
             newDocument.showWindows()
           }
     }
+    
+    func openWindow(withHandle handle: WindowOpenHandle) {
+        NSWorkspace.shared.open(URL(forHandle: handle))
+    }
+}
+
+extension Scene {
+    func windowsHandle(_ handle: WindowOpenHandle) -> some Scene {
+        self.handlesExternalEvents(matching: .init([handle.rawValue]))
+    }
 }
 @main
 struct BshIllApp: App {
@@ -71,7 +81,7 @@ struct BshIllApp: App {
             }
             CommandGroup(after: .newItem) {
                 Button("Download Restore Image...") {
-                    NSWorkspace.shared.open(URL(forHandle: .remoteSources))
+                    self.openWindow(withHandle: .remoteSources)
                 }
             }
         }
@@ -80,6 +90,6 @@ struct BshIllApp: App {
         }
         WindowGroup {
             RrisCollectionView()
-        }.handlesExternalEvents(matching: .init([WindowOpenHandle.remoteSources.rawValue]))
+        }.windowsHandle(.remoteSources)
     }
 }

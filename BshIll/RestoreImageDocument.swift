@@ -11,7 +11,13 @@ import UniformTypeIdentifiers
 import Virtualization
 
 extension VZMacOSRestoreImage : ImageMetadata {
-    
+    var isImageSupported: Bool {
+        if #available(macOS 13.0, *) {
+            return self.isSupported
+        } else {
+            return self.mostFeaturefulSupportedConfiguration?.hardwareModel.isSupported == true
+        }
+    }
 }
 
 protocol ImageInstaller {
@@ -19,7 +25,7 @@ protocol ImageInstaller {
 }
 
 protocol ImageMetadata : ImageInstaller {
-    var isSupported : Bool { get }
+    var isImageSupported : Bool { get }
         var buildVersion : String { get }
             var operatingSystemVersion : OperatingSystemVersion { get }
 }
@@ -31,7 +37,16 @@ struct MockInstaller : ImageInstaller {
 protocol RestoreImageFactory {
     //func restoreImage(
 }
-struct RestoreImage {
+
+struct RestoreImage : Identifiable, Hashable {
+    static func == (lhs: RestoreImage, rhs: RestoreImage) -> Bool {
+        lhs.sha256 == rhs.sha256
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.sha256.data)
+    }
+    
     internal init(isSupported: Bool, buildVersion: String, operatingSystemVersion: OperatingSystemVersion, sha256: SHA256, contentLength: Int, lastModified: Date, installer: ImageInstaller) {
         self.isSupported = isSupported
         self.buildVersion = buildVersion
@@ -42,6 +57,9 @@ struct RestoreImage {
         self.installer = installer
     }
     
+    var id: Data {
+        return sha256.data
+    }
     
     let isSupported : Bool
     let buildVersion : String
@@ -58,7 +76,7 @@ struct RestoreImage {
 //       self.installer = installer
 //   }
    init(imageMetadata : ImageMetadata) {
-       self.init(isSupported: imageMetadata.isSupported, buildVersion: imageMetadata.buildVersion, operatingSystemVersion: imageMetadata.operatingSystemVersion, sha256: .init(hexidecialString: "1f9e921f77bbcb5cf78026389d6f7331cdd675bc081ffac77fc00405a7e822b3")!, contentLength: 1600000000000, lastModified: Date(), installer: imageMetadata)
+       self.init(isSupported: imageMetadata.isImageSupported, buildVersion: imageMetadata.buildVersion, operatingSystemVersion: imageMetadata.operatingSystemVersion, sha256: .init(hexidecialString: "1f9e921f77bbcb5cf78026389d6f7331cdd675bc081ffac77fc00405a7e822b3")!, contentLength: 1600000000000, lastModified: Date(), installer: imageMetadata)
 
        
    }
@@ -91,8 +109,18 @@ class FileRestoreImageLoader : RestoreImageLoader {
         guard let data = data else {
             throw NSError()
         }
-        let tempFile = FileManager.default.temporaryDirectory.appending(path: UUID().uuidString)
-        FileManager.default.createFile(atPath: tempFile.path(), contents: data)
+        let tempFile : URL
+        //
+        if #available(macOS 13.0, *) {
+            tempFile = FileManager.default.temporaryDirectory.appending(path: UUID().uuidString)
+        } else {
+            tempFile = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        }
+        if #available(macOS 13.0, *) {
+            FileManager.default.createFile(atPath: tempFile.path(), contents: data)
+        } else {
+            FileManager.default.createFile(atPath: tempFile.path, contents: data)
+        }
         self.sourceFileURL = tempFile
     }
     

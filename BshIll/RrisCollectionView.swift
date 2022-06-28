@@ -7,13 +7,20 @@
 
 import SwiftUI
 import Virtualization
+import Combine
 
-struct Rris : Identifiable {
+struct Rris : Identifiable, Hashable {
+    static func == (lhs: Rris, rhs: Rris) -> Bool {
+        lhs.id == rhs.id
+    }
+    
     let id : String
     let title : String
     let fetch : () async throws -> [RestoreImage]
     
-    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
 }
 
 extension Rris {
@@ -26,17 +33,88 @@ extension Rris {
         }
     }
 }
-
-struct RrisCollectionView: View {
+extension Future where Failure == Error {
+    convenience init(operation: @escaping () async throws -> Output) {
+        self.init { promise in
+            Task {
+                do {
+                    let output = try await operation()
+                    promise(.success(output))
+                } catch {
+                    promise(.failure(error))
+                }
+            }
+        }
+    }
+    
+    
+}
+extension Future where Failure == Never {
+    convenience init<SuccessType>(operation: @escaping () async throws -> SuccessType) where Output == Result<SuccessType, Error> {
+        self.init { promise in
+            Task {
+                do {
+                    let output = try await operation()
+                    promise(.success(.success(output)))
+                } catch {
+                    promise(.success(.failure(error)))
+                }
+            }
+        }
+    }
+    
+    
+}
+class RrisCollectionObject : ObservableObject {
     let sources: [Rris] = [
         .apple
     ]
+    @Published var selectedSource : String?
+    @Published var imageListResult : Result<[RestoreImage], Error>?
+    
+    init() {
+        self.$selectedSource.share().print().map{ _ in nil }.receive(on: DispatchQueue.main).assign(to: &$imageListResult)
+        
+        self.$imageListResult.combineLatest(self.$selectedSource).compactMap { imageListResult, source in
+            imageListResult == nil ? self.sources.first(where: {$0.id == source}) : nil
+        }.flatMap { source in
+            Future(operation: source.fetch)
+        }.map{$0 as Result<[RestoreImage], Error>?}.receive(on: DispatchQueue.main).assign(to: &$imageListResult)
+    }
+}
+struct RrisCollectionView: View {
+    
+    init () {
+    }
+    @StateObject var selectedSourceObject  = RrisCollectionObject()
+    @State var selectedImage : RestoreImage? = nil
     var body: some View {
-        List{
-            ForEach(sources) { source in
-                Text(source.title)
-            }
+        NavigationView {
+            
+                List{
+                    ForEach(self.selectedSourceObject.sources) { source in
+                        NavigationLink {
+                            SourceImageCollectionView(source:source)
+                        } label: {
+                            Text(source.id)
+                        }
+
+                       
+                    }
+                }
         }
+//            Group{
+//                if case let .success(images) = self.selectedSourceObject.imageListResult {
+//                    List(selection: self.$selectedImage){
+//                        ForEach(images) { image in
+//                            Text(image.operatingSystemVersion.description)
+//                        }
+//                    }
+//                } else {
+//                    Text("No Source Selected")
+//                }
+//            }.frame(width: 500)
+//        }
     }
 }
 
