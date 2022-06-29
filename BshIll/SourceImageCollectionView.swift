@@ -24,7 +24,10 @@ class RrisImageCollectionObject : ObservableObject {
             } catch {
                 result = .failure(error)
             }
+          DispatchQueue.main.async {
             self.imageListResult = result
+          }
+            
         }
     }
 }
@@ -42,7 +45,7 @@ struct SourceImageCollectionView: View {
             switch self.collectionObject.imageListResult {
             case .success(let images):
                 ForEach(images) { image in
-                    Text(image.operatingSystemVersion.description)
+                  RestoreImageView(image: image)
                 }
             case .failure(let error):
                 Text(error.localizedDescription)

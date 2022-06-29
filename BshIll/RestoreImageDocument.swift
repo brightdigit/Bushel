@@ -10,24 +10,123 @@ import SwiftUI
 import UniformTypeIdentifiers
 import Virtualization
 
-extension VZMacOSRestoreImage : ImageMetadata {
-    var isImageSupported: Bool {
-        if #available(macOS 13.0, *) {
-            return self.isSupported
-        } else {
-            return self.mostFeaturefulSupportedConfiguration?.hardwareModel.isSupported == true
-        }
+enum MissingError : Error {
+  case notImplemented
+  case needDefinition(Any)
+}
+enum Formatters {
+    static let lastModifiedDateFormatter : DateFormatter = {
+      let formatter = DateFormatter()
+      formatter.dateFormat = $0
+      return formatter
+    }("E, d MMM yyyy HH:mm:ss Z")
+}
+struct VirtualizationMacOSRestoreImage : ImageMetadata {
+   init(sha256: SHA256, contentLength: Int, lastModified: Date, vzRestoreImage: VZMacOSRestoreImage) {
+    self.sha256 = sha256
+    self.contentLength = contentLength
+    self.lastModified = lastModified
+    self.vzRestoreImage = vzRestoreImage
+  }
+  
+  var isImageSupported: Bool {
+            if #available(macOS 13.0, *) {
+              return self.vzRestoreImage.isSupported
+            } else {
+              return self.vzRestoreImage.mostFeaturefulSupportedConfiguration?.hardwareModel.isSupported == true
+            }
+  }
+  
+  var buildVersion: String {
+    return self.vzRestoreImage.buildVersion
+  }
+  
+  var operatingSystemVersion: OperatingSystemVersion {
+    return self.vzRestoreImage.operatingSystemVersion
+  }
+  
+  let sha256: SHA256
+  
+  let contentLength: Int
+  
+  let lastModified: Date
+  
+  
+  let vzRestoreImage : VZMacOSRestoreImage
+  var installer: ImageInstaller {
+    return self.vzRestoreImage
+  }
+  
+  var url : URL {
+    return self.vzRestoreImage.url
+  }
+  
+  
+  init  (vzRestoreImage : VZMacOSRestoreImage) async throws {
+    let headers = try await vzRestoreImage.headers()
+    try self.init(vzRestoreImage: vzRestoreImage, headers: headers)
+  }
+  init  (vzRestoreImage : VZMacOSRestoreImage, headers : [AnyHashable : Any]) throws {
+    guard let contentLengthString = headers["Content-Length"] as? String else {
+      throw MissingError.needDefinition((headers,"Content-Lenght"))
     }
+    guard let contentLength = Int(contentLengthString) else {
+      throw MissingError.needDefinition((headers,"Content-Lenght"))
+    }
+    guard let lastModified = (headers["Last-Modified"] as? String).flatMap(Formatters.lastModifiedDateFormatter.date(from:)) else {
+      
+        throw MissingError.needDefinition((headers,"Last-Modified"))
+    }
+    guard let sha256Hex = headers["x-amz-meta-digest-sha256"] as? String else {
+      
+        throw MissingError.needDefinition((headers,"x-amz-meta-digest-sha256"))
+    }
+    guard let sha256 = SHA256(hexidecialString: sha256Hex) else {
+      throw MissingError.needDefinition((headers,"x-amz-meta-digest-sha256"))
+    }
+
+
+    self.init(sha256: sha256, contentLength: contentLength, lastModified: lastModified, vzRestoreImage: vzRestoreImage)
+  }
+  //headers : [AnyHashable : Any]
+}
+extension VZMacOSRestoreImage : ImageInstaller {
+  
+  func headers (withSession session: URLSession = .shared) async throws -> [AnyHashable : Any] {
+    
+    var request = URLRequest(url: url)
+    request.httpMethod = "HEAD"
+    let (_, response) = try await session.data(for: request)
+    
+    guard let response = response as? HTTPURLResponse else {
+      throw MissingError.needDefinition(response)
+    }
+    
+    return response.allHeaderFields
+  }
+//    var isImageSupported: Bool {
+//        if #available(macOS 13.0, *) {
+//            return self.isSupported
+//        } else {
+//            return self.mostFeaturefulSupportedConfiguration?.hardwareModel.isSupported == true
+//        }
+//    }
 }
 
 protocol ImageInstaller {
     
 }
 
-protocol ImageMetadata : ImageInstaller {
+protocol ImageMetadata  {
     var isImageSupported : Bool { get }
         var buildVersion : String { get }
             var operatingSystemVersion : OperatingSystemVersion { get }
+  var sha256 : SHA256 { get }
+    var contentLength : Int { get }
+      var lastModified: Date { get }
+  var url : URL { get }
+  
+  var installer : ImageInstaller { get }
 }
 
 struct MockInstaller : ImageInstaller {
@@ -47,7 +146,7 @@ struct RestoreImage : Identifiable, Hashable {
         hasher.combine(self.sha256.data)
     }
     
-    internal init(isSupported: Bool, buildVersion: String, operatingSystemVersion: OperatingSystemVersion, sha256: SHA256, contentLength: Int, lastModified: Date, installer: ImageInstaller) {
+  internal init(url : URL, isSupported: Bool, buildVersion: String, operatingSystemVersion: OperatingSystemVersion, sha256: SHA256, contentLength: Int, lastModified: Date, installer: ImageInstaller) {
         self.isSupported = isSupported
         self.buildVersion = buildVersion
         self.operatingSystemVersion = operatingSystemVersion
@@ -55,6 +154,7 @@ struct RestoreImage : Identifiable, Hashable {
         self.contentLength = contentLength
         self.lastModified = lastModified
         self.installer = installer
+    self.url = url
     }
     
     var id: Data {
@@ -66,20 +166,38 @@ struct RestoreImage : Identifiable, Hashable {
     let operatingSystemVersion : OperatingSystemVersion
     let sha256 : SHA256
       let contentLength : Int
-      let lastModified: Date
+    let lastModified: Date
     
     let installer : ImageInstaller
-//    init(isSupported: Bool, buildVersion: String, operatingSystemVersion: OperatingSystemVersion, installer: ImageInstaller) {
-//       self.isSupported = isSupported
-//       self.buildVersion = buildVersion
-//       self.operatingSystemVersion = operatingSystemVersion
-//       self.installer = installer
-//   }
+  let url : URL
    init(imageMetadata : ImageMetadata) {
-       self.init(isSupported: imageMetadata.isImageSupported, buildVersion: imageMetadata.buildVersion, operatingSystemVersion: imageMetadata.operatingSystemVersion, sha256: .init(hexidecialString: "1f9e921f77bbcb5cf78026389d6f7331cdd675bc081ffac77fc00405a7e822b3")!, contentLength: 1600000000000, lastModified: Date(), installer: imageMetadata)
+     self.init(url: imageMetadata.url, isSupported: imageMetadata.isImageSupported, buildVersion: imageMetadata.buildVersion, operatingSystemVersion: imageMetadata.operatingSystemVersion, sha256: imageMetadata.sha256, contentLength: imageMetadata.contentLength, lastModified:imageMetadata.lastModified, installer: imageMetadata.installer)
 
        
    }
+}
+
+extension RestoreImage {
+  
+  enum Location {
+    case library
+    case local
+    case remote
+  }
+  var location : Location {
+    if self.url.isFileURL {
+      let directoryURL = url.deletingLastPathComponent()
+      guard directoryURL.lastPathComponent == "Restore Images"  else {
+        return .local
+      }
+      guard directoryURL.deletingLastPathComponent().pathExtension == "bshrilib" else {
+        return .local
+      }
+      return .library
+    } else {
+      return .remote
+    }
+  }
 }
 
 
@@ -124,11 +242,12 @@ class FileRestoreImageLoader : RestoreImageLoader {
         self.sourceFileURL = tempFile
     }
     
-         func beginLoad () {
-            VZMacOSRestoreImage.load(from: sourceFileURL) { result in
-                self.restoreImageResult = result.map(RestoreImage.init(imageMetadata:))
-            }
-        }
+//         func beginLoad () {
+//
+//            VZMacOSRestoreImage.load(from: sourceFileURL) { result in
+//                self.restoreImageResult = result.map(RestoreImage.init(imageMetadata:))
+//            }
+//        }
 }
 
 

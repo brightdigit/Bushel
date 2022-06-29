@@ -23,14 +23,34 @@ struct Rris : Identifiable, Hashable {
     }
 }
 
+extension VZMacOSRestoreImage {
+  static func fetchLatestSupported () async throws -> VZMacOSRestoreImage {
+    try await withCheckedThrowingContinuation({ continuation in
+      self.fetchLatestSupported { result in
+        continuation.resume(with: result)
+      }
+    })
+  }
+  
+  static func loadFromURL(_ url: URL) async throws -> VZMacOSRestoreImage {
+    try await withCheckedThrowingContinuation({ continuation in
+      self.load(from: url, completionHandler: continuation.resume(with:))
+    })
+  }
+}
+
 extension Rris {
     static let apple : Rris = .init(id: "apple", title: "Apple") {
-        try await withCheckedThrowingContinuation { continuation in
-            VZMacOSRestoreImage.fetchLatestSupported { result in
-                continuation.resume(with: result.map(RestoreImage.init(imageMetadata:)).map{[$0]})
-                
-            }
-        }
+      let vzRestoreImage = try await VZMacOSRestoreImage.fetchLatestSupported()
+      let virRestoreImage = try await VirtualizationMacOSRestoreImage(vzRestoreImage: vzRestoreImage)
+      return [RestoreImage(imageMetadata: virRestoreImage)]
+//        try await withCheckedThrowingContinuation { continuation in
+//            VZMacOSRestoreImage.fetchLatestSupported { result in
+//              result.map(Virt)
+//                continuation.resume(with: result.map(RestoreImage.init(imageMetadata:)).map{[$0]})
+//
+//            }
+//        }
     }
 }
 extension Future where Failure == Error {
@@ -96,7 +116,7 @@ struct RrisCollectionView: View {
                         NavigationLink {
                             SourceImageCollectionView(source:source)
                         } label: {
-                            Text(source.id)
+                          Text(source.title)
                         }
 
                        
