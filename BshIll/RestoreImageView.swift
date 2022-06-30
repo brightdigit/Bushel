@@ -86,20 +86,30 @@ struct RestoreImageView: View {
           
           switch self.image.location {
           case .remote:
-            Button {
-              #warning("turn into cancel button")
-              self.askAboutDownload = true
-            } label: {
-              Image(systemName: "icloud.and.arrow.down")
-              Text("Download Image (\(byteFormatter.string(fromByteCount: Int64(image.contentLength))))")
-            }
             
             if let prettyBytesTotal = downloader.prettyBytesTotal, let percentCompleted = downloader.percentCompleted {
+                
+                  Button {
+                      downloader.cancel()
+                      downloader.reset()
+                  } label: {
+                    Text("Cancel")
+                  }
               ProgressView(value: percentCompleted) {
+                  
                 Text("Downloading").font(.caption)
               } currentValueLabel: {
                 Text("\(downloader.prettyBytesWritten) / \(prettyBytesTotal)")
               }
+            } else {
+                
+                  Button {
+                    #warning("turn into cancel button")
+                    self.askAboutDownload = true
+                  } label: {
+                    Image(systemName: "icloud.and.arrow.down")
+                    Text("Download Image (\(byteFormatter.string(fromByteCount: Int64(image.contentLength))))")
+                  }
             }
           case .local:
             

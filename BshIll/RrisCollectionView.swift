@@ -66,8 +66,6 @@ extension Future where Failure == Error {
             }
         }
     }
-    
-    
 }
 extension Future where Failure == Never {
     convenience init<SuccessType>(operation: @escaping () async throws -> SuccessType) where Output == Result<SuccessType, Error> {
@@ -82,8 +80,6 @@ extension Future where Failure == Never {
             }
         }
     }
-    
-    
 }
 class RrisCollectionObject : ObservableObject {
     let sources: [Rris] = [

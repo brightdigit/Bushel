@@ -76,6 +76,16 @@ class Downloader : NSObject, ObservableObject, URLSessionDownloadDelegate {
   func cancel () {
     self.task?.cancel()
   }
+    
+    func reset () {
+        Task {
+            await MainActor.run {
+                self.totalBytesExpectedToWrite = nil
+                self.isCompleted = nil
+            }
+        }
+       
+    }
   
   
   func begin (from downloadSourceURL: URL, to destinationFileURL : URL) {
@@ -94,7 +104,6 @@ class Downloader : NSObject, ObservableObject, URLSessionDownloadDelegate {
       DispatchQueue.main.async {
         self.totalBytesWritten = totalBytesWritten
         self.totalBytesExpectedToWrite = totalBytesExpectedToWrite
-        print(Float(totalBytesWritten), Float(totalBytesExpectedToWrite))
       }
   }
 }
