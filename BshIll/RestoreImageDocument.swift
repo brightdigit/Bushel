@@ -30,11 +30,15 @@ struct VirtualizationMacOSRestoreImage : ImageMetadata {
   }
   
   var isImageSupported: Bool {
+#if swift(>=5.7)
             if #available(macOS 13.0, *) {
               return self.vzRestoreImage.isSupported
             } else {
               return self.vzRestoreImage.mostFeaturefulSupportedConfiguration?.hardwareModel.isSupported == true
             }
+    #else
+    return self.vzRestoreImage.mostFeaturefulSupportedConfiguration?.hardwareModel.isSupported == true
+    #endif
   }
   
   var buildVersion: String {
@@ -229,16 +233,25 @@ class FileRestoreImageLoader : RestoreImageLoader {
         }
         let tempFile : URL
         //
+#if swift(>=5.7)
         if #available(macOS 13.0, *) {
             tempFile = FileManager.default.temporaryDirectory.appending(path: UUID().uuidString)
         } else {
             tempFile = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         }
+      #else
+      tempFile = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+      #endif
+      
+#if swift(>=5.7)
         if #available(macOS 13.0, *) {
             FileManager.default.createFile(atPath: tempFile.path(), contents: data)
         } else {
             FileManager.default.createFile(atPath: tempFile.path, contents: data)
         }
+      #else
+      FileManager.default.createFile(atPath: tempFile.path, contents: data)
+      #endif 
         self.sourceFileURL = tempFile
     }
     
