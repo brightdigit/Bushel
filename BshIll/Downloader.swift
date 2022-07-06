@@ -38,7 +38,7 @@ class Downloader : NSObject, ObservableObject, URLSessionDownloadDelegate {
   
   var percentCompleted : Float? {
     self.totalBytesExpectedToWrite.map{
-      Float((self.totalBytesWritten * 10000) / $0) / 100.0
+      Float((self.totalBytesWritten * 10000) / $0) / 10000
     }
   }
   var isActive : Bool {

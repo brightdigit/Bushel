@@ -33,21 +33,38 @@ enum WindowOpenHandle : String, CaseIterable {
     case machine
     case localImages
     case remoteSources
-    
+    case welcome
 }
 
 extension App {
-    func showNewDocumentWindow(ofType type: UTType) {
+    static func showNewDocumentWindow(ofType type: UTType) {
         
-            let dc = NSDocumentController.shared
-            if let newDocument = try? dc.makeUntitledDocument(ofType: type.identifier) {
+        let dc = NSDocumentController.shared
+        if let newDocument = try? dc.makeUntitledDocument(ofType: type.identifier) {
             dc.addDocument(newDocument)
             newDocument.makeWindowControllers()
             newDocument.showWindows()
-          }
+            
+            
+        }
     }
     
-    func openWindow(withHandle handle: WindowOpenHandle) {
+    static func openDocumentAtURL(_ url: URL, andDisplay display: Bool = true) {
+        
+        let dc = NSDocumentController.shared
+        dc.openDocument(withContentsOf: url, display: display) { document, alreadyDisplayed, error in
+            if let document = document {
+                guard !alreadyDisplayed else {
+                    return
+                }
+                dc.addDocument(document)
+                document.makeWindowControllers()
+                document.showWindows()
+            }
+        }
+    }
+    
+    static func openWindow(withHandle handle: WindowOpenHandle) {
         NSWorkspace.shared.open(URL(forHandle: handle))
     }
 }
@@ -62,7 +79,7 @@ struct BshIllApp: App {
     var body: some Scene {
         WindowGroup {
             WelcomeView()
-        }
+        }.windowsHandle(.welcome)
         DocumentGroup(newDocument: RestoreImageLibraryDocument()) { file in
             RestoreImageLibraryDocumentView(document: file.$document)
         }
@@ -72,16 +89,21 @@ struct BshIllApp: App {
             CommandGroup(replacing: .newItem) {
                 Menu("New") {
                     Button("New Machine") {
-                        self.showNewDocumentWindow(ofType: .virtualMachine)
+                        Self.showNewDocumentWindow(ofType: .virtualMachine)
                     }
                     Button("New Image Library") {
-                        self.showNewDocumentWindow(ofType: .restoreImageLibrary)
+                        Self.showNewDocumentWindow(ofType: .restoreImageLibrary)
                     }
                 }
             }
             CommandGroup(after: .newItem) {
                 Button("Download Restore Image...") {
-                    self.openWindow(withHandle: .remoteSources)
+                    Self.openWindow(withHandle: .remoteSources)
+                }
+            }
+            CommandGroup(after: .windowArrangement) {
+                Button("Welcome to Bshill"){
+                    Self.openWindow(withHandle: .welcome)
                 }
             }
         }

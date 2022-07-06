@@ -53,6 +53,11 @@
 			</array>
 		</dict>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Raleway-VariableFont_wght.ttf</string>
+		<string>Raleway-Italic-VariableFont_wght.ttf</string>
+	</array>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>

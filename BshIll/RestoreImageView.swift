@@ -92,6 +92,7 @@ struct RestoreImageView: View {
                   Button {
                       downloader.cancel()
                       downloader.reset()
+                      self.downloadDestination = nil
                   } label: {
                     Text("Cancel")
                   }
@@ -104,7 +105,6 @@ struct RestoreImageView: View {
             } else {
                 
                   Button {
-                    #warning("turn into cancel button")
                     self.askAboutDownload = true
                   } label: {
                     Image(systemName: "icloud.and.arrow.down")

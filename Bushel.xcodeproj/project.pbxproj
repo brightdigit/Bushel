@@ -20,6 +20,9 @@
 		B34ABE9128443EFB00F22379 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34ABE9028443EFB00F22379 /* Downloader.swift */; };
 		B35432D628693C680019BCE3 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35432D528693C680019BCE3 /* WelcomeView.swift */; };
 		B35432DC28693D640019BCE3 /* RrisCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35432DB28693D640019BCE3 /* RrisCollectionView.swift */; };
+		B364B19F28750875006799DC /* Raleway-Italic-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B364B19928750875006799DC /* Raleway-Italic-VariableFont_wght.ttf */; };
+		B364B1A028750875006799DC /* Raleway-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B364B19E28750875006799DC /* Raleway-VariableFont_wght.ttf */; };
+		B364B1A228750E7A006799DC /* WelcomeActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B364B1A128750E7A006799DC /* WelcomeActionButton.swift */; };
 		B3662A952846EFD000F8430B /* ImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3662A942846EFD000F8430B /* ImagesView.swift */; };
 		B3662AA52846F89B00F8430B /* RestoreImage.Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3662A982846F89A00F8430B /* RestoreImage.Combine.swift */; };
 		B3662AA62846F89B00F8430B /* PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3662A992846F89A00F8430B /* PreviewProvider.swift */; };
@@ -138,6 +141,9 @@
 		B34ABE9028443EFB00F22379 /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
 		B35432D528693C680019BCE3 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		B35432DB28693D640019BCE3 /* RrisCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RrisCollectionView.swift; sourceTree = "<group>"; };
+		B364B19928750875006799DC /* Raleway-Italic-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Italic-VariableFont_wght.ttf"; sourceTree = "<group>"; };
+		B364B19E28750875006799DC /* Raleway-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-VariableFont_wght.ttf"; sourceTree = "<group>"; };
+		B364B1A128750E7A006799DC /* WelcomeActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeActionButton.swift; sourceTree = "<group>"; };
 		B3662A942846EFD000F8430B /* ImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesView.swift; sourceTree = "<group>"; };
 		B3662A982846F89A00F8430B /* RestoreImage.Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoreImage.Combine.swift; sourceTree = "<group>"; };
 		B3662A992846F89A00F8430B /* PreviewProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewProvider.swift; sourceTree = "<group>"; };
@@ -232,6 +238,9 @@
 				B35432DB28693D640019BCE3 /* RrisCollectionView.swift */,
 				B37A362C286A91AF00B06D24 /* SourceImageCollectionView.swift */,
 				B3D3E98E286BD2EA0046C6F9 /* RestoreImageView.swift */,
+				B364B19928750875006799DC /* Raleway-Italic-VariableFont_wght.ttf */,
+				B364B19E28750875006799DC /* Raleway-VariableFont_wght.ttf */,
+				B364B1A128750E7A006799DC /* WelcomeActionButton.swift */,
 			);
 			path = BshIll;
 			sourceTree = "<group>";
@@ -490,7 +499,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B301F262286402270038E9F7 /* Assets.xcassets in Resources */,
+				B364B1A028750875006799DC /* Raleway-VariableFont_wght.ttf in Resources */,
 				B301F258286402160038E9F7 /* Preview Assets.xcassets in Resources */,
+				B364B19F28750875006799DC /* Raleway-Italic-VariableFont_wght.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,6 +537,7 @@
 				B37A362D286A91AF00B06D24 /* SourceImageCollectionView.swift in Sources */,
 				B301F266286404BF0038E9F7 /* RestoreImageDocumentView.swift in Sources */,
 				B35432D628693C680019BCE3 /* WelcomeView.swift in Sources */,
+				B364B1A228750E7A006799DC /* WelcomeActionButton.swift in Sources */,
 				B3D3E991286BDCF50046C6F9 /* Downloader.swift in Sources */,
 				B3753A8E286901A700A06E0F /* RestoreImageLibraryDocument.swift in Sources */,
 				B301F253286402160038E9F7 /* MachineView.swift in Sources */,
