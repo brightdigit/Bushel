@@ -43,7 +43,7 @@ extension Rris {
     static let apple : Rris = .init(id: "apple", title: "Apple") {
       let vzRestoreImage = try await VZMacOSRestoreImage.fetchLatestSupported()
       let virRestoreImage = try await VirtualizationMacOSRestoreImage(vzRestoreImage: vzRestoreImage)
-      return [RestoreImage(imageMetadata: virRestoreImage)]
+      return [RestoreImage(imageContainer: virRestoreImage)]
 //        try await withCheckedThrowingContinuation { continuation in
 //            VZMacOSRestoreImage.fetchLatestSupported { result in
 //              result.map(Virt)

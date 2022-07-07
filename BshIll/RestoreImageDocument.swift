@@ -15,56 +15,78 @@ enum MissingError : Error {
   case needDefinition(Any)
 }
 enum Formatters {
-    static let lastModifiedDateFormatter : DateFormatter = {
-      let formatter = DateFormatter()
-      formatter.dateFormat = $0
-      return formatter
-    }("E, d MMM yyyy HH:mm:ss Z")
+  static let lastModifiedDateFormatter : DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateFormat = $0
+    return formatter
+  }("E, d MMM yyyy HH:mm:ss Z")
 }
-struct VirtualizationMacOSRestoreImage : ImageMetadata {
-   init(sha256: SHA256, contentLength: Int, lastModified: Date, vzRestoreImage: VZMacOSRestoreImage) {
+
+protocol ImageContainer {
+  var metadata : ImageMetadata { get }
+  var installer : ImageInstaller { get }
+}
+
+struct ImageMetadata : Codable, CustomDebugStringConvertible {
+  internal init(isImageSupported: Bool, buildVersion: String, operatingSystemVersion: OperatingSystemVersion, sha256: SHA256, contentLength: Int, lastModified: Date, url: URL) {
+    self.isImageSupported = isImageSupported
+    self.buildVersion = buildVersion
+    self.operatingSystemVersion = operatingSystemVersion
     self.sha256 = sha256
     self.contentLength = contentLength
     self.lastModified = lastModified
+    self.url = url
+  }
+  
+  let isImageSupported : Bool
+  let buildVersion : String
+  let operatingSystemVersion : OperatingSystemVersion
+  let sha256 : SHA256
+  let contentLength : Int
+  let lastModified: Date
+  let url : URL
+  
+  var debugDescription: String {
+    "\(Self.self)(isImageSupported: \(self.isImageSupported), buildVersion: \"\(self.isImageSupported)\", operatingSystemVersion: \(self.operatingSystemVersion.debugDescription), sha256: \(self.sha256.debugDescription), contentLength: \(self.contentLength), lastModified: \(self.lastModified.debugDescription), url: \(self.url.debugDescription)"
+  }
+}
+
+
+
+extension VZMacOSRestoreImage {
+  var isImageSupported: Bool {
+#if swift(>=5.7)
+    if #available(macOS 13.0, *) {
+      return self.isSupported
+    } else {
+      return self.mostFeaturefulSupportedConfiguration?.hardwareModel.isSupported == true
+    }
+#else
+    return self.mostFeaturefulSupportedConfiguration?.hardwareModel.isSupported == true
+#endif
+  }
+}
+
+extension ImageMetadata{
+  init (sha256: SHA256, contentLength: Int, lastModified: Date, vzRestoreImage: VZMacOSRestoreImage) {
+    self.init(isImageSupported: vzRestoreImage.isImageSupported, buildVersion: vzRestoreImage.buildVersion, operatingSystemVersion: vzRestoreImage.operatingSystemVersion, sha256: sha256, contentLength: contentLength, lastModified: lastModified, url: vzRestoreImage.url)
+  }
+}
+struct VirtualizationMacOSRestoreImage : ImageContainer {
+  init(sha256: SHA256, contentLength: Int, lastModified: Date, vzRestoreImage: VZMacOSRestoreImage) {
+    self.metadata = .init(sha256: sha256, contentLength: contentLength, lastModified: lastModified, vzRestoreImage: vzRestoreImage)
     self.vzRestoreImage = vzRestoreImage
   }
   
-  var isImageSupported: Bool {
-#if swift(>=5.7)
-            if #available(macOS 13.0, *) {
-              return self.vzRestoreImage.isSupported
-            } else {
-              return self.vzRestoreImage.mostFeaturefulSupportedConfiguration?.hardwareModel.isSupported == true
-            }
-    #else
-    return self.vzRestoreImage.mostFeaturefulSupportedConfiguration?.hardwareModel.isSupported == true
-    #endif
-  }
+  let metadata: ImageMetadata
   
-  var buildVersion: String {
-    return self.vzRestoreImage.buildVersion
-  }
   
-  var operatingSystemVersion: OperatingSystemVersion {
-    return self.vzRestoreImage.operatingSystemVersion
-  }
-  
-  let sha256: SHA256
-  
-  let contentLength: Int
-  
-  let lastModified: Date
   
   
   let vzRestoreImage : VZMacOSRestoreImage
   var installer: ImageInstaller {
     return self.vzRestoreImage
   }
-  
-  var url : URL {
-    return self.vzRestoreImage.url
-  }
-  
   
   init  (vzRestoreImage : VZMacOSRestoreImage) async throws {
     let headers = try await vzRestoreImage.headers()
@@ -79,17 +101,17 @@ struct VirtualizationMacOSRestoreImage : ImageMetadata {
     }
     guard let lastModified = (headers["Last-Modified"] as? String).flatMap(Formatters.lastModifiedDateFormatter.date(from:)) else {
       
-        throw MissingError.needDefinition((headers,"Last-Modified"))
+      throw MissingError.needDefinition((headers,"Last-Modified"))
     }
     guard let sha256Hex = headers["x-amz-meta-digest-sha256"] as? String else {
       
-        throw MissingError.needDefinition((headers,"x-amz-meta-digest-sha256"))
+      throw MissingError.needDefinition((headers,"x-amz-meta-digest-sha256"))
     }
     guard let sha256 = SHA256(hexidecialString: sha256Hex) else {
       throw MissingError.needDefinition((headers,"x-amz-meta-digest-sha256"))
     }
-
-
+    
+    
     self.init(sha256: sha256, contentLength: contentLength, lastModified: lastModified, vzRestoreImage: vzRestoreImage)
   }
   //headers : [AnyHashable : Any]
@@ -108,77 +130,61 @@ extension VZMacOSRestoreImage : ImageInstaller {
     
     return response.allHeaderFields
   }
-//    var isImageSupported: Bool {
-//        if #available(macOS 13.0, *) {
-//            return self.isSupported
-//        } else {
-//            return self.mostFeaturefulSupportedConfiguration?.hardwareModel.isSupported == true
-//        }
-//    }
+  //    var isImageSupported: Bool {
+  //        if #available(macOS 13.0, *) {
+  //            return self.isSupported
+  //        } else {
+  //            return self.mostFeaturefulSupportedConfiguration?.hardwareModel.isSupported == true
+  //        }
+  //    }
 }
 
 protocol ImageInstaller {
-    
+  
 }
 
-protocol ImageMetadata  {
-    var isImageSupported : Bool { get }
-        var buildVersion : String { get }
-            var operatingSystemVersion : OperatingSystemVersion { get }
-  var sha256 : SHA256 { get }
-    var contentLength : Int { get }
-      var lastModified: Date { get }
-  var url : URL { get }
-  
-  var installer : ImageInstaller { get }
-}
 
 struct MockInstaller : ImageInstaller {
-    
+  
 }
 
 protocol RestoreImageFactory {
-    //func restoreImage(
+  //func restoreImage(
 }
 
 struct RestoreImage : Identifiable, Hashable {
-    static func == (lhs: RestoreImage, rhs: RestoreImage) -> Bool {
-        lhs.sha256 == rhs.sha256
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(self.sha256.data)
-    }
-    
-  internal init(url : URL, isSupported: Bool, buildVersion: String, operatingSystemVersion: OperatingSystemVersion, sha256: SHA256, contentLength: Int, lastModified: Date, installer: ImageInstaller) {
-        self.isSupported = isSupported
-        self.buildVersion = buildVersion
-        self.operatingSystemVersion = operatingSystemVersion
-        self.sha256 = sha256
-        self.contentLength = contentLength
-        self.lastModified = lastModified
-        self.installer = installer
-    self.url = url
-    }
-    
-    var id: Data {
-        return sha256.data
-    }
-    
-    let isSupported : Bool
-    let buildVersion : String
-    let operatingSystemVersion : OperatingSystemVersion
-    let sha256 : SHA256
-      let contentLength : Int
-    let lastModified: Date
-    
-    let installer : ImageInstaller
-  let url : URL
-   init(imageMetadata : ImageMetadata) {
-     self.init(url: imageMetadata.url, isSupported: imageMetadata.isImageSupported, buildVersion: imageMetadata.buildVersion, operatingSystemVersion: imageMetadata.operatingSystemVersion, sha256: imageMetadata.sha256, contentLength: imageMetadata.contentLength, lastModified:imageMetadata.lastModified, installer: imageMetadata.installer)
-
-       
-   }
+  static func == (lhs: RestoreImage, rhs: RestoreImage) -> Bool {
+    lhs.metadata.sha256 == rhs.metadata.sha256
+  }
+  
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(self.metadata.sha256.data)
+  }
+  
+  
+  
+  var id: Data {
+    return metadata.sha256.data
+  }
+  
+  //    let isSupported : Bool
+  //    let buildVersion : String
+  //    let operatingSystemVersion : OperatingSystemVersion
+  //    let sha256 : SHA256
+  //      let contentLength : Int
+  //    let lastModified: Date
+  
+  let installer : ImageInstaller
+  let metadata : ImageMetadata
+  init(metadata : ImageMetadata, installer: ImageInstaller) {
+    self.metadata = metadata
+    self.installer = installer
+  }
+  
+  init(imageContainer: ImageContainer) {
+    self.init(metadata: imageContainer.metadata, installer: imageContainer.installer)
+  }
+  
 }
 
 extension RestoreImage {
@@ -189,8 +195,9 @@ extension RestoreImage {
     case remote
   }
   var location : Location {
-    if self.url.isFileURL {
-      let directoryURL = url.deletingLastPathComponent()
+    if self.metadata.url.isFileURL {
+#warning("fix to allow subfolders under `Restore Images`")
+      let directoryURL = metadata.url.deletingLastPathComponent()
       guard directoryURL.lastPathComponent == "Restore Images"  else {
         return .local
       }
@@ -207,82 +214,129 @@ extension RestoreImage {
 
 
 extension UTType {
-    //[.init("com.apple.itunes.ipsw")!, .init("com.apple.iphone.ipsw")!]
-    static let iTunesIPSW : UTType = .init("com.apple.itunes.ipsw")!
-    static let iPhoneIPSW : UTType = .init("com.apple.iphone.ipsw")!
-    
-    static let ipswTypes = [iTunesIPSW, iPhoneIPSW]
+  //[.init("com.apple.itunes.ipsw")!, .init("com.apple.iphone.ipsw")!]
+  static let iTunesIPSW : UTType = .init("com.apple.itunes.ipsw")!
+  static let iPhoneIPSW : UTType = .init("com.apple.iphone.ipsw")!
+  
+  static let ipswTypes = [iTunesIPSW, iPhoneIPSW]
 }
 
 
 
 protocol RestoreImageLoader {
-    var restoreImageResult : Result<RestoreImage, Error>? { get }
+  var restoreImageResult : Result<RestoreImage, Error>? { get }
 }
 
+
 struct MockRestoreImageLoader : RestoreImageLoader {
-    let restoreImageResult : Result<RestoreImage, Error>?
+  let restoreImageResult : Result<RestoreImage, Error>?
+}
+
+extension Result {
+  func unwrap<NewSuccessType>(error: Failure) -> Result<NewSuccessType, Failure> where Success == Optional<NewSuccessType> {
+    self.flatMap { optValue in
+      guard let value = optValue else {
+        return .failure(error)
+      }
+      return .success(value)
+    }
+  }
+  
+  @inlinable public func flatMap<NewSuccess>(_ transform: (Success) async -> Result<NewSuccess, Failure>) async -> Result<NewSuccess, Failure> {
+    fatalError()
+  }
+//  func flatMap<NewSuccessType>() async -> Result<NewSuccessType, Failure> {
+//
+//  }
+}
+extension FileManager {
+  func createTemporaryFileWithData(_ data: Data) -> URL {
+    let tempFile : URL
+    //
+#if swift(>=5.7)
+    if #available(macOS 13.0, *) {
+      tempFile = self.temporaryDirectory.appending(path: UUID().uuidString)
+    } else {
+      tempFile = self.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    }
+#else
+    tempFile = self.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+#endif
+    
+#if swift(>=5.7)
+    if #available(macOS 13.0, *) {
+      self.createFile(atPath: tempFile.path(), contents: data)
+    } else {
+      self.createFile(atPath: tempFile.path, contents: data)
+    }
+#else
+    self.createFile(atPath: tempFile.path, contents: data)
+#endif
+    return tempFile
+  }
 }
 class FileRestoreImageLoader : RestoreImageLoader {
-    let sourceFileURL : URL
-    var restoreImageResult : Result<RestoreImage, Error>? = nil
-    
-    init(data: Data?) throws {
-        guard let data = data else {
-            throw NSError()
-        }
-        let tempFile : URL
-        //
-#if swift(>=5.7)
-        if #available(macOS 13.0, *) {
-            tempFile = FileManager.default.temporaryDirectory.appending(path: UUID().uuidString)
-        } else {
-            tempFile = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
-        }
-      #else
-      tempFile = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
-      #endif
-      
-#if swift(>=5.7)
-        if #available(macOS 13.0, *) {
-            FileManager.default.createFile(atPath: tempFile.path(), contents: data)
-        } else {
-            FileManager.default.createFile(atPath: tempFile.path, contents: data)
-        }
-      #else
-      FileManager.default.createFile(atPath: tempFile.path, contents: data)
-      #endif 
-        self.sourceFileURL = tempFile
+  @available(*, deprecated)
+  let sourceFileURL : URL?
+  var restoreImageResult : Result<RestoreImage, Error>? = nil
+  
+  
+  init(_ getData: @escaping () throws -> Data?) {
+    self.sourceFileURL = nil
+    Task{
+      let dataResult = Result{ try getData() }.unwrap(error: NSError())
+      let urlResult = dataResult.map(FileManager.default.createTemporaryFileWithData(_:))
+      urlResult.flatMap { url in
+        return .success(url)
+      }
+//      let restoreImageResult = await urlResult.map { url in
+//        await VZMacOSRestoreImage.loadFromURL(url)
+//      }
+//      DispatchQueue.main.async {
+//        self.restoreImageResult = restoreImageResult
+//      }
+    }
+  }
+  
+  
+  
+  @available(*, deprecated)
+  init(data: Data?) throws {
+    guard let data = data else {
+      throw NSError()
     }
     
-//         func beginLoad () {
-//
-//            VZMacOSRestoreImage.load(from: sourceFileURL) { result in
-//                self.restoreImageResult = result.map(RestoreImage.init(imageMetadata:))
-//            }
-//        }
+    self.sourceFileURL = FileManager.default.createTemporaryFileWithData(data)
+  }
+  
+  //         func beginLoad () {
+  //
+  //            VZMacOSRestoreImage.load(from: sourceFileURL) { result in
+  //                self.restoreImageResult = result.map(RestoreImage.init(imageMetadata:))
+  //            }
+  //        }
 }
 
 
 
 struct RestoreImageDocument: FileDocument {
-    internal init(loader: RestoreImageLoader) {
-        self.loader = loader
-    }
-    
-    let loader : RestoreImageLoader
-    
-    static let readableContentTypes = UTType.ipswTypes
-    
-    
-    init(configuration: ReadConfiguration) throws {
-        self.loader = try FileRestoreImageLoader(data: configuration.file.regularFileContents)
-    }
-    
-
-    
-    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        fatalError()
-    }
-    
+  internal init(loader: RestoreImageLoader) {
+    self.loader = loader
+  }
+  
+  let loader : RestoreImageLoader
+  
+  static let readableContentTypes = UTType.ipswTypes
+  
+  
+  init(configuration: ReadConfiguration) throws {
+    self.loader = try FileRestoreImageLoader(data: configuration.file.regularFileContents)
+  }
+  
+  
+  
+  func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+    fatalError()
+  }
+  
 }

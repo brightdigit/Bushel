@@ -1,7 +1,7 @@
 import Foundation
 import CommonCrypto
 
-struct SHA256 : Codable, Hashable {
+struct SHA256 : Codable, Hashable, CustomDebugStringConvertible {
   internal init(data: Data) {
     self.data = data
   }
@@ -14,6 +14,19 @@ struct SHA256 : Codable, Hashable {
   }
   
   let data : Data
+  
+  var debugDescription: String {
+    return "SHA256(base64Encoded: \"\(self.data.base64EncodedString())\")!"
+  }
+}
+
+extension SHA256 {
+  internal init?(base64Encoded: String) {
+    guard let data = Data(base64Encoded: base64Encoded) else {
+      return nil
+    }
+    self.init(data: data)
+  }
 }
 
 extension String {

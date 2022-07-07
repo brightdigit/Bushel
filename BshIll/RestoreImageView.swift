@@ -73,14 +73,14 @@ struct RestoreImageView: View {
   @State var askAboutDownload = false
     var body: some View {
       VStack{
-        Image(operatingSystemVersion: image.operatingSystemVersion).resizable().aspectRatio(1.0, contentMode: .fit).frame(height: 80.0).mask {
+        Image(operatingSystemVersion: image.metadata.operatingSystemVersion).resizable().aspectRatio(1.0, contentMode: .fit).frame(height: 80.0).mask {
           Circle()
         }.overlay {
           Circle().stroke()
         }
         
-        Text("macOS \(OperatingSystemCodeName(operatingSystemVersion: image.operatingSystemVersion)?.name ?? "")").font(.title)
-        Text("Version \(image.operatingSystemVersion.description) (\(image.buildVersion.description))")
+        Text("macOS \(OperatingSystemCodeName(operatingSystemVersion: image.metadata.operatingSystemVersion)?.name ?? "")").font(.title)
+        Text("Version \(image.metadata.operatingSystemVersion.description) (\(image.metadata.buildVersion.description))")
         
         VStack(alignment: .leading){
           
@@ -108,7 +108,7 @@ struct RestoreImageView: View {
                     self.askAboutDownload = true
                   } label: {
                     Image(systemName: "icloud.and.arrow.down")
-                    Text("Download Image (\(byteFormatter.string(fromByteCount: Int64(image.contentLength))))")
+                    Text("Download Image (\(byteFormatter.string(fromByteCount: Int64(image.metadata.contentLength))))")
                   }
             }
           case .local:
@@ -148,13 +148,13 @@ struct RestoreImageView: View {
           return
         }
         
-                      let panel = NSSavePanel()
+        let panel = NSSavePanel()
         switch downloadDestination {
         case .ipswFile:
-                      panel.nameFieldLabel = "Save Restore Image as:"
-                      panel.nameFieldStringValue = image.url.lastPathComponent
+          panel.nameFieldLabel = "Save Restore Image as:"
+          panel.nameFieldStringValue = image.metadata.url.lastPathComponent
           panel.allowedContentTypes = UTType.ipswTypes
-                      panel.isExtensionHidden = true
+          panel.isExtensionHidden = true
         case .library:
           panel.nameFieldLabel = "Save to Library:"
           panel.allowedContentTypes = [UTType.restoreImageLibrary]
@@ -162,23 +162,27 @@ struct RestoreImageView: View {
           
           
         }
-                    panel.begin { response in
-        
-                      guard let fileURL = panel.url, response == .OK else {
-                        return
-                      }
-                      
-                      let destinationURL : URL
-                      do {
-                        destinationURL = try downloadDestination.destinationURL(fromSavePanelURL: fileURL)
-                      } catch {
-                        #warning("Something")
-                        return
-                      }
-                      downloader.begin(from: image.url, to: destinationURL)
-                      
-                      
-                    }
+        panel.begin { response in
+          
+          guard let fileURL = panel.url, response == .OK else {
+            return
+          }
+          
+          let destinationURL : URL
+          do {
+            destinationURL = try downloadDestination.destinationURL(fromSavePanelURL: fileURL)
+          } catch {
+#warning("Something")
+            return
+          }
+          downloader.begin(from: image.metadata.url, to: destinationURL)
+          
+          
+        }
+      }.onAppear {
+        #if DEBUG
+        debugPrint(self.image.metadata)
+        #endif
       }
     }
 }

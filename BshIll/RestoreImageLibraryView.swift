@@ -13,19 +13,7 @@ struct RestoreImageLibraryItemFolder : Codable {
 }
 
 struct RestoreImageLibraryItemFile : Codable {
-  let isImageSupported: Bool
-  
-  let buildVersion: String
-  
-  let operatingSystemVersion: OperatingSystemVersion
-  
-  let sha256: SHA256
-  
-  let contentLength: Int
-  
-  let lastModified: Date
-  
-  let relativePath : String
+  let metadata : ImageMetadata
 }
 
 enum RestoreImageLibraryItem : Codable {
@@ -62,10 +50,12 @@ struct RestoreImageLibraryDocumentView: View {
   
   let fileItems : [FileItem]
     @Binding var document: RestoreImageLibraryDocument
+  @State var selected : FileItem?
     var body: some View {
       NavigationView{
         VStack{
-          List(self.fileItems, children: \.children) { item in
+          
+          List(self.fileItems, children: \.children, selection: self.$selected) { item in
             Text("\(item.description)")
           }
 //          OutlineGroup(fileItem, children: \.children) { item in

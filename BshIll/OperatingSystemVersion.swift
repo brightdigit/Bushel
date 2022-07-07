@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension OperatingSystemVersion : CustomStringConvertible, Codable, Hashable {
+extension OperatingSystemVersion : CustomStringConvertible, Codable, Hashable, CustomDebugStringConvertible {
   public func hash(into hasher: inout Hasher) {
     majorVersion.hash(into: &hasher)
     minorVersion.hash(into: &hasher)
@@ -49,6 +49,10 @@ extension OperatingSystemVersion : CustomStringConvertible, Codable, Hashable {
   
   public var description: String {
     [self.majorVersion, self.minorVersion, self.patchVersion].map(String.init).joined(separator: ".")
+  }
+  
+  public var debugDescription: String {
+    return "OperatingSystemVersion(majorVersion: \(majorVersion), minorVersion: \((minorVersion)), patchVersion: \(patchVersion)"
   }
   
   
