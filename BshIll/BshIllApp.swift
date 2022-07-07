@@ -81,7 +81,7 @@ struct BshIllApp: App {
             WelcomeView()
         }.windowsHandle(.welcome)
         DocumentGroup(newDocument: RestoreImageLibraryDocument()) { file in
-            RestoreImageLibraryDocumentView(document: file.$document)
+          RestoreImageLibraryDocumentView(document: file.$document)
         }
         DocumentGroup(newDocument: MachineDocument()) { file in
             MachineView(document: file.$document, restoreImageChoices: [])

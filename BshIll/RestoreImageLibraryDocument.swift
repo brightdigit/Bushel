@@ -8,9 +8,6 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
-struct RestoreImageLibrary {
-    
-}
 
 extension UTType {
     static var restoreImageLibrary: UTType {
