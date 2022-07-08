@@ -108,7 +108,7 @@ struct BshIllApp: App {
             }
         }
         DocumentGroup(viewing: RestoreImageDocument.self) { file in
-            RestoreImageDocumentView(document: file.$document)
+          RestoreImageDocumentView(document: file.document)
         }
         WindowGroup {
             RrisCollectionView()

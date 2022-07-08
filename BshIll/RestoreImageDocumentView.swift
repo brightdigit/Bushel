@@ -39,37 +39,70 @@ extension Image {
     }
 }
 
-struct RestoreImageDocumentView: View {
-    @Binding var document: RestoreImageDocument
 
+
+
+
+struct RestoreImageDocumentView: View {
+  internal init(_ fetchImage : @escaping () async throws -> RestoreImage) {
+    self.fetchImage = fetchImage
+  }
+  internal init(document: RestoreImageDocument, loader: RestoreImageLoader = FileRestoreImageLoader()) {
+    self.init {
+      try await loader.load(from: document.fileWrapper)
+    }
+  }
+  
+//   let document: RestoreImageDocument
+//  let loader : RestoreImageLoader
+  let fetchImage : () async throws -> RestoreImage
+  @State var restoreImageResult : Result<RestoreImage, Error>?
   
   var body: some View {
-        switch document.loader.restoreImageResult {
-        case .none:
-            ProgressView()
-        case .success(let image):
-          RestoreImageView(image: image).fixedSize()
-        default:
-            EmptyView()
+    Group{
+      switch self.restoreImageResult {
+      case .none:
+        ProgressView()
+      case .success(let image):
+        RestoreImageView(image: image).fixedSize()
+      default:
+        EmptyView()
+      }
+    }
+    .onAppear{
+      Task {
+        let restoreImageResult : Result<RestoreImage, Error>
+        do {
+          let image = try await self.fetchImage()
+          restoreImageResult = .success(image)
+        } catch {
+          restoreImageResult = .failure(error)
         }
+        DispatchQueue.main.async {
+          self.restoreImageResult = restoreImageResult
+        }
+      }
+       
+    }
     }
 }
 
 struct RestoreImageDocumentView_Previews: PreviewProvider {
     static var previews: some View {
-        RestoreImageDocumentView(document: .constant(RestoreImageDocument(loader: MockRestoreImageLoader(restoreImageResult: nil))))
-        
-      RestoreImageDocumentView(document: .constant(.Previews.previewLoadedDocument))
+//        RestoreImageDocumentView(document: RestoreImageDocument(loader: MockRestoreImageLoader(restoreImageResult: nil)))
+//
+//      RestoreImageDocumentView(document: .Previews.previewLoadedDocument)
+      EmptyView()
     }
 }
 
 
 extension RestoreImageDocument {
   enum Previews {
-    static let previewLoadedDocument = RestoreImageDocument(
-      loader: MockRestoreImageLoader(restoreImageResult: .success(.Previews.previewModel))
-    )
-    
+    //static let previewLoadedDocument = RestoreImageDocument(configuration: <#T##RestoreImageDocument.ReadConfiguration#>)
+//    RestoreImageDocument(
+//      loader: MockRestoreImageLoader(restoreImageResult: .success(.Previews.previewModel))
+//    )
   }
 }
 

@@ -240,12 +240,21 @@ extension UTType {
 
 
 protocol RestoreImageLoader {
-  var restoreImageResult : Result<RestoreImage, Error>? { get }
+  
+  func load(from file: FileAccessor) async throws -> RestoreImage
 }
 
 
 struct MockRestoreImageLoader : RestoreImageLoader {
-  let restoreImageResult : Result<RestoreImage, Error>?
+  func load(from file: FileAccessor) async throws -> RestoreImage {
+    return try self.actualResult.get()
+  }
+  
+  let actualResult : Result<RestoreImage, Error>
+  
+  var restoreImageResult: Result<RestoreImage, Error>? {
+    return actualResult
+  }
 }
 
 extension Result {
@@ -330,18 +339,18 @@ extension FileWrapper : FileAccessor {
   }
 }
 
+class RestoreImageLoaderObject : ObservableObject {
+  
+}
 class FileRestoreImageLoader : RestoreImageLoader {
-
-  var restoreImageResult : Result<RestoreImage, Error>? = nil
   
-  
-  init(from file: FileAccessor) {
-    Task{
+  func load(from file: FileAccessor) async throws -> RestoreImage {
+    try await Task{
       let tempFileURL = FileManager.default.createTemporaryFile(for: .iTunesIPSW)
       let sha256 = await Task {
         try Result{file.getData()}.unwrap(error: NSError()).map(CryptoSHA256.hash).map{Data($0)}.map(SHA256.init(data:)).get()
       }.result
-            //let dataResult = Result{ try getData() }.unwrap(error: NSError())
+      //let dataResult = Result{ try getData() }.unwrap(error: NSError())
       //let urlResult = dataResult.map(FileManager.default.createTemporaryFileWithData(_:))
       let vzMacOSRestoreImage = await Task {
         try await Result{ try file.writeTo(tempFileURL)}.map{ tempFileURL }.flatMap(VZMacOSRestoreImage.loadFromURL).get()
@@ -354,19 +363,46 @@ class FileRestoreImageLoader : RestoreImageLoader {
       }
       
       let virtualImageResult = await virtualImageResultArgs.flatMap(VirtualizationMacOSRestoreImage.init)
-      let restoreImage = virtualImageResult.map(RestoreImage.init(imageContainer:))
-      dump(restoreImage)
-      DispatchQueue.main.async {
-        self.restoreImageResult = restoreImage
-      }
-//      let restoreImageResult = await urlResult.map { url in
-//        await VZMacOSRestoreImage.loadFromURL(url)
-//      }
-//      DispatchQueue.main.async {
-//        self.restoreImageResult = restoreImageResult
-//      }
-    }
+      return try virtualImageResult.map(RestoreImage.init(imageContainer:)).get()
+    }.value
   }
+  
+//
+//  var restoreImageResult : Result<RestoreImage, Error>? = nil
+//
+//
+//  init(from file: FileAccessor) {
+//    Task{
+//      let tempFileURL = FileManager.default.createTemporaryFile(for: .iTunesIPSW)
+//      let sha256 = await Task {
+//        try Result{file.getData()}.unwrap(error: NSError()).map(CryptoSHA256.hash).map{Data($0)}.map(SHA256.init(data:)).get()
+//      }.result
+//            //let dataResult = Result{ try getData() }.unwrap(error: NSError())
+//      //let urlResult = dataResult.map(FileManager.default.createTemporaryFileWithData(_:))
+//      let vzMacOSRestoreImage = await Task {
+//        try await Result{ try file.writeTo(tempFileURL)}.map{ tempFileURL }.flatMap(VZMacOSRestoreImage.loadFromURL).get()
+//      }.result
+//
+//      let virtualImageResultArgs : Result<(VZMacOSRestoreImage, SHA256),Error> = vzMacOSRestoreImage.flatMap { image in
+//        return sha256.map{
+//          return (image, $0)
+//        }
+//      }
+//      
+//      let virtualImageResult = await virtualImageResultArgs.flatMap(VirtualizationMacOSRestoreImage.init)
+//      let restoreImage = virtualImageResult.map(RestoreImage.init(imageContainer:))
+//      dump(restoreImage)
+//      DispatchQueue.main.async {
+//        self.restoreImageResult = restoreImage
+//      }
+////      let restoreImageResult = await urlResult.map { url in
+////        await VZMacOSRestoreImage.loadFromURL(url)
+////      }
+////      DispatchQueue.main.async {
+////        self.restoreImageResult = restoreImageResult
+////      }
+//    }
+//  }
   
   
   
@@ -381,23 +417,27 @@ class FileRestoreImageLoader : RestoreImageLoader {
 
 
 struct RestoreImageDocument: FileDocument {
-  internal init(loader: RestoreImageLoader) {
-    self.loader = loader
-  }
+  let fileWrapper : FileWrapper
+
   
-  let loader : RestoreImageLoader
+  //let loader : RestoreImageLoader
   
   static let readableContentTypes = UTType.ipswTypes
   
   
   init(configuration: ReadConfiguration) throws {
-    self.loader = FileRestoreImageLoader(from: configuration.file)
+    self.fileWrapper = configuration.file
   }
-  
   
   
   func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-    fatalError()
+    guard let fileWrapper = configuration.existingFile else {
+      throw NSError()
+    }
+    
+    return fileWrapper
   }
+  
+  
   
 }
