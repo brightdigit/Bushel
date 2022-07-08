@@ -92,13 +92,17 @@ struct VirtualizationMacOSRestoreImage : ImageContainer {
     return self.vzRestoreImage
   }
   
-  init  (vzRestoreImage : VZMacOSRestoreImage) async throws {
+  init  (vzRestoreImage : VZMacOSRestoreImage, sha256 : SHA256?) async throws {
     if vzRestoreImage.url.isFileURL {
-
-      let sha256 = await try SHA256(fileURL: vzRestoreImage.url)
+      let sha256Value : SHA256
+      if let sha256Arg = sha256 {
+        sha256Value = sha256Arg
+      } else {
+        sha256Value = try await SHA256(fileURL: vzRestoreImage.url)
+      }
       let contentLength : Int = 0
       let lastModified : Date = .init()
-      self.init(sha256: sha256, contentLength: contentLength, lastModified: lastModified, vzRestoreImage: vzRestoreImage)
+      self.init(sha256: sha256Value, contentLength: contentLength, lastModified: lastModified, vzRestoreImage: vzRestoreImage)
     } else {
       let headers = try await vzRestoreImage.headers()
       try self.init(vzRestoreImage: vzRestoreImage, headers: headers)
@@ -308,23 +312,48 @@ extension FileManager {
 //    return tempFile
 //  }
 }
+
+
+protocol FileAccessor {
+  func getData () -> Data?
+  func writeTo(_ url: URL) throws
+  
+}
+
+extension FileWrapper : FileAccessor {
+  func getData() -> Data? {
+    return self.regularFileContents
+  }
+  
+  func writeTo(_ url: URL) throws {
+    try self.write(to: url, originalContentsURL: nil)
+  }
+}
+
 class FileRestoreImageLoader : RestoreImageLoader {
-  @available(*, deprecated)
-  let sourceFileURL : URL?
+
   var restoreImageResult : Result<RestoreImage, Error>? = nil
   
   
-  init(_ writeTo: @escaping (URL) throws -> Void) {
-    self.sourceFileURL = nil
+  init(from file: FileAccessor) {
     Task{
       let tempFileURL = FileManager.default.createTemporaryFile(for: .iTunesIPSW)
-      
-      
-      //let dataResult = Result{ try getData() }.unwrap(error: NSError())
+      let sha256 = await Task {
+        try Result{file.getData()}.unwrap(error: NSError()).map(CryptoSHA256.hash).map{Data($0)}.map(SHA256.init(data:)).get()
+      }.result
+            //let dataResult = Result{ try getData() }.unwrap(error: NSError())
       //let urlResult = dataResult.map(FileManager.default.createTemporaryFileWithData(_:))
-      let urlResult = Result{ try writeTo(tempFileURL)}.map{ tempFileURL }
-      let vzMacOSRestoreImage = await urlResult.flatMap(VZMacOSRestoreImage.loadFromURL)
-      let virtualImageResult = await vzMacOSRestoreImage.flatMap(VirtualizationMacOSRestoreImage.init(vzRestoreImage:))
+      let vzMacOSRestoreImage = await Task {
+        try await Result{ try file.writeTo(tempFileURL)}.map{ tempFileURL }.flatMap(VZMacOSRestoreImage.loadFromURL).get()
+      }.result
+      
+      let virtualImageResultArgs : Result<(VZMacOSRestoreImage, SHA256),Error> = vzMacOSRestoreImage.flatMap { image in
+        return sha256.map{
+          return (image, $0)
+        }
+      }
+      
+      let virtualImageResult = await virtualImageResultArgs.flatMap(VirtualizationMacOSRestoreImage.init)
       let restoreImage = virtualImageResult.map(RestoreImage.init(imageContainer:))
       dump(restoreImage)
       DispatchQueue.main.async {
@@ -362,10 +391,7 @@ struct RestoreImageDocument: FileDocument {
   
   
   init(configuration: ReadConfiguration) throws {
-    self.loader = FileRestoreImageLoader(){ (url) in
-      try configuration.file.write(to: url, originalContentsURL: nil)
-      
-    }
+    self.loader = FileRestoreImageLoader(from: configuration.file)
   }
   
   
