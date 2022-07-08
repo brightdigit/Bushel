@@ -10,6 +10,10 @@ import SwiftUI
 import UniformTypeIdentifiers
 import Virtualization
 
+import struct CryptoKit.SHA256
+
+typealias CryptoSHA256 = CryptoKit.SHA256
+
 enum MissingError : Error {
   case notImplemented
   case needDefinition(Any)
@@ -89,8 +93,16 @@ struct VirtualizationMacOSRestoreImage : ImageContainer {
   }
   
   init  (vzRestoreImage : VZMacOSRestoreImage) async throws {
-    let headers = try await vzRestoreImage.headers()
-    try self.init(vzRestoreImage: vzRestoreImage, headers: headers)
+    if vzRestoreImage.url.isFileURL {
+
+      let sha256 = await try SHA256(fileURL: vzRestoreImage.url)
+      let contentLength : Int = 0
+      let lastModified : Date = .init()
+      self.init(sha256: sha256, contentLength: contentLength, lastModified: lastModified, vzRestoreImage: vzRestoreImage)
+    } else {
+      let headers = try await vzRestoreImage.headers()
+      try self.init(vzRestoreImage: vzRestoreImage, headers: headers)
+    }
   }
   init  (vzRestoreImage : VZMacOSRestoreImage, headers : [AnyHashable : Any]) throws {
     guard let contentLengthString = headers["Content-Length"] as? String else {
@@ -233,6 +245,7 @@ struct MockRestoreImageLoader : RestoreImageLoader {
 }
 
 extension Result {
+  
   func unwrap<NewSuccessType>(error: Failure) -> Result<NewSuccessType, Failure> where Success == Optional<NewSuccessType> {
     self.flatMap { optValue in
       guard let value = optValue else {
@@ -242,38 +255,58 @@ extension Result {
     }
   }
   
-  @inlinable public func flatMap<NewSuccess>(_ transform: (Success) async -> Result<NewSuccess, Failure>) async -> Result<NewSuccess, Failure> {
-    fatalError()
+  @inlinable public func flatMap<NewSuccess>(_ transform: (Success) async throws -> NewSuccess) async -> Result<NewSuccess, Failure> where Failure == Error {
+    let oldSuccess : Success
+    
+    switch self {
+    case .failure(let failure):
+      return .failure(failure)
+    case .success(let success):
+      oldSuccess = success
+    }
+
+    let result : Result<NewSuccess, Failure>
+    do {
+      let newSuccess = try await transform(oldSuccess)
+      result = .success(newSuccess)
+    } catch {
+      result = .failure(error)
+    }
+    
+    return result
   }
 //  func flatMap<NewSuccessType>() async -> Result<NewSuccessType, Failure> {
 //
 //  }
 }
 extension FileManager {
-  func createTemporaryFileWithData(_ data: Data) -> URL {
+  func createTemporaryFile(for type: UTType) -> URL {
     let tempFile : URL
     //
 #if swift(>=5.7)
     if #available(macOS 13.0, *) {
-      tempFile = self.temporaryDirectory.appending(path: UUID().uuidString)
+      tempFile = self.temporaryDirectory.appending(path: UUID().uuidString).appendingPathExtension(for: type)
     } else {
-      tempFile = self.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+      tempFile = self.temporaryDirectory.appendingPathComponent(UUID().uuidString).appendingPathExtension(for: type)
     }
 #else
-    tempFile = self.temporaryDirectory.appendingPathComponent(UUID().uuidString)
-#endif
-    
-#if swift(>=5.7)
-    if #available(macOS 13.0, *) {
-      self.createFile(atPath: tempFile.path(), contents: data)
-    } else {
-      self.createFile(atPath: tempFile.path, contents: data)
-    }
-#else
-    self.createFile(atPath: tempFile.path, contents: data)
+    tempFile = self.temporaryDirectory.appendingPathComponent(UUID().uuidString).appendingPathExtension(for: type)
 #endif
     return tempFile
   }
+//  func createTemporaryFileWithData(_ data: Data, extension: String) -> URL {
+//    let tempFile = createTemporaryFileWithExtension("")
+//#if swift(>=5.7)
+//    if #available(macOS 13.0, *) {
+//      self.createFile(atPath: tempFile.path(), contents: data)
+//    } else {
+//      self.createFile(atPath: tempFile.path, contents: data)
+//    }
+//#else
+//    self.createFile(atPath: tempFile.path, contents: data)
+//#endif
+//    return tempFile
+//  }
 }
 class FileRestoreImageLoader : RestoreImageLoader {
   @available(*, deprecated)
@@ -281,13 +314,21 @@ class FileRestoreImageLoader : RestoreImageLoader {
   var restoreImageResult : Result<RestoreImage, Error>? = nil
   
   
-  init(_ getData: @escaping () throws -> Data?) {
+  init(_ writeTo: @escaping (URL) throws -> Void) {
     self.sourceFileURL = nil
     Task{
-      let dataResult = Result{ try getData() }.unwrap(error: NSError())
-      let urlResult = dataResult.map(FileManager.default.createTemporaryFileWithData(_:))
-      urlResult.flatMap { url in
-        return .success(url)
+      let tempFileURL = FileManager.default.createTemporaryFile(for: .iTunesIPSW)
+      
+      
+      //let dataResult = Result{ try getData() }.unwrap(error: NSError())
+      //let urlResult = dataResult.map(FileManager.default.createTemporaryFileWithData(_:))
+      let urlResult = Result{ try writeTo(tempFileURL)}.map{ tempFileURL }
+      let vzMacOSRestoreImage = await urlResult.flatMap(VZMacOSRestoreImage.loadFromURL)
+      let virtualImageResult = await vzMacOSRestoreImage.flatMap(VirtualizationMacOSRestoreImage.init(vzRestoreImage:))
+      let restoreImage = virtualImageResult.map(RestoreImage.init(imageContainer:))
+      dump(restoreImage)
+      DispatchQueue.main.async {
+        self.restoreImageResult = restoreImage
       }
 //      let restoreImageResult = await urlResult.map { url in
 //        await VZMacOSRestoreImage.loadFromURL(url)
@@ -299,15 +340,6 @@ class FileRestoreImageLoader : RestoreImageLoader {
   }
   
   
-  
-  @available(*, deprecated)
-  init(data: Data?) throws {
-    guard let data = data else {
-      throw NSError()
-    }
-    
-    self.sourceFileURL = FileManager.default.createTemporaryFileWithData(data)
-  }
   
   //         func beginLoad () {
   //
@@ -330,7 +362,10 @@ struct RestoreImageDocument: FileDocument {
   
   
   init(configuration: ReadConfiguration) throws {
-    self.loader = try FileRestoreImageLoader(data: configuration.file.regularFileContents)
+    self.loader = FileRestoreImageLoader(){ (url) in
+      try configuration.file.write(to: url, originalContentsURL: nil)
+      
+    }
   }
   
   

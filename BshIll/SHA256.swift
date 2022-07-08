@@ -13,6 +13,28 @@ struct SHA256 : Codable, Hashable, CustomDebugStringConvertible {
     self.init(data: data)
   }
   
+  internal init(fileURL: URL) async throws {
+    let task = Task {
+      var hasher = CryptoSHA256()
+      let handle = try FileHandle(forReadingFrom: fileURL)
+      while try autoreleasepool(invoking: {
+        let data = try handle.read(upToCount: CryptoSHA256.blockByteCount)
+        guard let data = data, !data.isEmpty else {
+          
+          return false
+        }
+        hasher.update(data: data)
+        return true
+      }) {}
+      
+      let hash = hasher.finalize()
+      return Data(hash)
+    }
+    
+    try   await self.init(data: task.value)
+   
+  }
+  
   let data : Data
   
   var debugDescription: String {
