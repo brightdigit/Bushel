@@ -51,7 +51,8 @@ struct ImageMetadata : Codable, CustomDebugStringConvertible {
   let url : URL
   
   var debugDescription: String {
-    "\(Self.self)(isImageSupported: \(self.isImageSupported), buildVersion: \"\(self.isImageSupported)\", operatingSystemVersion: \(self.operatingSystemVersion.debugDescription), sha256: \(self.sha256.debugDescription), contentLength: \(self.contentLength), lastModified: \(self.lastModified.debugDescription), url: \(self.url.debugDescription)"
+    
+    "\(Self.self)(isImageSupported: \(self.isImageSupported), buildVersion: \"\(self.isImageSupported)\", operatingSystemVersion: \(self.operatingSystemVersion.debugDescription), sha256: \(self.sha256.debugDescription), contentLength: \(self.contentLength), lastModified: Date(timeIntervalSinceReferenceDate: \(self.lastModified.timeIntervalSinceReferenceDate)), url: \(self.url.debugDescription)"
   }
 }
 
