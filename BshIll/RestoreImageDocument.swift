@@ -52,7 +52,7 @@ struct ImageMetadata : Codable, CustomDebugStringConvertible {
   
   var debugDescription: String {
     
-    "\(Self.self)(isImageSupported: \(self.isImageSupported), buildVersion: \"\(self.isImageSupported)\", operatingSystemVersion: \(self.operatingSystemVersion.debugDescription), sha256: \(self.sha256.debugDescription), contentLength: \(self.contentLength), lastModified: Date(timeIntervalSinceReferenceDate: \(self.lastModified.timeIntervalSinceReferenceDate)), url: \(self.url.debugDescription)"
+    "\(Self.self)(isImageSupported: \(self.isImageSupported), buildVersion: \"\(self.buildVersion)\", operatingSystemVersion: \(self.operatingSystemVersion.debugDescription), sha256: \(self.sha256.debugDescription), contentLength: \(self.contentLength), lastModified: Date(timeIntervalSinceReferenceDate: \(self.lastModified.timeIntervalSinceReferenceDate)), url: \(self.url.debugDescription)"
   }
 }
 
