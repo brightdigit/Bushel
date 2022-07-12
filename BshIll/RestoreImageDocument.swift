@@ -31,7 +31,7 @@ protocol ImageContainer {
   var installer : ImageInstaller { get }
 }
 
-struct ImageMetadata : Codable, CustomDebugStringConvertible {
+struct ImageMetadata : Codable, CustomDebugStringConvertible, Hashable {
   internal init(isImageSupported: Bool, buildVersion: String, operatingSystemVersion: OperatingSystemVersion, sha256: SHA256, contentLength: Int, lastModified: Date, url: URL) {
     self.isImageSupported = isImageSupported
     self.buildVersion = buildVersion
