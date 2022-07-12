@@ -95,14 +95,16 @@ struct VirtualizationMacOSRestoreImage : ImageContainer {
   
   init  (vzRestoreImage : VZMacOSRestoreImage, sha256 : SHA256?) async throws {
     if vzRestoreImage.url.isFileURL {
+      let attrs = try FileManager.default.attributesOfItem(atPath: vzRestoreImage.url.path)
+      guard let contentLength : Int = attrs[.size] as? Int, let lastModified = attrs[.modificationDate] as? Date else {
+        throw NSError()
+      }
       let sha256Value : SHA256
       if let sha256Arg = sha256 {
         sha256Value = sha256Arg
       } else {
         sha256Value = try await SHA256(fileURL: vzRestoreImage.url)
       }
-      let contentLength : Int = 0
-      let lastModified : Date = .init()
       self.init(sha256: sha256Value, contentLength: contentLength, lastModified: lastModified, vzRestoreImage: vzRestoreImage)
     } else {
       let headers = try await vzRestoreImage.headers()
