@@ -56,35 +56,51 @@ struct RestoreImageLibrary : Codable {
 //    }
 //}
 struct RestoreImageLibraryDocumentView: View {
-  internal init(fileItems: [RestoreImageLibraryItemFile] = .init(), document: Binding<RestoreImageLibraryDocument>) {
-    self.fileItems = fileItems
+  internal init(document: Binding<RestoreImageLibraryDocument>, selected: RestoreImageLibraryItemFile? = nil) {
+    
     self._document = document
+    self._selected = .init(wrappedValue: selected)
   }
   
-  let fileItems : [RestoreImageLibraryItemFile]
-    @Binding var document: RestoreImageLibraryDocument
+  @Binding var document: RestoreImageLibraryDocument
   @State var selected : RestoreImageLibraryItemFile?
     var body: some View {
       NavigationView{
         VStack{
-          
-          
-          List(self.fileItems, selection: self.$selected) { item in
+          List(self.document.library.items, selection: self.$selected) { item in
             Text("\(item.name)")
           }
-//          OutlineGroup(fileItem, children: \.children) { item in
-//            Text("\(item.description)")
-//          }
-//          List(categories, id: \.value, children: \.children) { tree in
-//                      Text(tree.value).font(.subheadline)
-//                  }.listStyle(SidebarListStyle())
-          
           Spacer()
+          Divider().opacity(0.75)
+          HStack{
+            Button {
+              
+            } label: {
+              Image(systemName: "plus").padding(.leading, 8.0)
+            }
+            Divider().padding(.vertical, -6.0).opacity(0.75)
+            Button {
+              
+            } label: {
+              Image(systemName: "minus")
+            }
+            Divider().padding(.vertical, -6.0).opacity(0.75)
+            Spacer()
+          }.buttonStyle(.borderless).padding(.vertical, 2.0).fixedSize(horizontal: false, vertical: true).offset(x: 0.0, y: -2.0)
         }
           .frame(minWidth: 200, maxWidth: 500)
-        VStack{
-          Text("test")
-        }.padding()
+        Group{
+          if let selected = selected {
+            
+            VStack{
+              Text(selected.name)
+            }.padding()
+          } else {
+            VStack{
+              Text("test")
+            }.padding()
+          }
+        }
           .layoutPriority(1)
       }
     }
@@ -96,6 +112,6 @@ struct RestoreImageLibraryDocumentView_Previews: PreviewProvider {
     .init(name: "Montery 12.4", metadata: .Previews.monterey)
   ]
     static var previews: some View {
-      RestoreImageLibraryDocumentView(fileItems: data, document: .constant(RestoreImageLibraryDocument()))
+      RestoreImageLibraryDocumentView(document: .constant(RestoreImageLibraryDocument(library: .init(items: Self.data))), selected: .init(name: "Ventura Beta 3", metadata: .Previews.venturaBeta3))
     }
 }
