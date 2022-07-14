@@ -66,6 +66,7 @@
 		B38A5D1F284D799400427013 /* ClosedRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38A5D11284D799400427013 /* ClosedRange.swift */; };
 		B38A5D22284D7A1600427013 /* OperatingSystemVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38A5D21284D7A1600427013 /* OperatingSystemVersion.swift */; };
 		B38C30CF28629E3A00A8AC8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3BB2FAF283E7B3B00F3E336 /* Assets.xcassets */; };
+		B395C5F0287F957F00A11AC1 /* RestoreImageLibraryItemFileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B395C5EF287F957F00A11AC1 /* RestoreImageLibraryItemFileView.swift */; };
 		B3BB2FAC283E7B3A00F3E336 /* BushelApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BB2FAB283E7B3A00F3E336 /* BushelApp.swift */; };
 		B3BB2FAE283E7B3A00F3E336 /* RestoreImageManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BB2FAD283E7B3A00F3E336 /* RestoreImageManagerView.swift */; };
 		B3BB2FB0283E7B3B00F3E336 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3BB2FAF283E7B3B00F3E336 /* Assets.xcassets */; };
@@ -172,6 +173,7 @@
 		B38A5D10284D799300427013 /* MachineSharedDirectory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MachineSharedDirectory.swift; sourceTree = "<group>"; };
 		B38A5D11284D799400427013 /* ClosedRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClosedRange.swift; sourceTree = "<group>"; };
 		B38A5D21284D7A1600427013 /* OperatingSystemVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatingSystemVersion.swift; sourceTree = "<group>"; };
+		B395C5EF287F957F00A11AC1 /* RestoreImageLibraryItemFileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreImageLibraryItemFileView.swift; sourceTree = "<group>"; };
 		B39E8C63285181200049FB7F /* DesignedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignedView.swift; sourceTree = "<group>"; };
 		B3BB2FA8283E7B3A00F3E336 /* Bushel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bushel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3BB2FAB283E7B3A00F3E336 /* BushelApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BushelApp.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				B364B19928750875006799DC /* Raleway-Italic-VariableFont_wght.ttf */,
 				B364B19E28750875006799DC /* Raleway-VariableFont_wght.ttf */,
 				B364B1A128750E7A006799DC /* WelcomeActionButton.swift */,
+				B395C5EF287F957F00A11AC1 /* RestoreImageLibraryItemFileView.swift */,
 			);
 			path = BshIll;
 			sourceTree = "<group>";
@@ -535,6 +538,7 @@
 				B301F251286402160038E9F7 /* MachineDocument.swift in Sources */,
 				B301F24F286402160038E9F7 /* BshIllApp.swift in Sources */,
 				B37A362D286A91AF00B06D24 /* SourceImageCollectionView.swift in Sources */,
+				B395C5F0287F957F00A11AC1 /* RestoreImageLibraryItemFileView.swift in Sources */,
 				B301F266286404BF0038E9F7 /* RestoreImageDocumentView.swift in Sources */,
 				B35432D628693C680019BCE3 /* WelcomeView.swift in Sources */,
 				B364B1A228750E7A006799DC /* WelcomeActionButton.swift in Sources */,

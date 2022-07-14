@@ -23,7 +23,7 @@ struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable {
     self.metadata.url.dataRepresentation
   }
   
-  let name : String
+  var name : String
   let metadata : ImageMetadata
 }
 //
@@ -37,7 +37,7 @@ struct RestoreImageLibrary : Codable {
     self.items = items
   }
   
-  let items : [RestoreImageLibraryItemFile]
+  var items : [RestoreImageLibraryItemFile]
 }
 
 
@@ -91,10 +91,18 @@ struct RestoreImageLibraryDocumentView: View {
           .frame(minWidth: 200, maxWidth: 500)
         Group{
           if let selected = selected {
-            
             VStack{
-              Text(selected.name)
-            }.padding()
+              RestoreImageLibraryItemFileView(file: .init(get: {
+                selected
+              }, set: { file in
+                let index = self.document.library.items.firstIndex { $0.id == file.id
+                }
+                if let index = index {
+                  self.document.library.items[index] = file
+                }
+              }))
+              Spacer()
+            }
           } else {
             VStack{
               Text("test")
