@@ -345,6 +345,24 @@ extension FileWrapper : FileAccessor {
 class RestoreImageLoaderObject : ObservableObject {
   
 }
+
+
+
+func getSHA256(forFile url: URL) throws -> CryptoSHA256.Digest {
+    let handle = try FileHandle(forReadingFrom: url)
+    var hasher = CryptoSHA256()
+    while autoreleasepool(invoking: {
+        let nextChunk = handle.readData(ofLength: CryptoSHA256.blockByteCount)
+        guard !nextChunk.isEmpty else { return false }
+        hasher.update(data: nextChunk)
+        return true
+    }) { }
+    let digest = hasher.finalize()
+    return digest
+
+    // Here's how to convert to string form
+    //return digest.map { String(format: "%02hhx", $0) }.joined()
+}
 class FileRestoreImageLoader : RestoreImageLoader {
   
   func load(from file: FileAccessor) async throws -> RestoreImage {
@@ -353,8 +371,6 @@ class FileRestoreImageLoader : RestoreImageLoader {
       let sha256 = await Task {
         try Result{file.getData()}.unwrap(error: NSError()).map(CryptoSHA256.hash).map{Data($0)}.map(SHA256.init(data:)).get()
       }.result
-      //let dataResult = Result{ try getData() }.unwrap(error: NSError())
-      //let urlResult = dataResult.map(FileManager.default.createTemporaryFileWithData(_:))
       let vzMacOSRestoreImage = await Task {
         try await Result{ try file.writeTo(tempFileURL)}.map{ tempFileURL }.flatMap(VZMacOSRestoreImage.loadFromURL).get()
       }.result

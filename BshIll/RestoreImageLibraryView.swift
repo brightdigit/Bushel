@@ -6,13 +6,18 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
+import Virtualization
 
 struct RestoreImageLibraryItemFolder : Codable {
   let relativePath : String
   let name : String
 }
 
+
+
 struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable {
+  
   static func == (lhs: RestoreImageLibraryItemFile, rhs: RestoreImageLibraryItemFile) -> Bool {
     lhs.id == rhs.id
   }
@@ -61,9 +66,10 @@ struct RestoreImageLibraryDocumentView: View {
     self._document = document
     self._selected = .init(wrappedValue: selected)
   }
-  
+  @State var importingURL : URL?
   @Binding var document: RestoreImageLibraryDocument
   @State var selected : RestoreImageLibraryItemFile?
+  @State var addRestoreImageToLibraryIsVisible : Bool = false
     var body: some View {
       NavigationView{
         VStack{
@@ -74,9 +80,53 @@ struct RestoreImageLibraryDocumentView: View {
           Divider().opacity(0.75)
           HStack{
             Button {
-              
+              Task {
+                await MainActor.run {
+                  self.addRestoreImageToLibraryIsVisible = true
+                }
+              }
             } label: {
               Image(systemName: "plus").padding(.leading, 8.0)
+            }.fileImporter(isPresented: self.$addRestoreImageToLibraryIsVisible,allowedContentTypes:
+                          UTType.ipswTypes
+            ) { result in
+              self.importingURL = try? result.get()
+//              async {
+//                let sha256 = await Task {
+//                  await result.flatMap{ url in
+//                    try Data(getSHA256(forFile: url))
+//                  }
+//                }.value
+//
+//                let vzRestoreImage = await result.flatMap(VZMacOSRestoreImage.loadFromURL)
+//
+//                let restoreImageArgs : Result<(VZMacOSRestoreImage, SHA256),Error> =  vzRestoreImage.flatMap { image -> Result<(VZMacOSRestoreImage, SHA256),Error> in
+//                  return sha256.map { sha256 in
+//                    (image, SHA256(data: sha256))
+//                  }
+//
+//                }
+//
+//                let restoreImage = await restoreImageArgs.flatMap { (image, sha256) in
+//                  await try VirtualizationMacOSRestoreImage(vzRestoreImage: image, sha256: sha256)
+//                }
+//
+//                let fileResult = restoreImage.map { restoreImage in
+//                  RestoreImageLibraryItemFile(name: restoreImage.metadata.url.deletingPathExtension().lastPathComponent, metadata: restoreImage.metadata)
+//                }
+//
+//                let file : RestoreImageLibraryItemFile
+//                do {
+//                  file = try fileResult.get()
+//                } catch {
+//                  dump(error)
+//                  return
+//                }
+//                await MainActor.run {
+//                  self.document.library.items.append(file)
+//
+//                }
+//              }
             }
             Divider().padding(.vertical, -6.0).opacity(0.75)
             Button {
@@ -110,6 +160,29 @@ struct RestoreImageLibraryDocumentView: View {
           }
         }
           .layoutPriority(1)
+      }.task(id: self.importingURL) {
+        if let url = importingURL {
+          let file : RestoreImageLibraryItemFile
+          do {
+            async let sha256 = try await Task{ try Data(getSHA256(forFile: url)) }.value
+            
+            async let vzRestoreImage = try await VZMacOSRestoreImage.loadFromURL(url)
+            
+            
+            
+            let restoreImage = try await VirtualizationMacOSRestoreImage(vzRestoreImage: vzRestoreImage, sha256: SHA256(data: sha256))
+            
+            file = RestoreImageLibraryItemFile(name: restoreImage.metadata.url.deletingPathExtension().lastPathComponent, metadata: restoreImage.metadata)
+          } catch {
+            dump(error)
+            return
+          }
+                          await MainActor.run {
+                            self.document.library.items.append(file)
+                            self.importingURL = nil
+                          }
+                        
+        }
       }
     }
 }

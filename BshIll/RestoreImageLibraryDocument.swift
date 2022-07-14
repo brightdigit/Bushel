@@ -29,7 +29,7 @@ struct RestoreImageLibraryDocument: FileDocument {
     }
     
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        
+      
         return .init(directoryWithFileWrappers: [String : FileWrapper]())
     }
 }

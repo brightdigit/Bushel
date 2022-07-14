@@ -35,17 +35,17 @@ struct WelcomeView: View {
                     //WelcomeActionButton().padding()
                     
                     WelcomeActionButton(imageSystemName: "server.rack", title: "Start an Image Library", description: "Create a library for your Restore Images.") {
-                        
+                      BshIllApp.showNewDocumentWindow(ofType: .restoreImageLibrary)
                     }
                     
                     
                     WelcomeActionButton(imageSystemName: "square.and.arrow.down.on.square", title: "Download a Restore Image", description: "Download a new version of macOS.") {
-                        
+                      BshIllApp.openWindow(withHandle: .remoteSources)
                     }
                 }
             }
             
-        }
+        }.padding()
     }
 }
 

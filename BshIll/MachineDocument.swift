@@ -18,13 +18,14 @@ extension UTType {
     }
 }
 
-struct MachineDocument: FileDocument {
+struct MachineDocument: CreatableFileDocument {
     var machine: Machine
 
     init(machine : Machine = .init()) {
         self.machine = machine
     }
 
+  static let untitledDocumentType: UTType = .virtualMachine
     static let readableContentTypes: [UTType] = [.virtualMachine] 
 
     init(configuration: ReadConfiguration) throws {

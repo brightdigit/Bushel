@@ -36,11 +36,16 @@ enum WindowOpenHandle : String, CaseIterable {
     case welcome
 }
 
+protocol CreatableFileDocument : FileDocument{
+  static var untitledDocumentType : UTType { get }
+}
+
 extension App {
     static func showNewDocumentWindow(ofType type: UTType) {
         
         let dc = NSDocumentController.shared
         if let newDocument = try? dc.makeUntitledDocument(ofType: type.identifier) {
+          
             dc.addDocument(newDocument)
             newDocument.makeWindowControllers()
             newDocument.showWindows()
@@ -48,6 +53,21 @@ extension App {
             
         }
     }
+  
+  
+  static func showNewDocumentWindow<FileDocumentType: CreatableFileDocument>(ofType type: FileDocumentType.Type) throws -> FileDocumentType  {
+      
+      let dc = NSDocumentController.shared
+      let newDocument = try dc.makeUntitledDocument(ofType: type.untitledDocumentType.identifier)
+    guard let fileDocument = newDocument as? FileDocumentType else {
+      throw NSError()
+    }
+          dc.addDocument(newDocument)
+          newDocument.makeWindowControllers()
+          newDocument.showWindows()
+          return  fileDocument
+          
+  }
     
     static func openDocumentAtURL(_ url: URL, andDisplay display: Bool = true) {
         
@@ -79,7 +99,7 @@ struct BshIllApp: App {
     var body: some Scene {
         WindowGroup {
             WelcomeView()
-        }.windowsHandle(.welcome)
+        }.windowsHandle(.welcome).windowStyle(.hiddenTitleBar)
         DocumentGroup(newDocument: RestoreImageLibraryDocument()) { file in
           RestoreImageLibraryDocumentView(document: file.$document)
         }

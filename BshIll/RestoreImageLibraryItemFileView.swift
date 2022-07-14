@@ -25,7 +25,11 @@ struct RestoreImageLibraryItemFileView: View {
         }
       }
       Button {
-        
+        do {
+          try BshIllApp.showNewDocumentWindow(ofType: MachineDocument.self)
+        } catch {
+          dump(error)
+        }
       } label: {
         Image(systemName: "hammer.fill")
         Text("Build Machine")
