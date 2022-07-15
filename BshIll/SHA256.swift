@@ -2,21 +2,28 @@ import Foundation
 import CommonCrypto
 
 struct SHA256 : Codable, Hashable, CustomDebugStringConvertible {
-  internal init(data: Data) {
-    self.data = data
+  internal init(digest: Data) {
+    self.data = digest
+  }
+  
+  internal init(hashFromCompleteData data: Data) {
+    let hash = CryptoSHA256.hash(data: data)
+    let digest = Data(hash)
+    self.init(digest: digest)
   }
   
   internal init?(hexidecialString: String) {
     guard let data = hexidecialString.hexadecimal else {
       return nil
     }
-    self.init(data: data)
+    self.init(digest: data)
   }
   
   internal init(fileURL: URL) async throws {
     let task = Task {
       var hasher = CryptoSHA256()
       let handle = try FileHandle(forReadingFrom: fileURL)
+      
       while try autoreleasepool(invoking: {
         let data = try handle.read(upToCount: CryptoSHA256.blockByteCount)
         guard let data = data, !data.isEmpty else {
@@ -31,7 +38,7 @@ struct SHA256 : Codable, Hashable, CustomDebugStringConvertible {
       return Data(hash)
     }
     
-    try   await self.init(data: task.value)
+    try   await self.init(digest: task.value)
    
   }
   
@@ -47,7 +54,7 @@ extension SHA256 {
     guard let data = Data(base64Encoded: base64Encoded) else {
       return nil
     }
-    self.init(data: data)
+    self.init(digest: data)
   }
 }
 

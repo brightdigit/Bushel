@@ -30,6 +30,16 @@ struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable {
   
   var name : String
   let metadata : ImageMetadata
+  
+  init (name : String? = nil, metadata : ImageMetadata) {
+    self.name = name ?? metadata.url.deletingPathExtension().lastPathComponent
+    self.metadata = metadata
+  }
+  
+  
+  init (restoreImage: RestoreImage) {
+    self.init(metadata: restoreImage.metadata)
+  }
 }
 //
 //enum RestoreImageLibraryItem : Codable {
@@ -45,21 +55,14 @@ struct RestoreImageLibrary : Codable {
   var items : [RestoreImageLibraryItemFile]
 }
 
+class RestoreImageLibraryDocumentObject : ObservableObject {
+  internal init(document: Binding<RestoreImageLibraryDocument>) {
+    self._document = document
+  }
+  
+  @Binding var document: RestoreImageLibraryDocument
+}
 
-
-//struct FileItem: Hashable, Identifiable, CustomStringConvertible {
-//    var id: Self { self }
-//    var name: String
-//    var children: [FileItem]? = nil
-//    var description: String {
-//        switch children {
-//        case nil:
-//            return "📄 \(name)"
-//        case .some(let children):
-//            return children.isEmpty ? "📂 \(name)" : "📁 \(name)"
-//        }
-//    }
-//}
 struct RestoreImageLibraryDocumentView: View {
   internal init(document: Binding<RestoreImageLibraryDocument>, selected: RestoreImageLibraryItemFile? = nil) {
     
@@ -91,42 +94,6 @@ struct RestoreImageLibraryDocumentView: View {
                           UTType.ipswTypes
             ) { result in
               self.importingURL = try? result.get()
-//              async {
-//                let sha256 = await Task {
-//                  await result.flatMap{ url in
-//                    try Data(getSHA256(forFile: url))
-//                  }
-//                }.value
-//
-//                let vzRestoreImage = await result.flatMap(VZMacOSRestoreImage.loadFromURL)
-//
-//                let restoreImageArgs : Result<(VZMacOSRestoreImage, SHA256),Error> =  vzRestoreImage.flatMap { image -> Result<(VZMacOSRestoreImage, SHA256),Error> in
-//                  return sha256.map { sha256 in
-//                    (image, SHA256(data: sha256))
-//                  }
-//
-//                }
-//
-//                let restoreImage = await restoreImageArgs.flatMap { (image, sha256) in
-//                  await try VirtualizationMacOSRestoreImage(vzRestoreImage: image, sha256: sha256)
-//                }
-//
-//                let fileResult = restoreImage.map { restoreImage in
-//                  RestoreImageLibraryItemFile(name: restoreImage.metadata.url.deletingPathExtension().lastPathComponent, metadata: restoreImage.metadata)
-//                }
-//
-//                let file : RestoreImageLibraryItemFile
-//                do {
-//                  file = try fileResult.get()
-//                } catch {
-//                  dump(error)
-//                  return
-//                }
-//                await MainActor.run {
-//                  self.document.library.items.append(file)
-//
-//                }
-//              }
             }
             Divider().padding(.vertical, -6.0).opacity(0.75)
             Button {
@@ -135,8 +102,16 @@ struct RestoreImageLibraryDocumentView: View {
               Image(systemName: "minus")
             }
             Divider().padding(.vertical, -6.0).opacity(0.75)
+            Button {
+              Task {
+                await self.document.beginReload()
+              }
+            } label: {
+              Image(systemName: "arrow.clockwise")
+            }
+            Divider().padding(.vertical, -6.0).opacity(0.75)
             Spacer()
-          }.buttonStyle(.borderless).padding(.vertical, 2.0).fixedSize(horizontal: false, vertical: true).offset(x: 0.0, y: -2.0)
+          }.buttonStyle(.borderless).padding(.vertical, 4.0).fixedSize(horizontal: false, vertical: true).offset(x: 0.0, y: -2.0)
         }
           .frame(minWidth: 200, maxWidth: 500)
         Group{
@@ -164,13 +139,15 @@ struct RestoreImageLibraryDocumentView: View {
         if let url = importingURL {
           let file : RestoreImageLibraryItemFile
           do {
-            async let sha256 = try await Task{ try Data(getSHA256(forFile: url)) }.value
+            async let data = try await Task{ try Data(contentsOf: url, options: .uncached) }.value
+            
+            let sha256 = try await SHA256(hashFromCompleteData: data)
             
             async let vzRestoreImage = try await VZMacOSRestoreImage.loadFromURL(url)
             
             
             
-            let restoreImage = try await VirtualizationMacOSRestoreImage(vzRestoreImage: vzRestoreImage, sha256: SHA256(data: sha256))
+            let restoreImage = try await VirtualizationMacOSRestoreImage(vzRestoreImage: vzRestoreImage, sha256:  sha256)
             
             file = RestoreImageLibraryItemFile(name: restoreImage.metadata.url.deletingPathExtension().lastPathComponent, metadata: restoreImage.metadata)
           } catch {
