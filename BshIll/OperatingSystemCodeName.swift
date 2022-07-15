@@ -1,4 +1,4 @@
-
+import Foundation
 
 enum OperatingSystemCodeName : Int, CaseIterable {
     case bigSur = 11

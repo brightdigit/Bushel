@@ -1,5 +1,5 @@
-
-
+import SwiftUI
+import Combine
 class RrisCollectionObject : ObservableObject {
     let sources: [Rris] = [
         .apple

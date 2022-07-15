@@ -1,4 +1,5 @@
-
+import Foundation
+import Virtualization
 
 class FileRestoreImageLoader : RestoreImageLoader {
   

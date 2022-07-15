@@ -1,4 +1,4 @@
-
+import Foundation
 
 enum Formatters {
   static let lastModifiedDateFormatter : DateFormatter = {

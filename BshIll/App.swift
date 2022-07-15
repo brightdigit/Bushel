@@ -1,5 +1,6 @@
-
-
+import AppKit
+import SwiftUI
+import UniformTypeIdentifiers
 
 extension App {
     static func showNewDocumentWindow(ofType type: UTType) {

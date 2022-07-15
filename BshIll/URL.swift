@@ -1,4 +1,4 @@
-
+import Foundation
 
 extension URL {
     init (forHandle handle: WindowOpenHandle) {

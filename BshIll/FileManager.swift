@@ -1,4 +1,5 @@
-
+import Foundation
+import UniformTypeIdentifiers
 
 extension FileManager {
   func createTemporaryFile(for type: UTType) -> URL {

@@ -1,5 +1,5 @@
-
-
+import Foundation
+import Virtualization
 
 struct ImageMetadata : Codable, CustomDebugStringConvertible, Hashable {
   internal init(isImageSupported: Bool, buildVersion: String, operatingSystemVersion: OperatingSystemVersion, sha256: SHA256, contentLength: Int, lastModified: Date, url: URL) {

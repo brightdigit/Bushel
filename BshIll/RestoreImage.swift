@@ -1,4 +1,4 @@
-
+import Foundation
 
 struct RestoreImage : Identifiable, Hashable {
   static func == (lhs: RestoreImage, rhs: RestoreImage) -> Bool {

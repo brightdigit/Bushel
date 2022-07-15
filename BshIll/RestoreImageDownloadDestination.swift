@@ -1,4 +1,4 @@
-
+import Foundation
 
 enum RestoreImageDownloadDestination {
   case library

@@ -1,4 +1,6 @@
+import Foundation
 
+import Virtualization
 
 struct VirtualizationMacOSRestoreImage : ImageContainer {
   init(sha256: SHA256, contentLength: Int, lastModified: Date, vzRestoreImage: VZMacOSRestoreImage) {

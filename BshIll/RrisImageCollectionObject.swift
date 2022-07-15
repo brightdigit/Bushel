@@ -1,4 +1,5 @@
-
+import Foundation
+import SwiftUI
 
 class RrisImageCollectionObject : ObservableObject {
     let source : Rris

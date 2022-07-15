@@ -1,4 +1,4 @@
-
+import UniformTypeIdentifiers
 
 extension UTType {
     static var virtualMachine: UTType {

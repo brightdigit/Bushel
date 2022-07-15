@@ -1,4 +1,4 @@
-
+import SwiftUI
 
 extension FileWrapper : FileAccessor {
   func getData() -> Data? {

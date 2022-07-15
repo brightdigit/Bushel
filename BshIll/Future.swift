@@ -1,4 +1,4 @@
-
+import Combine
 
 extension Future where Failure == Error {
     convenience init(operation: @escaping () async throws -> Output) {
