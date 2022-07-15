@@ -9,12 +9,6 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 
-extension UTType {
-  static var restoreImageLibrary: UTType {
-    UTType(exportedAs: "com.brightdigit.bshill-rilib")
-  }
-}
-
 
 struct RestoreImageLibraryDocument: FileDocument {
   

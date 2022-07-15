@@ -8,15 +8,7 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
-struct Machine {
-    
-}
 
-extension UTType {
-    static var virtualMachine: UTType {
-        UTType(exportedAs: "com.brightdigit.bshill-vm")
-    }
-}
 
 struct MachineDocument: CreatableFileDocument {
     var machine: Machine

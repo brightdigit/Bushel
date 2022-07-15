@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-struct MachineRestoreImage : Hashable, Identifiable {
-    let name : String
-    let id : String
-}
 struct MachineView: View {
     @State var machineRestoreImage : MachineRestoreImage?
     @Binding var document: MachineDocument
