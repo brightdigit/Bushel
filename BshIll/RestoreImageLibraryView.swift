@@ -67,17 +67,30 @@ struct RestoreImageLibraryDocumentView: View {
   internal init(document: Binding<RestoreImageLibraryDocument>, selected: RestoreImageLibraryItemFile? = nil) {
     
     self._document = document
-    self._selected = .init(wrappedValue: selected)
+    //self._selected = .init(initialValue: selected)
   }
   @State var importingURL : URL?
   @Binding var document: RestoreImageLibraryDocument
-  @State var selected : RestoreImageLibraryItemFile?
+  //@State var selected : RestoreImageLibraryItemFile?
+  
+  func bindingFor(_ file: RestoreImageLibraryItemFile) -> Binding<RestoreImageLibraryItemFile> {
+    guard let index = self.document.library.items.firstIndex(of: file) else {
+      preconditionFailure()
+    }
+    return self.$document.library.items[index]
+  }
   @State var addRestoreImageToLibraryIsVisible : Bool = false
     var body: some View {
       NavigationView{
         VStack{
-          List(self.document.library.items, selection: self.$selected) { item in
-            Text("\(item.name)")
+          List(self.document.library.items) { item in
+            NavigationLink {
+              RestoreImageLibraryItemFileView(file: bindingFor(item))
+            } label: {
+              Text("\(item.name)")
+            }
+
+            
           }
           Spacer()
           Divider().opacity(0.75)
@@ -114,27 +127,27 @@ struct RestoreImageLibraryDocumentView: View {
           }.buttonStyle(.borderless).padding(.vertical, 4.0).fixedSize(horizontal: false, vertical: true).offset(x: 0.0, y: -2.0)
         }
           .frame(minWidth: 200, maxWidth: 500)
-        Group{
-          if let selected = selected {
-            VStack{
-              RestoreImageLibraryItemFileView(file: .init(get: {
-                selected
-              }, set: { file in
-                let index = self.document.library.items.firstIndex { $0.id == file.id
-                }
-                if let index = index {
-                  self.document.library.items[index] = file
-                }
-              }))
-              Spacer()
-            }
-          } else {
-            VStack{
-              Text("test")
-            }.padding()
-          }
-        }
-          .layoutPriority(1)
+//        Group{
+//          if let selected = selected {
+//            VStack{
+//              RestoreImageLibraryItemFileView(file: .init(get: {
+//                selected
+//              }, set: { file in
+//                let index = self.document.library.items.firstIndex { $0.id == file.id
+//                }
+//                if let index = index {
+//                  self.document.library.items[index] = file
+//                }
+//              }))
+//              Spacer()
+//            }
+//          } else {
+//            VStack{
+//              Text("test")
+//            }.padding()
+//          }
+//        }
+ //         .layoutPriority(1)
       }.task(id: self.importingURL) {
         if let url = importingURL {
           let file : RestoreImageLibraryItemFile
