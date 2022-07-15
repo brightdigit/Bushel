@@ -45,7 +45,7 @@ struct ImageMetadata : Codable, CustomDebugStringConvertible, Hashable {
   let isImageSupported : Bool
   let buildVersion : String
   let operatingSystemVersion : OperatingSystemVersion
-  let sha256 : SHA256
+  let sha256 : SHA256?
   let contentLength : Int
   let lastModified: Date
   let url : URL
@@ -173,18 +173,16 @@ protocol RestoreImageFactory {
 
 struct RestoreImage : Identifiable, Hashable {
   static func == (lhs: RestoreImage, rhs: RestoreImage) -> Bool {
-    lhs.metadata.sha256 == rhs.metadata.sha256
+    lhs.id == rhs.id
   }
   
   func hash(into hasher: inout Hasher) {
-    hasher.combine(self.metadata.sha256.data)
+    hasher.combine(self.id)
   }
   
   
   
-  var id: Data {
-    return metadata.sha256.data
-  }
+  let id : UUID = UUID()
   
   //    let isSupported : Bool
   //    let buildVersion : String
@@ -212,11 +210,13 @@ extension RestoreImage {
     case library
     case local
     case remote
+    case reloaded
   }
   var location : Location {
-    if self.metadata.url.isFileURL {
+    let url = self.metadata.url
+    if url.isFileURL == true {
 #warning("fix to allow subfolders under `Restore Images`")
-      let directoryURL = metadata.url.deletingLastPathComponent()
+      let directoryURL = url.deletingLastPathComponent()
       guard directoryURL.lastPathComponent == "Restore Images"  else {
         return .local
       }

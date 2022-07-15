@@ -59,15 +59,44 @@ struct RestoreImageLibraryDocument: FileDocument {
     self.library = .init(items: restoreImages)
   }
   
-  
   static let readableContentTypes: [UTType] = [.restoreImageLibrary]
   
   init(configuration: ReadConfiguration) throws {
-    self.init(sourceFileWrapper: configuration.file)
+    let decoder = JSONDecoder()
+    let library : RestoreImageLibrary
+    if let data = configuration.file.fileWrappers?["metadata.json"]?.regularFileContents {
+      library = try decoder.decode(RestoreImageLibrary.self, from: data)
+    } else {
+      library = .init()
+    }
+    self.init(library: library, sourceFileWrapper: configuration.file)
   }
   
   func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+    let fileWrapper : FileWrapper = .init(directoryWithFileWrappers: [String : FileWrapper]())
     
-    return .init(directoryWithFileWrappers: [String : FileWrapper]())
+    let imagesDirectoryFileWrapper = FileWrapper(directoryWithFileWrappers: [:])
+    imagesDirectoryFileWrapper.preferredFilename = "Restore Images"
+    let existingImageDirectoryFileWrapper = configuration.existingFile?.fileWrappers?["Restore Images"]?.fileWrappers
+    let sourceImageDirectoryFileWrapper = self.sourceFileWrapper?.fileWrappers?["Restore Images"]?.fileWrappers
+    let imageFileWrappers = try library.items.map { file in
+      if let fileWrapper = sourceImageDirectoryFileWrapper?[file.name] {
+        return fileWrapper
+      }
+      if let fileWrapper = existingImageDirectoryFileWrapper?[file.name] {
+        return fileWrapper
+      }
+          
+            return try FileWrapper(url: file.metadata.url, options: [.immediate, .withoutMapping])
+      
+    }
+    _ = imageFileWrappers.map(imagesDirectoryFileWrapper.addFileWrapper)
+    let encoder = JSONEncoder()
+    let data = try encoder.encode(self.library)
+    let metdataFileWrapper = FileWrapper(regularFileWithContents: data)
+    metdataFileWrapper.preferredFilename = "metadata.json"
+    fileWrapper.addFileWrapper(imagesDirectoryFileWrapper)
+    fileWrapper.addFileWrapper(metdataFileWrapper)
+    return fileWrapper
   }
 }

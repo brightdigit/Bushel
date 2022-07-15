@@ -122,7 +122,7 @@ struct RestoreImageView: View {
                 Text("Import Image")
               }
             }
-          case .library:
+          case .library, .reloaded:
             Button {
               
             } label: {
