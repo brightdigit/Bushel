@@ -22,6 +22,7 @@ extension App {
       let dc = NSDocumentController.shared
       let newDocument = try dc.makeUntitledDocument(ofType: type.untitledDocumentType.identifier)
     guard let fileDocument = newDocument as? FileDocumentType else {
+      dump(newDocument)
       throw NSError()
     }
           dc.addDocument(newDocument)

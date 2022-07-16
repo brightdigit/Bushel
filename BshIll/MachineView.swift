@@ -19,6 +19,8 @@ struct MachineView: View {
                     Text(choice.name)
                 }
             }.padding()
+        }.onAppear{
+          self.machineRestoreImage = document.machine.restoreImage.map(MachineRestoreImage.init(file:))
         }
     }
 }

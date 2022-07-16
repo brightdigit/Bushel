@@ -10,8 +10,12 @@ import UniformTypeIdentifiers
 
 
 
-struct MachineDocument: CreatableFileDocument {
+struct MachineDocument: CreatableFileDocument, Identifiable {
     var machine: Machine
+  
+  var id: UUID {
+    machine.id
+  }
 
     init(machine : Machine = .init()) {
         self.machine = machine

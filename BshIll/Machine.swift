@@ -1,5 +1,6 @@
+import Foundation
 
-
-struct Machine {
-    
+struct Machine : Identifiable {
+  let id : UUID = UUID()
+  var restoreImage : RestoreImageLibraryItemFile?
 }

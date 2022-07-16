@@ -1,6 +1,14 @@
 import Foundation
+import Virtualization
 
-struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable {
+enum InstallerType : String, Codable {
+  case vzMacOS
+}
+struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable, ImageContainer {
+  
+  func installer() async throws -> ImageInstaller {
+    return try await VZMacOSRestoreImage.loadFromURL(self.metadata.url)
+  }
   
   static func == (lhs: RestoreImageLibraryItemFile, rhs: RestoreImageLibraryItemFile) -> Bool {
     lhs.id == rhs.id
@@ -20,12 +28,12 @@ struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable {
   var name : String
   let metadata : ImageMetadata
   let location : RestoreImage.Location
-  
+  let installerType : InstallerType = .vzMacOS
   
   enum CodingKeys : String, CodingKey {
     case name
     case metadata
-    
+    case installerType
   }
   
   init (name : String? = nil, metadata : ImageMetadata, location: RestoreImage.Location = .library) {

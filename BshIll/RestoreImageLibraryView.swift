@@ -81,27 +81,6 @@ struct RestoreImageLibraryDocumentView: View {
           }.buttonStyle(.borderless).padding(.vertical, 4.0).fixedSize(horizontal: false, vertical: true).offset(x: 0.0, y: -2.0)
         }
           .frame(minWidth: 200, maxWidth: 500)
-//        Group{
-//          if let selected = selected {
-//            VStack{
-//              RestoreImageLibraryItemFileView(file: .init(get: {
-//                selected
-//              }, set: { file in
-//                let index = self.document.library.items.firstIndex { $0.id == file.id
-//                }
-//                if let index = index {
-//                  self.document.library.items[index] = file
-//                }
-//              }))
-//              Spacer()
-//            }
-//          } else {
-//            VStack{
-//              Text("test")
-//            }.padding()
-//          }
-//        }
- //         .layoutPriority(1)
       }.task(id: self.importingURL) {
         if let url = importingURL {
           let file : RestoreImageLibraryItemFile

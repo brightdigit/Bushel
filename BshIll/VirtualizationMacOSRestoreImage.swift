@@ -14,7 +14,9 @@ struct VirtualizationMacOSRestoreImage : ImageContainer {
   
   
   let vzRestoreImage : VZMacOSRestoreImage
-  var installer: ImageInstaller {
+  
+  
+  func installer() async throws -> ImageInstaller {
     return self.vzRestoreImage
   }
   
