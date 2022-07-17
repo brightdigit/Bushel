@@ -8,62 +8,6 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
-enum RestoreImageDownloadDestination {
-  case library
-  case ipswFile
-}
-
-enum DirectoryExists {
-  case directoryExists
-  case fileExists
-  case notExists
-}
-
-extension DirectoryExists {
-  init (fileExists: Bool, isDirectory: Bool) {
-    if fileExists {
-      self = isDirectory ? .directoryExists : .fileExists
-    } else {
-      self = .notExists
-    }
-  }
-}
-
-extension FileManager {
-  func directoryExists(at url: URL) -> DirectoryExists {
-    
-    var isDirectory : ObjCBool = false
-    let fileExists = FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory)
-    
-    return .init(fileExists: fileExists, isDirectory: isDirectory.boolValue)
-  }
-}
-
-extension RestoreImageDownloadDestination {
-  func destinationURL(fromSavePanelURL url: URL) throws -> URL {
-    guard self == .library else {
-      return url
-    }
-    let libraryDirectoryExists = FileManager.default.directoryExists(at: url)
-    guard libraryDirectoryExists != .fileExists  else {
-      throw MissingError.needDefinition("Invalid Library")
-    }
-    
-    let restoreImagesSubdirectoryURL = url.appendingPathComponent("Restore Images")
-    
-    let restoreImageSubdirectoryExists = FileManager.default.directoryExists(at: restoreImagesSubdirectoryURL)
-    
-    guard restoreImageSubdirectoryExists != .fileExists else {
-      throw MissingError.needDefinition("Invalid Library")
-    }
-    
-    if restoreImageSubdirectoryExists == .notExists {
-      try FileManager.default.createDirectory(at: restoreImagesSubdirectoryURL, withIntermediateDirectories: true)
-    }
-    
-    return restoreImagesSubdirectoryURL.appendingPathComponent(url.lastPathComponent)
-  }
-}
 
 struct RestoreImageView: View {
   let byteFormatter : ByteCountFormatter = .init()

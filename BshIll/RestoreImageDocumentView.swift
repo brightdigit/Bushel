@@ -7,40 +7,6 @@
 
 import SwiftUI
 
-enum OperatingSystemCodeName : Int, CaseIterable {
-    case bigSur = 11
-    case monterey = 12
-    case ventura = 13
-    
-    
-    init?(operatingSystemVersion : OperatingSystemVersion) {
-        self.init(rawValue: operatingSystemVersion.majorVersion)
-    }
-    
-    static let names : [OperatingSystemCodeName : String] = [
-        .bigSur : "Big Sur",
-            .monterey : "Monterey",
-            .ventura : "Ventura"
-        
-        
-    ]
-    var name : String {
-        guard let name = Self.names[self] else {
-            preconditionFailure()
-        }
-        return name
-    }
-}
-extension Image {
-    init(operatingSystemVersion: OperatingSystemVersion) {
-        let codeName = OperatingSystemCodeName(operatingSystemVersion: operatingSystemVersion)
-        let imageName = codeName?.name
-        self.init(imageName ?? "Big Sur")
-    }
-}
-
-
-
 
 
 struct RestoreImageDocumentView: View {
@@ -100,31 +66,3 @@ struct RestoreImageDocumentView_Previews: PreviewProvider {
 }
 
 
-extension RestoreImageDocument {
-  enum Previews {
-    //static let previewLoadedDocument = RestoreImageDocument(configuration: <#T##RestoreImageDocument.ReadConfiguration#>)
-//    RestoreImageDocument(
-//      loader: MockRestoreImageLoader(restoreImageResult: .success(.Previews.previewModel))
-//    )
-  }
-}
-
-extension ImageMetadata {
-  enum Previews {
-    //static let previewModel : ImageMetadata = .init(url: URL(string: "https://updates.cdn-apple.com/2022SummerSeed/fullrestores/012-30346/9DD787A7-044B-4650-86D4-84E80B6B9C36/UniversalMac_13.0_22A5286j_Restore.ipsw")!, isImageSupported: true, buildVersion: "12312SA", operatingSystemVersion: .init(majorVersion: 12, minorVersion: 0, patchVersion: 0), sha256: .init(hexidecialString: "1f9e921f77bbcb5cf78026389d6f7331cdd675bc081ffac77fc00405a7e822b3")!, contentLength: 16000000000, lastModified: Date())
-    static let previewModel : ImageMetadata = .init(isImageSupported: true, buildVersion: "12312SA", operatingSystemVersion: .init(majorVersion: 12, minorVersion: 0, patchVersion: 0), sha256: .init(hexidecialString: "1f9e921f77bbcb5cf78026389d6f7331cdd675bc081ffac77fc00405a7e822b3")!, contentLength: 16000000000, lastModified: .init(), url: URL(string: "https://updates.cdn-apple.com/2022SummerSeed/fullrestores/012-30346/9DD787A7-044B-4650-86D4-84E80B6B9C36/UniversalMac_13.0_22A5286j_Restore.ipsw")!)
-    
-    static let venturaBeta3 = ImageMetadata(isImageSupported: true, buildVersion: "22A5295h", operatingSystemVersion: OperatingSystemVersion(majorVersion: 13, minorVersion: 0, patchVersion: 0), sha256: SHA256(base64Encoded: "LbNHYPVKVKpwXUmqZInQ1Nr9gaYni4IKjelvzpl72LI=")!, contentLength: 0, lastModified: Date(timeIntervalSinceReferenceDate: 679094144.0), url: URL(string: "file:///var/folders/5d/8rl1m9ts5r96dxdh4rp_zx100000gn/T/com.brightdigit.BshIll/B6844821-A5C8-42B5-80C2-20F815FB920E.ipsw")!)
-    
-    static let monterey = ImageMetadata(isImageSupported: true, buildVersion: "21F79", operatingSystemVersion: OperatingSystemVersion(majorVersion: 12, minorVersion: 4, patchVersion: 0), sha256: SHA256(base64Encoded: "H56SH3e7y1z3gCY4nW9zMc3WdbwIH/rHf8AEBafoIrM=")!, contentLength: 0, lastModified: Date(timeIntervalSinceReferenceDate: 679276356.959953), url: URL(string: "file:///var/folders/_z/7dqmnmzj0k1_57ctrgqrdq840000gn/T/com.brightdigit.BshIll/D0FB9B1B-0ED1-4721-AD0D-8A81C08A5ED2.ipsw")!)
-  }
-}
-extension RestoreImage {
-  
-  enum Previews {
-    // ImageMetadata(isImageSupported: true, buildVersion: "true", operatingSystemVersion: OperatingSystemVersion(majorVersion: 13, minorVersion: 0, patchVersion: 0, sha256: SHA256(base64Encoded: "LbNHYPVKVKpwXUmqZInQ1Nr9gaYni4IKjelvzpl72LI=")!, contentLength: 0, lastModified: 2022-07-09 21:15:44 +0000, url: file:///var/folders/5d/8rl1m9ts5r96dxdh4rp_zx100000gn/T/com.brightdigit.BshIll/B6844821-A5C8-42B5-80C2-20F815FB920E.ipsw
-    static func  usingMetadata(_ metadata: ImageMetadata) -> RestoreImage {
-      .init(metadata: metadata, installer: MockInstaller())
-    }
-  }
-}

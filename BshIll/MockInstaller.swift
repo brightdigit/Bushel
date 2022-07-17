@@ -1,0 +1,6 @@
+
+
+
+struct MockInstaller : ImageInstaller {
+  
+}

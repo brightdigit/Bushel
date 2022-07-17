@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RestoreImageLibraryItemFileView: View {
   @Binding var file : RestoreImageLibraryItemFile
+  @State var newMachine : MachineDocument?
   var body: some View {
     VStack(alignment: .leading){
       TextField("Name", text: self.$file.name).font(.largeTitle)
@@ -26,7 +27,7 @@ struct RestoreImageLibraryItemFileView: View {
       }
       Button {
         do {
-          try BshIllApp.showNewDocumentWindow(ofType: MachineDocument.self)
+          self.newMachine = MachineDocument()
         } catch {
           dump(error)
         }
@@ -34,7 +35,13 @@ struct RestoreImageLibraryItemFileView: View {
         Image(systemName: "hammer.fill")
         Text("Build Machine")
       }
-    }.padding()
+    }.padding().sheet(item: self.$newMachine) { machine in
+      MachineView(document: .init(get: {
+        machine
+      }, set: { document in
+        self.newMachine = document
+      }), restoreImageChoices: [])
+    }
   }
 }
 

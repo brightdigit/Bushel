@@ -9,73 +9,13 @@ import SwiftUI
 import UniformTypeIdentifiers
 import Virtualization
 
-struct RestoreImageLibraryItemFolder : Codable {
-  let relativePath : String
-  let name : String
-}
 
-
-
-struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable {
-  
-  static func == (lhs: RestoreImageLibraryItemFile, rhs: RestoreImageLibraryItemFile) -> Bool {
-    lhs.id == rhs.id
-  }
-  
-  init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: Self.CodingKeys)
-    let name = try container.decode(String.self, forKey: .name)
-    let metadata = try container.decode(ImageMetadata.self, forKey: .metadata)
-    self.init(name: name, metadata: metadata, location: .library)
-  }
-  
-  var id: Data {
-    self.metadata.url.dataRepresentation
-  }
-  
-  var name : String
-  let metadata : ImageMetadata
-  let location : RestoreImage.Location
-  
-  
-  enum CodingKeys : String, CodingKey {
-    case name
-    case metadata
-    
-  }
-  
-  init (name : String? = nil, metadata : ImageMetadata, location: RestoreImage.Location = .library) {
-    self.name = name ?? metadata.url.deletingPathExtension().lastPathComponent
-    self.metadata = metadata
-    self.location = location
-  }
-  
-  
-  init (restoreImage: RestoreImage) {
-    self.init(metadata: restoreImage.metadata, location: restoreImage.location)
-  }
-}
 //
 //enum RestoreImageLibraryItem : Codable {
 //  case folder(RestoreImageLibraryItemFolder)
 //  case file(RestoreImageLibraryItemFile)
 //}
 
-struct RestoreImageLibrary : Codable {
-  internal init(items: [RestoreImageLibraryItemFile] = .init()) {
-    self.items = items
-  }
-  
-  var items : [RestoreImageLibraryItemFile]
-}
-
-class RestoreImageLibraryDocumentObject : ObservableObject {
-  internal init(document: Binding<RestoreImageLibraryDocument>) {
-    self._document = document
-  }
-  
-  @Binding var document: RestoreImageLibraryDocument
-}
 
 struct RestoreImageLibraryDocumentView: View {
   internal init(document: Binding<RestoreImageLibraryDocument>, selected: RestoreImageLibraryItemFile? = nil) {
@@ -141,27 +81,6 @@ struct RestoreImageLibraryDocumentView: View {
           }.buttonStyle(.borderless).padding(.vertical, 4.0).fixedSize(horizontal: false, vertical: true).offset(x: 0.0, y: -2.0)
         }
           .frame(minWidth: 200, maxWidth: 500)
-//        Group{
-//          if let selected = selected {
-//            VStack{
-//              RestoreImageLibraryItemFileView(file: .init(get: {
-//                selected
-//              }, set: { file in
-//                let index = self.document.library.items.firstIndex { $0.id == file.id
-//                }
-//                if let index = index {
-//                  self.document.library.items[index] = file
-//                }
-//              }))
-//              Spacer()
-//            }
-//          } else {
-//            VStack{
-//              Text("test")
-//            }.padding()
-//          }
-//        }
- //         .layoutPriority(1)
       }.task(id: self.importingURL) {
         if let url = importingURL {
           let file : RestoreImageLibraryItemFile
