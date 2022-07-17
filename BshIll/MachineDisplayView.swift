@@ -18,10 +18,10 @@ class MachineSession : ObservableObject {
   func beginInstallation ()  throws {
     //let installer : VZMacOSRestoreImage  = try await machine.restoreImage?.installer() as! VZMacOSRestoreImage
     //let machine  = VZVirtualMachine(configuration: .init())
-    Task{
-      let installer = try await machine.restoreImage?.installer()
-      installer?.beginInstaller()
-    }
+//    Task{
+//      let installer = try await machine.restoreImage?.installer()
+//      installer?.beginInstaller()
+//    }
       //.beginInstaller()
     //let actualInstaller = VZMacOSInstaller(virtualMachine: machine, restoringFromImageAt: installer.url)
 //    actualInstaller.progress.observe(\.fractionCompleted) { <#Progress#>, <#NSKeyValueObservedChange<Value>#> in

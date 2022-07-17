@@ -40,7 +40,7 @@ struct WelcomeView: View {
                     
                     
                     WelcomeActionButton(imageSystemName: "square.and.arrow.down.on.square", title: "Download a Restore Image", description: "Download a new version of macOS.") {
-                      BshIllApp.openWindow(withHandle: .remoteSources)
+                      BshIllApp.openWindow(withHandle: BasicWindowOpenHandle.remoteSources)
                     }
                 }
             }

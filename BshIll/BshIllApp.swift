@@ -32,12 +32,12 @@ struct BshIllApp: App {
             }
             CommandGroup(after: .newItem) {
                 Button("Download Restore Image...") {
-                    Self.openWindow(withHandle: .remoteSources)
+                  Self.openWindow(withHandle: BasicWindowOpenHandle.remoteSources)
                 }
             }
             CommandGroup(after: .windowArrangement) {
                 Button("Welcome to Bshill"){
-                    Self.openWindow(withHandle: .welcome)
+                  Self.openWindow(withHandle: BasicWindowOpenHandle.welcome)
                 }
             }
         }

@@ -20,6 +20,7 @@ struct MachineDocument: CreatableFileDocument, Identifiable {
     init(machine : Machine = .init()) {
         self.machine = machine
     }
+  
 
   static let untitledDocumentType: UTType = .virtualMachine
     static let readableContentTypes: [UTType] = [.virtualMachine] 

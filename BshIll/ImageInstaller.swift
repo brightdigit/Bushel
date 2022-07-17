@@ -2,5 +2,6 @@
 
 
 protocol ImageInstaller {
-  func beginInstaller () 
+  func beginInstaller(configuration: MachineConfiguration) throws  -> VirtualInstaller 
+  func setupMachine(_ machine: Machine) throws -> MachineConfiguration
 }

@@ -2,8 +2,12 @@
 
 
 struct MockInstaller : ImageInstaller {
-  func beginInstaller() {
-    
+  func setupMachine(_ machine: Machine) throws -> MachineConfiguration{
+    fatalError()
+  }
+  
+  func beginInstaller(configuration: MachineConfiguration) throws -> VirtualInstaller {
+    fatalError()
   }
   
   

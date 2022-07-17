@@ -47,3 +47,10 @@ struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable, ImageConta
     self.init(metadata: restoreImage.metadata, location: restoreImage.location)
   }
 }
+
+
+extension RestoreImageLibraryItemFile {
+  func forMachine () -> RestoreImageLibraryItemFile {
+    
+  }
+}
