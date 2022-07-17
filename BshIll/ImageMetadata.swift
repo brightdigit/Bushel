@@ -15,7 +15,7 @@ struct ImageMetadata : Codable, CustomDebugStringConvertible, Hashable {
   let isImageSupported : Bool
   let buildVersion : String
   let operatingSystemVersion : OperatingSystemVersion
-  let sha256 : SHA256?
+  let sha256 : SHA256
   let contentLength : Int
   let lastModified: Date
   let url : URL
@@ -30,6 +30,10 @@ struct ImageMetadata : Codable, CustomDebugStringConvertible, Hashable {
 extension ImageMetadata{
   init (sha256: SHA256, contentLength: Int, lastModified: Date, vzRestoreImage: VZMacOSRestoreImage) {
     self.init(isImageSupported: vzRestoreImage.isImageSupported, buildVersion: vzRestoreImage.buildVersion, operatingSystemVersion: vzRestoreImage.operatingSystemVersion, sha256: sha256, contentLength: contentLength, lastModified: lastModified, url: vzRestoreImage.url)
+  }
+  
+  func withURL(_ url: URL) -> ImageMetadata {
+    return ImageMetadata(isImageSupported: self.isImageSupported, buildVersion: self.buildVersion, operatingSystemVersion: self.operatingSystemVersion, sha256: self.sha256, contentLength: self.contentLength, lastModified: self.lastModified, url: url)
   }
 }
 

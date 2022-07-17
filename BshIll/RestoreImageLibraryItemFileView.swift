@@ -27,7 +27,7 @@ struct RestoreImageLibraryItemFileView: View {
       }
       Button {
         do {
-          self.newMachine = MachineDocument(machine: .init(restoreImage: file.forMachine()))
+          self.newMachine = try MachineDocument(machine: .init(restoreImage: file.forMachine()))
         } catch {
           dump(error)
         }

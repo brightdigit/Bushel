@@ -57,11 +57,15 @@ struct RestoreImageLibraryDocument: FileDocument {
   
   init(configuration: ReadConfiguration) throws {
     let decoder = JSONDecoder()
-    let library : RestoreImageLibrary
+    var library : RestoreImageLibrary
     if let data = configuration.file.fileWrappers?["metadata.json"]?.regularFileContents {
       library = try decoder.decode(RestoreImageLibrary.self, from: data)
     } else {
       library = .init()
+    }
+    
+    for (index, item) in library.items.enumerated() {
+      library.items[index].fileWrapper = configuration.file.fileWrappers?["Restore Images"]?.fileWrappers?[item.metadata.url.lastPathComponent]
     }
     self.init(library: library, sourceFileWrapper: configuration.file)
   }

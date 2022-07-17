@@ -28,6 +28,7 @@ struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable, ImageConta
   var name : String
   let metadata : ImageMetadata
   let location : RestoreImage.Location
+  var fileWrapper : FileWrapper?
   let installerType : InstallerType = .vzMacOS
   
   enum CodingKeys : String, CodingKey {
@@ -36,10 +37,11 @@ struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable, ImageConta
     case installerType
   }
   
-  init (name : String? = nil, metadata : ImageMetadata, location: RestoreImage.Location = .library) {
+  init (name : String? = nil, metadata : ImageMetadata, location: RestoreImage.Location = .library, fileWrapper : FileWrapper? = nil) {
     self.name = name ?? metadata.url.deletingPathExtension().lastPathComponent
     self.metadata = metadata
     self.location = location
+    self.fileWrapper = fileWrapper
   }
   
   
@@ -50,7 +52,12 @@ struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable, ImageConta
 
 
 extension RestoreImageLibraryItemFile {
-  func forMachine () -> RestoreImageLibraryItemFile {
-    
+  func forMachine () throws -> RestoreImageLibraryItemFile {
+    guard let fileWrapper = self.fileWrapper else {
+      throw NSError()
+    }
+    let temporaryFileURL = FileManager.default.createTemporaryFile(for: .iTunesIPSW)
+    try fileWrapper.writeTo(temporaryFileURL)
+    return RestoreImageLibraryItemFile(name: self.name, metadata: self.metadata.withURL(temporaryFileURL))
   }
 }

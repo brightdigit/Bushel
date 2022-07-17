@@ -130,7 +130,7 @@ extension VZMacOSRestoreImage : ImageInstaller {
     let machine = VZVirtualMachine(configuration: vzConfig)
     let installer = VZMacOSInstaller(virtualMachine: machine, restoringFromImageAt: self.url)
     let publisher =  VirtualMacOSInstallerPublisher(vzInstaller: installer)
-    
+    publisher.begin()
     return publisher
   }
   func headers (withSession session: URLSession = .shared) async throws -> [AnyHashable : Any] {

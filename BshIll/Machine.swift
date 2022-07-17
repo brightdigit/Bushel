@@ -28,7 +28,7 @@ struct Machine : Identifiable, Codable {
     case restoreImage
     case operatingSystem
   }
-  var configuration : MachineConfiguration?
+  //var configuration : MachineConfiguration?
   //var installer : ImageInstaller?
 }
 
@@ -70,17 +70,14 @@ extension Machine {
     }
     return try await restoreImage.installer()
   }
-  mutating func build (withInstaller installer: ImageInstaller)  throws {
+  func build (withInstaller installer: ImageInstaller)  throws  -> MachineConfiguration {
     
-      self.configuration = try installer.setupMachine(self)
+      return try installer.setupMachine(self)
     
   }
   
-  func startInstallation (withInstaller installer: ImageInstaller) throws -> VirtualInstaller {
+  func startInstallation (with installer: ImageInstaller, using configuration: MachineConfiguration) throws -> VirtualInstaller {
    
-    guard let configuration = self.configuration else {
-      throw NSError()
-    }
       return try installer.beginInstaller(configuration: configuration)
     
   }

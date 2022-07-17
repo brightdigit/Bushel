@@ -70,8 +70,11 @@ struct MachineView: View {
             }
             let vInstaller : VirtualInstaller
             do {
-              try document.machine.build(withInstaller: installer)
-              vInstaller = try document.machine.startInstallation(withInstaller: installer)
+              let configuration = try document.machine.build(withInstaller: installer)
+              await MainActor.run {
+                self.machinePreparing = .installing
+              }
+              vInstaller = try document.machine.startInstallation(with: installer, using: configuration)
             } catch {
             return
             }
