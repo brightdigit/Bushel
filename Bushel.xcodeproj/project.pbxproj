@@ -73,6 +73,7 @@
 		B3662AAD2846F89B00F8430B /* RestoreImage.Virtualization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3662AA12846F89A00F8430B /* RestoreImage.Virtualization.swift */; };
 		B3662AAE2846F89B00F8430B /* VZMacOSRestoreImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3662AA22846F89B00F8430B /* VZMacOSRestoreImage.swift */; };
 		B3662AB02846F95F00F8430B /* LocalImage.Virtualization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3662AAF2846F95F00F8430B /* LocalImage.Virtualization.swift */; };
+		B36ACF5C2883932E00416E90 /* MachineDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36ACF5B2883932E00416E90 /* MachineDisplayView.swift */; };
 		B3753A8E286901A700A06E0F /* RestoreImageLibraryDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3753A8C286901A700A06E0F /* RestoreImageLibraryDocument.swift */; };
 		B3753A9028691D7600A06E0F /* RestoreImageLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3753A8F28691D7600A06E0F /* RestoreImageLibraryView.swift */; };
 		B37A362D286A91AF00B06D24 /* SourceImageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37A362C286A91AF00B06D24 /* SourceImageCollectionView.swift */; };
@@ -235,6 +236,7 @@
 		B3662AA12846F89A00F8430B /* RestoreImage.Virtualization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoreImage.Virtualization.swift; sourceTree = "<group>"; };
 		B3662AA22846F89B00F8430B /* VZMacOSRestoreImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VZMacOSRestoreImage.swift; sourceTree = "<group>"; };
 		B3662AAF2846F95F00F8430B /* LocalImage.Virtualization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalImage.Virtualization.swift; sourceTree = "<group>"; };
+		B36ACF5B2883932E00416E90 /* MachineDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineDisplayView.swift; sourceTree = "<group>"; };
 		B3753A8C286901A700A06E0F /* RestoreImageLibraryDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreImageLibraryDocument.swift; sourceTree = "<group>"; };
 		B3753A8F28691D7600A06E0F /* RestoreImageLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreImageLibraryView.swift; sourceTree = "<group>"; };
 		B37A362C286A91AF00B06D24 /* SourceImageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceImageCollectionView.swift; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 				B364B1A128750E7A006799DC /* WelcomeActionButton.swift */,
 				B35432D528693C680019BCE3 /* WelcomeView.swift */,
 				B3636C6928820E01000C4F6D /* WindowOpenHandle.swift */,
+				B36ACF5B2883932E00416E90 /* MachineDisplayView.swift */,
 			);
 			path = BshIll;
 			sourceTree = "<group>";
@@ -673,6 +676,7 @@
 				B3636C8728820E01000C4F6D /* DirectoryExists.swift in Sources */,
 				B3636C8628820E01000C4F6D /* OperatingSystemCodeName.swift in Sources */,
 				B3636C9A288210F6000C4F6D /* RestoreImageLibrary.swift in Sources */,
+				B36ACF5C2883932E00416E90 /* MachineDisplayView.swift in Sources */,
 				B301F24F286402160038E9F7 /* BshIllApp.swift in Sources */,
 				B3636C7D28820E01000C4F6D /* MissingError.swift in Sources */,
 				B3636C8F28820E01000C4F6D /* Configuration.swift in Sources */,

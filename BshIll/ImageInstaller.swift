@@ -2,5 +2,5 @@
 
 
 protocol ImageInstaller {
-  
+  func beginInstaller () 
 }

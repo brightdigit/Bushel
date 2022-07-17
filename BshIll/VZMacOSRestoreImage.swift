@@ -19,7 +19,9 @@ extension VZMacOSRestoreImage {
 }
 
 extension VZMacOSRestoreImage : ImageInstaller {
-  
+  func beginInstaller() {
+    
+  }
   func headers (withSession session: URLSession = .shared) async throws -> [AnyHashable : Any] {
     
     var request = URLRequest(url: url)
