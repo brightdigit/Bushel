@@ -53,6 +53,12 @@ struct Machine : Identifiable, Codable {
     }
     self.operatingSystem = .init(type: .macOS, version: metadata.operatingSystemVersion, buildVersion: metadata.buildVersion)
   }
+  
+  mutating func beginLoading() {
+    guard let fileWrapper = self.fileWrapper else {
+      return
+    }
+  }
   //var configuration : MachineConfiguration?
   //var installer : ImageInstaller?
 }
