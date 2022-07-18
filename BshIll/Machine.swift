@@ -7,7 +7,7 @@ struct OperatingSystemDetails : Codable {
   }
   let type : System
   let version: OperatingSystemVersion
-  let buildNumber : String
+  let buildVersion : String
 }
 struct Machine : Identifiable, Codable {
   internal init(id: UUID = .init(), restoreImage: RestoreImageLibraryItemFile? = nil, operatingSystem: OperatingSystemDetails? = nil) {
@@ -20,8 +20,21 @@ struct Machine : Identifiable, Codable {
   var restoreImage : RestoreImageLibraryItemFile?
   var operatingSystem : OperatingSystemDetails?
   var configurationURL: URL?
+  var fileWrapper : FileWrapper?
   var isBuilt : Bool {
-    false
+    guard operatingSystem != nil else {
+      return false
+    }
+    
+    guard let installerType = restoreImage?.installerType else {
+      return false
+    }
+    
+    guard let fileWrapper = self.fileWrapper else {
+      return false
+    }
+    
+    return installerType.validate(fileWrapper: fileWrapper)
   }
   
   enum CodingKeys : String, CodingKey {
@@ -34,7 +47,12 @@ struct Machine : Identifiable, Codable {
     self.configurationURL = configuration.currentURL
   }
   
-
+  mutating func osInstallationCompleted () {
+    guard let metadata = self.restoreImage?.metadata else {
+      return
+    }
+    self.operatingSystem = .init(type: .macOS, version: metadata.operatingSystemVersion, buildVersion: metadata.buildVersion)
+  }
   //var configuration : MachineConfiguration?
   //var installer : ImageInstaller?
 }

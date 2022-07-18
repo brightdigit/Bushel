@@ -4,6 +4,12 @@ import Virtualization
 enum InstallerType : String, Codable {
   case vzMacOS
 }
+
+extension InstallerType {
+  func validate (fileWrapper: FileWrapper) -> Bool {
+    return true
+  }
+}
 struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable, ImageContainer {
   
   func installer() async throws -> ImageInstaller {

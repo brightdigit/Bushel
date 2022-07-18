@@ -36,7 +36,7 @@ struct RestoreImageLibraryItemFileView: View {
         Text("Build Machine")
       }
     }.padding().sheet(item: self.$newMachine) { machine in
-      MachineView(document: .init(get: {
+      MachineSetupView(document: .init(get: {
         machine
       }, set: { document in
         self.newMachine = document

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		B301F24F286402160038E9F7 /* BshIllApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B301F24E286402160038E9F7 /* BshIllApp.swift */; };
 		B301F251286402160038E9F7 /* MachineDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = B301F250286402160038E9F7 /* MachineDocument.swift */; };
-		B301F253286402160038E9F7 /* MachineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B301F252286402160038E9F7 /* MachineView.swift */; };
+		B301F253286402160038E9F7 /* MachineSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B301F252286402160038E9F7 /* MachineSetupView.swift */; };
 		B301F258286402160038E9F7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B301F257286402160038E9F7 /* Preview Assets.xcassets */; };
 		B301F262286402270038E9F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3BB2FAF283E7B3B00F3E336 /* Assets.xcassets */; };
 		B301F266286404BF0038E9F7 /* RestoreImageDocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B301F265286404BF0038E9F7 /* RestoreImageDocumentView.swift */; };
@@ -120,6 +120,8 @@
 		B3E21B692860FFB7008102A6 /* FileCreationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E21B662860FFB7008102A6 /* FileCreationError.swift */; };
 		B3E21B6A2860FFB7008102A6 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E21B652860FFB7008102A6 /* FileManager.swift */; };
 		B3E21B742862327D008102A6 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E21B732862327D008102A6 /* main.swift */; };
+		B3E657442885F8FA0049F4DB /* MachineSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E657432885F8FA0049F4DB /* MachineSessionView.swift */; };
+		B3E657462885F95D0049F4DB /* MachineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E657452885F95D0049F4DB /* MachineView.swift */; };
 		B3EDD3072884893500383011 /* VZVirtualMachineConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EDD3022884893500383011 /* VZVirtualMachineConfiguration.swift */; };
 		B3EDD309288489F400383011 /* FileCreationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EDD308288489F400383011 /* FileCreationError.swift */; };
 		B3F9821328482E0C00EF5E29 /* MachineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F9821228482E0C00EF5E29 /* MachineView.swift */; };
@@ -160,7 +162,7 @@
 		B301F24C286402160038E9F7 /* BshIll.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BshIll.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B301F24E286402160038E9F7 /* BshIllApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BshIllApp.swift; sourceTree = "<group>"; };
 		B301F250286402160038E9F7 /* MachineDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineDocument.swift; sourceTree = "<group>"; };
-		B301F252286402160038E9F7 /* MachineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineView.swift; sourceTree = "<group>"; };
+		B301F252286402160038E9F7 /* MachineSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineSetupView.swift; sourceTree = "<group>"; };
 		B301F257286402160038E9F7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B301F259286402160038E9F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B301F25A286402160038E9F7 /* BshIll.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BshIll.entitlements; sourceTree = "<group>"; };
@@ -276,6 +278,8 @@
 		B3E21B652860FFB7008102A6 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		B3E21B662860FFB7008102A6 /* FileCreationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCreationError.swift; sourceTree = "<group>"; };
 		B3E21B732862327D008102A6 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		B3E657432885F8FA0049F4DB /* MachineSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineSessionView.swift; sourceTree = "<group>"; };
+		B3E657452885F95D0049F4DB /* MachineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineView.swift; sourceTree = "<group>"; };
 		B3EDD3022884893500383011 /* VZVirtualMachineConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VZVirtualMachineConfiguration.swift; sourceTree = "<group>"; };
 		B3EDD308288489F400383011 /* FileCreationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCreationError.swift; sourceTree = "<group>"; };
 		B3F9821228482E0C00EF5E29 /* MachineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineView.swift; sourceTree = "<group>"; };
@@ -333,7 +337,7 @@
 				B301F250286402160038E9F7 /* MachineDocument.swift */,
 				B3636C6628820E01000C4F6D /* MachineRestoreImage.swift */,
 				B36ACF5B2883932E00416E90 /* MachineSession.swift */,
-				B301F252286402160038E9F7 /* MachineView.swift */,
+				B301F252286402160038E9F7 /* MachineSetupView.swift */,
 				B3636C5828820E00000C4F6D /* MissingError.swift */,
 				B3636C7128820E01000C4F6D /* MockInstaller.swift */,
 				B3636C4D28820E00000C4F6D /* MockRestoreImageLoader.swift */,
@@ -373,6 +377,8 @@
 				B364B1A128750E7A006799DC /* WelcomeActionButton.swift */,
 				B35432D528693C680019BCE3 /* WelcomeView.swift */,
 				B3636C6928820E01000C4F6D /* WindowOpenHandle.swift */,
+				B3E657432885F8FA0049F4DB /* MachineSessionView.swift */,
+				B3E657452885F95D0049F4DB /* MachineView.swift */,
 			);
 			path = BshIll;
 			sourceTree = "<group>";
@@ -688,6 +694,7 @@
 				B301F24F286402160038E9F7 /* BshIllApp.swift in Sources */,
 				B3636C7D28820E01000C4F6D /* MissingError.swift in Sources */,
 				B3636C8F28820E01000C4F6D /* Configuration.swift in Sources */,
+				B3E657442885F8FA0049F4DB /* MachineSessionView.swift in Sources */,
 				B3636C9B288210F6000C4F6D /* RestoreImageLibraryItemFile.swift in Sources */,
 				B37A362D286A91AF00B06D24 /* SourceImageCollectionView.swift in Sources */,
 				B3636C7F28820E01000C4F6D /* String.swift in Sources */,
@@ -698,6 +705,7 @@
 				B3636C7228820E01000C4F6D /* MockRestoreImageLoader.swift in Sources */,
 				B3636C9628820E01000C4F6D /* MockInstaller.swift in Sources */,
 				B35432D628693C680019BCE3 /* WelcomeView.swift in Sources */,
+				B3E657462885F95D0049F4DB /* MachineView.swift in Sources */,
 				B3636C8028820E01000C4F6D /* ImageInstaller.swift in Sources */,
 				B364B1A228750E7A006799DC /* WelcomeActionButton.swift in Sources */,
 				B3636C7528820E01000C4F6D /* App.swift in Sources */,
@@ -708,7 +716,7 @@
 				B3D3E991286BDCF50046C6F9 /* Downloader.swift in Sources */,
 				B3753A8E286901A700A06E0F /* RestoreImageLibraryDocument.swift in Sources */,
 				B3636C9028820E01000C4F6D /* Result.swift in Sources */,
-				B301F253286402160038E9F7 /* MachineView.swift in Sources */,
+				B301F253286402160038E9F7 /* MachineSetupView.swift in Sources */,
 				B3636C9428820E01000C4F6D /* VirtualizationMacOSRestoreImage.swift in Sources */,
 				B3636C7B28820E01000C4F6D /* Image.swift in Sources */,
 				B3636C7628820E01000C4F6D /* URL.swift in Sources */,

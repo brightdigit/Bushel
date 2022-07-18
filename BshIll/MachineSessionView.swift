@@ -1,0 +1,21 @@
+//
+//  MachineSessionView.swift
+//  BshIll
+//
+//  Created by Leo Dion on 7/18/22.
+//
+
+import SwiftUI
+
+struct MachineSessionView: View {
+  @Binding var document: MachineDocument
+    var body: some View {
+        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    }
+}
+
+//struct MachineSessionView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MachineSessionView()
+//    }
+//}

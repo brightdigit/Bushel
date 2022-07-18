@@ -26,7 +26,16 @@ struct MachineDocument: CreatableFileDocument, Identifiable {
   static let readableContentTypes: [UTType] = [.virtualMachine]
   
   init(configuration: ReadConfiguration) throws {
-    self.init()
+    guard let machineFileWrapper = configuration.file.fileWrappers?["machine.json"] else {
+      throw NSError()
+    }
+    guard let data = machineFileWrapper.regularFileContents else {
+      throw NSError()
+    }
+    let decoder = JSONDecoder()
+    var machine = try decoder.decode(Machine.self, from: data)
+    machine.fileWrapper = configuration.file
+    self.init(machine: machine)
   }
   
   func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
