@@ -68,6 +68,7 @@ extension VZMacOSRestoreImage {
 
 protocol MachineConfiguration {
   var currentURL : URL { get }
+  
 }
 protocol VirtualInstaller {
   func completionPublisher() -> AnyPublisher<Error?, Never>

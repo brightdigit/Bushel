@@ -19,6 +19,7 @@ struct Machine : Identifiable, Codable {
   let id : UUID
   var restoreImage : RestoreImageLibraryItemFile?
   var operatingSystem : OperatingSystemDetails?
+  var configurationURL: URL?
   var isBuilt : Bool {
     false
   }
@@ -28,6 +29,12 @@ struct Machine : Identifiable, Codable {
     case restoreImage
     case operatingSystem
   }
+  
+  mutating func setConfiguration(_ configuration: MachineConfiguration) {
+    self.configurationURL = configuration.currentURL
+  }
+  
+
   //var configuration : MachineConfiguration?
   //var installer : ImageInstaller?
 }
