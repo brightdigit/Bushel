@@ -42,6 +42,7 @@ struct BshIllApp: App {
             }
         }
         DocumentGroup(viewing: RestoreImageDocument.self) { file in
+          // https://stackoverflow.com/questions/67659770/how-to-read-large-files-using-swiftui-documentgroup-without-making-a-temporary-c
           RestoreImageDocumentView(document: file.document)
         }
         WindowGroup {

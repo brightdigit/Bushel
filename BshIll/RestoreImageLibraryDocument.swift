@@ -85,7 +85,7 @@ struct RestoreImageLibraryDocument: FileDocument {
         return fileWrapper
       }
           
-            return try FileWrapper(url: file.metadata.url, options: [.immediate, .withoutMapping])
+            return try FileWrapper(url: file.metadata.url)
       
     }
     _ = imageFileWrappers.map(imagesDirectoryFileWrapper.addFileWrapper)
