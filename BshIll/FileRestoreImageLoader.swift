@@ -1,23 +1,37 @@
 import Foundation
 import Virtualization
 
+extension Result {
+  func tupleWith<OtherSuccessType>(_ other: Result<OtherSuccessType, Failure>) -> Result<(Success, OtherSuccessType),Failure> {
+    self.flatMap { success in
+      other.map { other in
+        return (success, other)
+      }
+    }
+  }
+}
 class FileRestoreImageLoader : RestoreImageLoader {
   
   func load(from file: FileAccessor) async throws -> RestoreImage {
     try await Task{
-      let tempFileURL = FileManager.default.createTemporaryFile(for: .iTunesIPSW)
-      let sha256 = await Task {
-        try Result{file.getData()}.unwrap(error: NSError()).map(CryptoSHA256.hash).map{Data($0)}.map(SHA256.init(digest:)).get()
-      }.result
-      let vzMacOSRestoreImage = await Task {
-        try await Result{ try file.writeTo(tempFileURL)}.map{ tempFileURL }.flatMap(VZMacOSRestoreImage.loadFromURL).get()
-      }.result
-      
-      let virtualImageResultArgs : Result<(VZMacOSRestoreImage, SHA256),Error> = vzMacOSRestoreImage.flatMap { image in
-        return sha256.map{
-          return (image, $0)
-        }
+      let sha256 : Result<SHA256,Error>
+      if let filesha256 = file.sha256 {
+        sha256 = .success( filesha256)
+      } else {
+        async let asha256 = await Task {
+          try Result{file.getData()}.unwrap(error: NSError()).map(CryptoSHA256.hash).map{Data($0)}.map(SHA256.init(digest:)).get()
+        }.result
+        sha256 = await asha256
       }
+      async let vzMacOSRestoreImage = await Task {
+        try await Result{ try file.getURL()}.flatMap(VZMacOSRestoreImage.loadFromURL).get()
+      }.result
+      let virtualImageResultArgs : Result<(VZMacOSRestoreImage, SHA256),Error> = await vzMacOSRestoreImage.tupleWith(sha256)
+//      let virtualImageResultArgs : Result<(VZMacOSRestoreImage, SHA256),Error> = await vzMacOSRestoreImage.flatMap { image in
+//        return await sha256.map{
+//          return (image, $0)
+//        }
+//      }
       
       let virtualImageResult = await virtualImageResultArgs.flatMap(VirtualizationMacOSRestoreImage.init)
       return try virtualImageResult.map(RestoreImage.init(imageContainer:)).get()

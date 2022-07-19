@@ -18,11 +18,12 @@ import Virtualization
 
 
 struct RestoreImageLibraryDocumentView: View {
-  internal init(document: Binding<RestoreImageLibraryDocument>, selected: RestoreImageLibraryItemFile? = nil) {
-    
+  internal init(document: Binding<RestoreImageLibraryDocument>, url: URL? = nil, selected: RestoreImageLibraryItemFile? = nil) {
+    self.url = url
     self._document = document
     //self._selected = .init(initialValue: selected)
   }
+  let url : URL?
   @State var importingURL : URL?
   @Binding var document: RestoreImageLibraryDocument
   //@State var selected : RestoreImageLibraryItemFile?
@@ -71,7 +72,7 @@ struct RestoreImageLibraryDocumentView: View {
             Divider().padding(.vertical, -6.0).opacity(0.75)
             Button {
               Task {
-                await self.document.beginReload()
+                await self.document.beginReload(fromURL: self.url)
               }
             } label: {
               Image(systemName: "arrow.clockwise")
@@ -105,6 +106,10 @@ struct RestoreImageLibraryDocumentView: View {
                             self.importingURL = nil
                           }
                         
+        }
+      }.onAppear {
+        Task {
+          await self.document.updateBaseURL(self.url)
         }
       }
     }

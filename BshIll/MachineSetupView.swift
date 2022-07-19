@@ -22,6 +22,7 @@ struct MachineSetupView: View {
   @State var machineRestoreImage : MachineRestoreImage?
   @State var isReadyToSave: Bool = false
   @Binding var document: MachineDocument
+  let url: URL?
   let restoreImageChoices : [MachineRestoreImage]
   @StateObject var installationObject = MachineInstallationObject()
 
@@ -66,6 +67,7 @@ struct MachineSetupView: View {
       
       
     }).fileExporter(isPresented: self.$isReadyToSave, document: self.document, contentType: .virtualMachine, onCompletion: { result in
+      #warning("open document with result")
       dump(result)
     })
     .onAppear{
@@ -109,7 +111,7 @@ struct MachineSetupView: View {
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
-    MachineSetupView(document: .constant(MachineDocument()), restoreImageChoices: [
+    MachineSetupView(document: .constant(MachineDocument()), url: nil, restoreImageChoices: [
       MachineRestoreImage(name: "name", id: "name"),
       
       MachineRestoreImage(name: "test", id: "test"),

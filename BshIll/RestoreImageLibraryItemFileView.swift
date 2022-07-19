@@ -40,7 +40,7 @@ struct RestoreImageLibraryItemFileView: View {
         machine
       }, set: { document in
         self.newMachine = document
-      }), restoreImageChoices: [])
+      }), url: nil, restoreImageChoices: [])
     }
   }
 }

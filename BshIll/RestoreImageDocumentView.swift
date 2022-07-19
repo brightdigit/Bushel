@@ -10,18 +10,21 @@ import SwiftUI
 
 
 struct RestoreImageDocumentView: View {
-  internal init(_ fetchImage : @escaping () async throws -> RestoreImage) {
+  internal init(url: URL?, _ fetchImage : @escaping () async throws -> RestoreImage) {
+    self.url = url
     self.fetchImage = fetchImage
   }
-  internal init(document: RestoreImageDocument, loader: RestoreImageLoader = FileRestoreImageLoader()) {
-    self.init {
-      try await loader.load(from: document.fileWrapper)
+  internal init(document: RestoreImageDocument, url: URL? = nil, loader: RestoreImageLoader = FileRestoreImageLoader()) {
+    let accessor = FileWrapperAccessor(fileWrapper: document.fileWrapper, url: url, sha256: nil)
+    self.init(url: url) {
+      try await loader.load(from: accessor)
     }
   }
   
 //   let document: RestoreImageDocument
 //  let loader : RestoreImageLoader
   let fetchImage : () async throws -> RestoreImage
+  let url : URL?
   @State var restoreImageResult : Result<RestoreImage, Error>?
   
   var body: some View {
@@ -55,7 +58,7 @@ struct RestoreImageDocumentView: View {
 
 struct RestoreImageDocumentView_Previews: PreviewProvider {
     static var previews: some View {
-      RestoreImageDocumentView {
+      RestoreImageDocumentView(url: nil) {
         return .Previews.usingMetadata(.Previews.venturaBeta3)
       }
 //        RestoreImageDocumentView(document: RestoreImageDocument(loader: MockRestoreImageLoader(restoreImageResult: nil)))

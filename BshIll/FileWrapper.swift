@@ -1,11 +1,35 @@
 import SwiftUI
 
-extension FileWrapper : FileAccessor {
+//extension FileWrapper : FileAccessor {
+//  func getData() -> Data? {
+//    return self.regularFileContents
+//  }
+//
+//  func writeTo(_ url: URL) throws {
+//    try self.write(to: url, originalContentsURL: nil)
+//  }
+//}
+
+struct FileWrapperAccessor : FileAccessor {
+  
   func getData() -> Data? {
-    return self.regularFileContents
+    self.fileWrapper.regularFileContents
   }
   
-  func writeTo(_ url: URL) throws {
-    try self.write(to: url, originalContentsURL: nil)
+  func getURL() throws -> URL {
+    if let url = url {
+      return url
+    }
+    let tempFileURL = FileManager.default.createTemporaryFile(for: .iTunesIPSW)
+    try self.fileWrapper.write(to: tempFileURL, originalContentsURL: nil)
+    return tempFileURL
   }
+  
+  func updatingWithURL(_ url: URL, sha256: SHA256) -> FileAccessor {
+    return FileWrapperAccessor(fileWrapper: self.fileWrapper, url: url, sha256: sha256)
+  }
+  
+  let fileWrapper : FileWrapper
+  let url : URL?
+  let sha256: SHA256?
 }

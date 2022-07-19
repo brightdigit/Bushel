@@ -15,10 +15,10 @@ struct BshIllApp: App {
             WelcomeView()
         }.windowsHandle(.welcome).windowStyle(.hiddenTitleBar)
         DocumentGroup(newDocument: RestoreImageLibraryDocument()) { file in
-          RestoreImageLibraryDocumentView(document: file.$document)
+          RestoreImageLibraryDocumentView(document: file.$document, url: file.fileURL)
         }
         DocumentGroup(newDocument: MachineDocument()) { file in
-            MachineView(document: file.$document, restoreImageChoices: [])
+          MachineView(document: file.$document, url: file.fileURL, restoreImageChoices: [])
         }.commands {
             CommandGroup(replacing: .newItem) {
                 Menu("New") {
@@ -43,7 +43,7 @@ struct BshIllApp: App {
         }
         DocumentGroup(viewing: RestoreImageDocument.self) { file in
           // https://stackoverflow.com/questions/67659770/how-to-read-large-files-using-swiftui-documentgroup-without-making-a-temporary-c
-          RestoreImageDocumentView(document: file.document)
+          RestoreImageDocumentView(document: file.document, url: file.fileURL)
         }
         WindowGroup {
             RrisCollectionView()

@@ -11,7 +11,25 @@ extension InstallerType {
   }
 }
 struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable, ImageContainer {
-  
+  func updatingWithURL(_ url: URL, andFileWrapper fileWrapper: FileWrapper?) -> RestoreImageLibraryItemFile {
+    let fileAccessor : FileAccessor?
+    
+    if let fileWrapper = fileWrapper {
+      fileAccessor = FileWrapperAccessor(fileWrapper: fileWrapper, url: url, sha256: self.metadata.sha256)
+    } else if let oldFileAccessor = self.fileAccessor {
+      fileAccessor = oldFileAccessor.updatingWithURL(url, sha256: self.metadata.sha256)
+    } else {
+      fileAccessor = nil
+    }
+    
+    return RestoreImageLibraryItemFile(name: self.name, metadata: self.metadata.withURL(url), location: .library, fileAccessor: fileAccessor)
+  }
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(name)
+    hasher.combine(metadata)
+    hasher.combine(location)
+    hasher.combine(installerType)
+  }
   func installer() async throws -> ImageInstaller {
     return try await VZMacOSRestoreImage.loadFromURL(self.metadata.url)
   }
@@ -34,7 +52,7 @@ struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable, ImageConta
   var name : String
   let metadata : ImageMetadata
   let location : RestoreImage.Location
-  var fileWrapper : FileWrapper?
+  var fileAccessor : FileAccessor?
   let installerType : InstallerType = .vzMacOS
   
   enum CodingKeys : String, CodingKey {
@@ -43,11 +61,11 @@ struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable, ImageConta
     case installerType
   }
   
-  init (name : String? = nil, metadata : ImageMetadata, location: RestoreImage.Location = .library, fileWrapper : FileWrapper? = nil) {
+  init (name : String? = nil, metadata : ImageMetadata, location: RestoreImage.Location = .library, fileAccessor : FileAccessor? = nil) {
     self.name = name ?? metadata.url.deletingPathExtension().lastPathComponent
     self.metadata = metadata
     self.location = location
-    self.fileWrapper = fileWrapper
+    self.fileAccessor = fileAccessor
   }
   
   
@@ -59,11 +77,10 @@ struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable, ImageConta
 
 extension RestoreImageLibraryItemFile {
   func forMachine () throws -> RestoreImageLibraryItemFile {
-    guard let fileWrapper = self.fileWrapper else {
+    guard let fileAccessor = self.fileAccessor else {
       throw NSError()
     }
-    let temporaryFileURL = FileManager.default.createTemporaryFile(for: .iTunesIPSW)
-    try fileWrapper.writeTo(temporaryFileURL)
+    let temporaryFileURL = try fileAccessor.getURL()
     return RestoreImageLibraryItemFile(name: self.name, metadata: self.metadata.withURL(temporaryFileURL))
   }
 }
