@@ -26,6 +26,7 @@ struct MachineSetupView: View {
   let restoreImageChoices : [MachineRestoreImage]
   @StateObject var installationObject = MachineInstallationObject()
 
+  let onCompleted : ((Error?) -> Void)?
   
   
   var body: some View {
@@ -57,22 +58,26 @@ struct MachineSetupView: View {
         try completed.get()
       } catch {
         dump(error)
+        self.onCompleted?(error)
         return
       }
       Task {
         await MainActor.run {
+          
           self.machinePreparing = .none
+          
         }
       }
-      
       
     }).fileExporter(isPresented: self.$isReadyToSave, document: self.document, contentType: .virtualMachine, onCompletion: { result in
       #warning("open document with result")
       dump(result)
+      self.onCompleted?(nil)
     })
     .onAppear{
       self.machineRestoreImage = document.machine.restoreImage.map(MachineRestoreImage.init(file:))
     }.sheet(item: self.$machinePreparing, onDismiss: {
+      self.document.machine.osInstallationCompleted()
       self.isReadyToSave = true
       
     }) { state in
@@ -116,6 +121,6 @@ struct ContentView_Previews: PreviewProvider {
       
       MachineRestoreImage(name: "test", id: "test"),
       MachineRestoreImage(name: "hello", id: "hello")
-    ])
+    ], onCompleted: nil)
   }
 }

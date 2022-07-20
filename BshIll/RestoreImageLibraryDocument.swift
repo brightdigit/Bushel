@@ -162,12 +162,7 @@ struct RestoreImageLibraryDocument: FileDocument {
     if let metdataFileWrapper = configuration.existingFile?.fileWrappers?["metadata.json"] {
       let temporaryURL = FileManager.default.createTemporaryFile(for: .json)
       try data.write(to: temporaryURL)
-      do {
-        try metdataFileWrapper.read(from: temporaryURL)
-      } catch {
-        dump(error)
-        throw error
-      }
+      try metdataFileWrapper.read(from: temporaryURL)
     } else {
       let metdataFileWrapper = FileWrapper(regularFileWithContents: data)
       metdataFileWrapper.preferredFilename = "metadata.json"

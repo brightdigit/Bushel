@@ -12,12 +12,15 @@ struct MachineView: View {
   var url : URL?
   let restoreImageChoices : [MachineRestoreImage]
     var body: some View {
-      
+      Group{
         if !document.machine.isBuilt || document.machine.operatingSystem == nil {
-          MachineSetupView(document: self.$document, url: self.url, restoreImageChoices: restoreImageChoices)
-        } else {
-          MachineSessionView(document: self.$document, url: self.url)
+          MachineSetupView(document: self.$document, url: self.url, restoreImageChoices: restoreImageChoices, onCompleted: nil)
+        } else if let url = self.url {
+          MachineSessionView(document: self.$document, url: url)
         }
+      }.onAppear {
+        self.document.sourceURL = url
+      }
     }
 }
 

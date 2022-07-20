@@ -6,7 +6,7 @@ enum InstallerType : String, Codable {
 }
 
 extension InstallerType {
-  func validate (fileWrapper: FileWrapper) -> Bool {
+  func validateAt (_ url: URL) -> Bool {
     return true
   }
 }

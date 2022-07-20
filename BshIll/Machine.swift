@@ -20,7 +20,8 @@ struct Machine : Identifiable, Codable {
   var restoreImage : RestoreImageLibraryItemFile?
   var operatingSystem : OperatingSystemDetails?
   var configurationURL: URL?
-  var fileWrapper : FileWrapper?
+  var fileAccessor : FileAccessor?
+  //var fileWrapper : FileWrapper?
   var isBuilt : Bool {
     guard operatingSystem != nil else {
       return false
@@ -30,11 +31,14 @@ struct Machine : Identifiable, Codable {
       return false
     }
     
-    guard let fileWrapper = self.fileWrapper else {
+    guard let configurationURL = configurationURL else {
       return false
     }
+//    guard let fileWrapper = self.fileWrapper else {
+//      return false
+//    }
     
-    return installerType.validate(fileWrapper: fileWrapper)
+    return installerType.validateAt(configurationURL)
   }
   
   enum CodingKeys : String, CodingKey {
@@ -54,10 +58,10 @@ struct Machine : Identifiable, Codable {
     self.operatingSystem = .init(type: .macOS, version: metadata.operatingSystemVersion, buildVersion: metadata.buildVersion)
   }
   
-  mutating func beginLoading() {
-    guard let fileWrapper = self.fileWrapper else {
-      return
-    }
+  mutating func beginLoadingFromURL(_ url: URL) {
+    self.configurationURL = url
+    
+    
   }
   //var configuration : MachineConfiguration?
   //var installer : ImageInstaller?
