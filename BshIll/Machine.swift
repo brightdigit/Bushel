@@ -44,6 +44,7 @@ struct Machine : Identifiable, Codable {
   enum CodingKeys : String, CodingKey {
     case id
     case restoreImage
+    case configurationURL
     case operatingSystem
   }
   
@@ -51,10 +52,11 @@ struct Machine : Identifiable, Codable {
     self.configurationURL = configuration.currentURL
   }
   
-  mutating func osInstallationCompleted () {
+  mutating func osInstallationCompleted (withConfiguration configuration: MachineConfiguration) {
     guard let metadata = self.restoreImage?.metadata else {
       return
     }
+    self.setConfiguration(configuration)
     self.operatingSystem = .init(type: .macOS, version: metadata.operatingSystemVersion, buildVersion: metadata.buildVersion)
   }
   

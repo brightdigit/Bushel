@@ -22,6 +22,7 @@ struct MachineSetupView: View {
   @State var machineRestoreImage : MachineRestoreImage?
   @State var isReadyToSave: Bool = false
   @Binding var document: MachineDocument
+  @State var configuration: MachineConfiguration?
   let url: URL?
   let restoreImageChoices : [MachineRestoreImage]
   @StateObject var installationObject = MachineInstallationObject()
@@ -77,8 +78,12 @@ struct MachineSetupView: View {
     .onAppear{
       self.machineRestoreImage = document.machine.restoreImage.map(MachineRestoreImage.init(file:))
     }.sheet(item: self.$machinePreparing, onDismiss: {
-      self.document.machine.osInstallationCompleted()
-      self.isReadyToSave = true
+      DispatchQueue.main.async {
+        
+        //self.document.machine.setConfiguration(configuration)
+        self.document.osInstallationCompleted(withConfiguration: self.configuration!)
+        self.isReadyToSave = true
+      }
       
     }) { state in
       VStack{
@@ -100,9 +105,11 @@ struct MachineSetupView: View {
         let vInstaller : VirtualInstaller
         do {
           let configuration = try document.machine.build(withInstaller: installer)
-          await MainActor.run {
+          DispatchQueue.main.async {
+            
             self.machinePreparing = .installing
-            self.document.machine.setConfiguration(configuration)
+            self.document.setConfiguration(configuration)
+            self.configuration = configuration
           }
           vInstaller = try document.machine.startInstallation(with: installer, using: configuration)
         } catch {

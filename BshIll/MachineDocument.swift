@@ -22,6 +22,17 @@ struct MachineDocument: CreatableFileDocument, Identifiable {
     self.sourceURL = nil
   }
   
+  mutating func setConfiguration(_ configuration: MachineConfiguration) {
+    self.machine.configurationURL = configuration.currentURL
+  }
+  
+  mutating func osInstallationCompleted (withConfiguration configuration: MachineConfiguration) {
+    guard let metadata = self.machine.restoreImage?.metadata else {
+      return
+    }
+    self.machine.setConfiguration(configuration)
+    self.machine.operatingSystem = .init(type: .macOS, version: metadata.operatingSystemVersion, buildVersion: metadata.buildVersion)
+  }
   
   static let untitledDocumentType: UTType = .virtualMachine
   static let readableContentTypes: [UTType] = [.virtualMachine]
