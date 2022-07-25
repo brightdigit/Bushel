@@ -1,6 +1,17 @@
 import Foundation
+import Virtualization
 
-
+extension VZVirtualMachine : MachineSession {
+  @MainActor
+  func begin() async throws {
+    try await withCheckedThrowingContinuation { continuation in
+      
+      self.start { result in
+        continuation.resume(with: result)
+      }
+    }
+  }
+}
 struct OperatingSystemDetails : Codable {
   enum System : String, Codable {
     case macOS
@@ -21,6 +32,19 @@ struct Machine : Identifiable, Codable {
   var operatingSystem : OperatingSystemDetails?
   var configurationURL: URL?
   var fileAccessor : FileAccessor?
+  
+  func createMachine () throws -> MachineSession {
+    guard self.operatingSystem?.type == .macOS else {
+      throw NSError()
+    }
+    guard let url = self.configurationURL else {
+      throw NSError()
+    }
+    let configuration = try VZVirtualMachineConfiguration(contentsOfDirectory: url)
+    try configuration.validate()
+    return VZVirtualMachine(configuration: configuration)
+    
+  }
   //var fileWrapper : FileWrapper?
   var isBuilt : Bool {
     guard operatingSystem != nil else {

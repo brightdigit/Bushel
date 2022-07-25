@@ -8,11 +8,14 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
-
-
 struct MachineDocument: CreatableFileDocument, Identifiable {
   var machine: Machine
   var sourceURL: URL?
+  let sessionObject: MachineSessionObject = .init()
+
+  var session : MachineSession? {
+    return sessionObject.session
+  }
   var id: UUID {
     machine.id
   }
@@ -24,6 +27,14 @@ struct MachineDocument: CreatableFileDocument, Identifiable {
   
   mutating func setConfiguration(_ configuration: MachineConfiguration) {
     self.machine.configurationURL = configuration.currentURL
+  }
+  
+  mutating func beginLoadingFromURL(_ url: URL) throws {
+    self.machine.configurationURL = url
+    
+    let session = try self.machine.createMachine()
+    sessionObject.session = session
+    
   }
   
   mutating func osInstallationCompleted (withConfiguration configuration: MachineConfiguration) {

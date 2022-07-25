@@ -8,11 +8,6 @@
 import SwiftUI
 import Virtualization
 
-class MachineSession : ObservableObject {
-  internal init(machine: Machine) {
-    self.machine = machine
-  }
-  
-  let machine : Machine
-  
+protocol MachineSession {
+  func begin() async throws
 }

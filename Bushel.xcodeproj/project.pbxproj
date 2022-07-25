@@ -16,6 +16,7 @@
 		B301F268286405140038E9F7 /* RestoreImageDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = B301F267286405140038E9F7 /* RestoreImageDocument.swift */; };
 		B315106E2841127500299415 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315106D2841127500299415 /* MainView.swift */; };
 		B315D8362843D0310012628A /* ImageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315D8352843D0310012628A /* ImageList.swift */; };
+		B3310822288F197000A18C90 /* VirtualMachineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3310821288F197000A18C90 /* VirtualMachineView.swift */; };
 		B33519382860FE2100E2E10B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33519362860FE2100E2E10B /* AppDelegate.swift */; };
 		B34ABE9128443EFB00F22379 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34ABE9028443EFB00F22379 /* Downloader.swift */; };
 		B35432D628693C680019BCE3 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35432D528693C680019BCE3 /* WelcomeView.swift */; };
@@ -181,6 +182,7 @@
 		B32BF39B285EA977006842C7 /* BshillDocApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BshillDocApp.swift; sourceTree = "<group>"; };
 		B32BF39D285EA977006842C7 /* BshillDocDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BshillDocDocument.swift; sourceTree = "<group>"; };
 		B32BF3AB285EA99B006842C7 /* MachineDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineDialogView.swift; sourceTree = "<group>"; };
+		B3310821288F197000A18C90 /* VirtualMachineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualMachineView.swift; sourceTree = "<group>"; };
 		B33519242860FDFC00E2E10B /* BshAppDelegate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BshAppDelegate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B33519362860FE2100E2E10B /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B33519392860FE2B00E2E10B /* BshAppDelegate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BshAppDelegate.entitlements; sourceTree = "<group>"; };
@@ -337,7 +339,9 @@
 				B301F250286402160038E9F7 /* MachineDocument.swift */,
 				B3636C6628820E01000C4F6D /* MachineRestoreImage.swift */,
 				B36ACF5B2883932E00416E90 /* MachineSession.swift */,
+				B3E657432885F8FA0049F4DB /* MachineSessionView.swift */,
 				B301F252286402160038E9F7 /* MachineSetupView.swift */,
+				B3E657452885F95D0049F4DB /* MachineView.swift */,
 				B3636C5828820E00000C4F6D /* MissingError.swift */,
 				B3636C7128820E01000C4F6D /* MockInstaller.swift */,
 				B3636C4D28820E00000C4F6D /* MockRestoreImageLoader.swift */,
@@ -377,8 +381,7 @@
 				B364B1A128750E7A006799DC /* WelcomeActionButton.swift */,
 				B35432D528693C680019BCE3 /* WelcomeView.swift */,
 				B3636C6928820E01000C4F6D /* WindowOpenHandle.swift */,
-				B3E657432885F8FA0049F4DB /* MachineSessionView.swift */,
-				B3E657452885F95D0049F4DB /* MachineView.swift */,
+				B3310821288F197000A18C90 /* VirtualMachineView.swift */,
 			);
 			path = BshIll;
 			sourceTree = "<group>";
@@ -687,6 +690,7 @@
 				B3636C8428820E01000C4F6D /* FileWrapper.swift in Sources */,
 				B3636C7928820E01000C4F6D /* Machine.swift in Sources */,
 				B301F251286402160038E9F7 /* MachineDocument.swift in Sources */,
+				B3310822288F197000A18C90 /* VirtualMachineView.swift in Sources */,
 				B3636C8728820E01000C4F6D /* DirectoryExists.swift in Sources */,
 				B3636C8628820E01000C4F6D /* OperatingSystemCodeName.swift in Sources */,
 				B3636C9A288210F6000C4F6D /* RestoreImageLibrary.swift in Sources */,
