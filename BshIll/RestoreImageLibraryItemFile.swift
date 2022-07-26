@@ -1,15 +1,6 @@
 import Foundation
 import Virtualization
 
-enum InstallerType : String, Codable {
-  case vzMacOS
-}
-
-extension InstallerType {
-  func validateAt (_ url: URL) -> Bool {
-    return true
-  }
-}
 struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable, ImageContainer {
   func updatingWithURL(_ url: URL, andFileWrapper fileWrapper: FileWrapper?) -> RestoreImageLibraryItemFile {
     let fileAccessor : FileAccessor?

@@ -7,15 +7,6 @@
 
 import SwiftUI
 
-enum MachinePreparationState : Int, Identifiable {
-  var id: RawValue {
-    self.rawValue
-  }
-  
-  case building
-  case installing
-}
-
 struct MachineSetupView: View {
   
   @State var machinePreparing : MachinePreparationState? = nil

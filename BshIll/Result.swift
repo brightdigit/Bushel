@@ -2,6 +2,13 @@
 
 
 extension Result {
+  func tupleWith<OtherSuccessType>(_ other: Result<OtherSuccessType, Failure>) -> Result<(Success, OtherSuccessType),Failure> {
+    self.flatMap { success in
+      other.map { other in
+        return (success, other)
+      }
+    }
+  }
   
   func unwrap<NewSuccessType>(error: Failure) -> Result<NewSuccessType, Failure> where Success == Optional<NewSuccessType> {
     self.flatMap { optValue in
@@ -32,7 +39,4 @@ extension Result {
     
     return result
   }
-//  func flatMap<NewSuccessType>() async -> Result<NewSuccessType, Failure> {
-//
-//  }
 }

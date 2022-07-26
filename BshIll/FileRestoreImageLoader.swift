@@ -1,15 +1,6 @@
 import Foundation
 import Virtualization
 
-extension Result {
-  func tupleWith<OtherSuccessType>(_ other: Result<OtherSuccessType, Failure>) -> Result<(Success, OtherSuccessType),Failure> {
-    self.flatMap { success in
-      other.map { other in
-        return (success, other)
-      }
-    }
-  }
-}
 class FileRestoreImageLoader : RestoreImageLoader {
   
   func load(from file: FileAccessor) async throws -> RestoreImage {
