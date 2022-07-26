@@ -78,6 +78,8 @@
 		B382A47E2867EB94000E6408 /* OperatingSystemVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B382A4792867EB94000E6408 /* OperatingSystemVersion.swift */; };
 		B382A48028680454000E6408 /* SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = B382A47F28680454000E6408 /* SHA256.swift */; };
 		B395C5F0287F957F00A11AC1 /* RestoreImageLibraryItemFileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B395C5EF287F957F00A11AC1 /* RestoreImageLibraryItemFileView.swift */; };
+		B3C7DCB9288F720300C4C48B /* MachineSessionWindowHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C7DCB8288F720300C4C48B /* MachineSessionWindowHandle.swift */; };
+		B3C7DCBB288F722900C4C48B /* BasicWindowOpenHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C7DCBA288F722900C4C48B /* BasicWindowOpenHandle.swift */; };
 		B3D3E98F286BD2EA0046C6F9 /* RestoreImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D3E98E286BD2EA0046C6F9 /* RestoreImageView.swift */; };
 		B3D3E991286BDCF50046C6F9 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D3E990286BDCF50046C6F9 /* Downloader.swift */; };
 		B3E657442885F8FA0049F4DB /* MachineSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E657432885F8FA0049F4DB /* MachineSessionView.swift */; };
@@ -161,6 +163,8 @@
 		B382A47F28680454000E6408 /* SHA256.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHA256.swift; sourceTree = "<group>"; };
 		B395C5EF287F957F00A11AC1 /* RestoreImageLibraryItemFileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreImageLibraryItemFileView.swift; sourceTree = "<group>"; };
 		B3BB2FAF283E7B3B00F3E336 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B3C7DCB8288F720300C4C48B /* MachineSessionWindowHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineSessionWindowHandle.swift; sourceTree = "<group>"; };
+		B3C7DCBA288F722900C4C48B /* BasicWindowOpenHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicWindowOpenHandle.swift; sourceTree = "<group>"; };
 		B3D3E98E286BD2EA0046C6F9 /* RestoreImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreImageView.swift; sourceTree = "<group>"; };
 		B3D3E990286BDCF50046C6F9 /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
 		B3E657432885F8FA0049F4DB /* MachineSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineSessionView.swift; sourceTree = "<group>"; };
@@ -203,13 +207,15 @@
 				B3636C5B28820E00000C4F6D /* ImageInstaller.swift */,
 				B3636C6428820E01000C4F6D /* ImageMetadata.swift */,
 				B301F259286402160038E9F7 /* Info.plist */,
+				B367B623288F6FAF0053463C /* InstallerType.swift */,
 				B3636C5428820E00000C4F6D /* Machine.swift */,
+				B367B627288F70120053463C /* MachineConfiguration.swift */,
 				B301F250286402160038E9F7 /* MachineDocument.swift */,
 				B367B61D288F6EA90053463C /* MachineInstallationObject.swift */,
-				B3636C6628820E01000C4F6D /* MachineRestoreImage.swift */,
-				B367B61F288F6F5D0053463C /* MachineSessionObject.swift */,
-				B36ACF5B2883932E00416E90 /* MachineSession.swift */,
 				B367B621288F6F920053463C /* MachinePreparationState.swift */,
+				B3636C6628820E01000C4F6D /* MachineRestoreImage.swift */,
+				B36ACF5B2883932E00416E90 /* MachineSession.swift */,
+				B367B61F288F6F5D0053463C /* MachineSessionObject.swift */,
 				B3E657432885F8FA0049F4DB /* MachineSessionView.swift */,
 				B301F252286402160038E9F7 /* MachineSetupView.swift */,
 				B3E657452885F95D0049F4DB /* MachineView.swift */,
@@ -231,7 +237,6 @@
 				B3753A8C286901A700A06E0F /* RestoreImageLibraryDocument.swift */,
 				B3636C99288210F6000C4F6D /* RestoreImageLibraryDocumentObject.swift */,
 				B3636C98288210F6000C4F6D /* RestoreImageLibraryItemFile.swift */,
-				B367B623288F6FAF0053463C /* InstallerType.swift */,
 				B395C5EF287F957F00A11AC1 /* RestoreImageLibraryItemFileView.swift */,
 				B3753A8F28691D7600A06E0F /* RestoreImageLibraryView.swift */,
 				B3636C5328820E00000C4F6D /* RestoreImageLoader.swift */,
@@ -248,18 +253,19 @@
 				B3636C5A28820E00000C4F6D /* String.swift */,
 				B3636C5128820E00000C4F6D /* URL.swift */,
 				B3636C4E28820E00000C4F6D /* UTType.swift */,
+				B367B629288F70400053463C /* VirtualInstaller.swift */,
 				B3636C6F28820E01000C4F6D /* VirtualizationMacOSRestoreImage.swift */,
-				B367B625288F6FDE0053463C /* VZMacPlatformConfiguration.swift */,
-				B367B627288F70120053463C /* MachineConfiguration.swift */,
+				B367B62B288F70710053463C /* VirtualMachineConfiguration.swift */,
 				B3310821288F197000A18C90 /* VirtualMachineView.swift */,
 				B367B62D288F70AA0053463C /* VirtualMacOSInstallerPublisher.swift */,
 				B3636C7028820E01000C4F6D /* VZMacOSRestoreImage.swift */,
-				B367B62B288F70710053463C /* VirtualMachineConfiguration.swift */,
-				B367B629288F70400053463C /* VirtualInstaller.swift */,
+				B367B625288F6FDE0053463C /* VZMacPlatformConfiguration.swift */,
 				B367B619288F6E970053463C /* VZVirtualMachine.swift */,
 				B3EDD3022884893500383011 /* VZVirtualMachineConfiguration.swift */,
 				B364B1A128750E7A006799DC /* WelcomeActionButton.swift */,
+				B3C7DCBA288F722900C4C48B /* BasicWindowOpenHandle.swift */,
 				B35432D528693C680019BCE3 /* WelcomeView.swift */,
+				B3C7DCB8288F720300C4C48B /* MachineSessionWindowHandle.swift */,
 				B3636C6928820E01000C4F6D /* WindowOpenHandle.swift */,
 			);
 			path = BshIll;
@@ -419,12 +425,14 @@
 				B3D3E991286BDCF50046C6F9 /* Downloader.swift in Sources */,
 				B3753A8E286901A700A06E0F /* RestoreImageLibraryDocument.swift in Sources */,
 				B3636C9028820E01000C4F6D /* Result.swift in Sources */,
+				B3C7DCBB288F722900C4C48B /* BasicWindowOpenHandle.swift in Sources */,
 				B301F253286402160038E9F7 /* MachineSetupView.swift in Sources */,
 				B3636C9428820E01000C4F6D /* VirtualizationMacOSRestoreImage.swift in Sources */,
 				B367B628288F70130053463C /* MachineConfiguration.swift in Sources */,
 				B3636C7B28820E01000C4F6D /* Image.swift in Sources */,
 				B3636C7628820E01000C4F6D /* URL.swift in Sources */,
 				B367B62C288F70710053463C /* VirtualMachineConfiguration.swift in Sources */,
+				B3C7DCB9288F720300C4C48B /* MachineSessionWindowHandle.swift in Sources */,
 				B382A47E2867EB94000E6408 /* OperatingSystemVersion.swift in Sources */,
 				B3636C9228820E01000C4F6D /* Future.swift in Sources */,
 				B367B61E288F6EA90053463C /* MachineInstallationObject.swift in Sources */,
