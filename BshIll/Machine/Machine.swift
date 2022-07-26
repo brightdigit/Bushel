@@ -12,7 +12,7 @@ struct Machine : Identifiable, Codable {
   var restoreImage : RestoreImageLibraryItemFile?
   var operatingSystem : OperatingSystemDetails?
   var configurationURL: URL?
-  var fileAccessor : FileAccessor?
+  //var fileAccessor : FileAccessor?
   
   func createMachine () throws -> MachineSession {
     guard self.operatingSystem?.type == .macOS else {
