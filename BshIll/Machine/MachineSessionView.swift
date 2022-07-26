@@ -7,8 +7,7 @@
 
 import SwiftUI
 import Virtualization
-
-
+#warning("Remove `import Virtualization`")
 
 struct MachineSessionView: View {
   @State var startError : Error?

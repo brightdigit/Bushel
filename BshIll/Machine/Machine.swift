@@ -1,6 +1,7 @@
 import Foundation
 import Virtualization
 
+#warning("Remove `import Virtualization`")
 struct Machine : Identifiable, Codable {
   internal init(id: UUID = .init(), restoreImage: RestoreImageLibraryItemFile? = nil, operatingSystem: OperatingSystemDetails? = nil) {
     self.id = id

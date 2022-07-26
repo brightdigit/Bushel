@@ -1,5 +1,4 @@
 import Foundation
-import Virtualization
 
 struct OperatingSystemDetails : Codable {
   enum System : String, Codable {

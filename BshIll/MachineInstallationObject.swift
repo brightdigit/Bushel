@@ -1,5 +1,4 @@
 import Foundation
-import Virtualization
 
 class MachineInstallationObject : ObservableObject {
   @Published var installer : VirtualInstaller?

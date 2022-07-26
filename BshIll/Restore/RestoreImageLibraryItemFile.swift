@@ -1,5 +1,6 @@
 import Foundation
 import Virtualization
+#warning("Remove `import Virtualization`")
 
 struct RestoreImageLibraryItemFile : Codable, Identifiable, Hashable, ImageContainer {
   func updatingWithURL(_ url: URL, andFileWrapper fileWrapper: FileWrapper?) -> RestoreImageLibraryItemFile {

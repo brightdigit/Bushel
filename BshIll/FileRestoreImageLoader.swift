@@ -1,6 +1,7 @@
 import Foundation
 import Virtualization
 
+#warning("Remove `import Virtualization`")
 class FileRestoreImageLoader : RestoreImageLoader {
   
   func load(from file: FileAccessor) async throws -> RestoreImage {
@@ -18,12 +19,7 @@ class FileRestoreImageLoader : RestoreImageLoader {
         try await Result{ try file.getURL()}.flatMap(VZMacOSRestoreImage.loadFromURL).get()
       }.result
       let virtualImageResultArgs : Result<(VZMacOSRestoreImage, SHA256),Error> = await vzMacOSRestoreImage.tupleWith(sha256)
-//      let virtualImageResultArgs : Result<(VZMacOSRestoreImage, SHA256),Error> = await vzMacOSRestoreImage.flatMap { image in
-//        return await sha256.map{
-//          return (image, $0)
-//        }
-//      }
-      
+
       let virtualImageResult = await virtualImageResultArgs.flatMap(VirtualizationMacOSRestoreImage.init)
       return try virtualImageResult.map(RestoreImage.init(imageContainer:)).get()
     }.value

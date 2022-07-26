@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Virtualization
 
 protocol MachineSession {
   func begin() async throws

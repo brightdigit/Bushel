@@ -1,5 +1,4 @@
 import Foundation
-import Virtualization
 
 enum InstallerType : String, Codable {
   case vzMacOS

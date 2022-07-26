@@ -10,11 +10,7 @@ import UniformTypeIdentifiers
 import Virtualization
 
 
-//
-//enum RestoreImageLibraryItem : Codable {
-//  case folder(RestoreImageLibraryItemFolder)
-//  case file(RestoreImageLibraryItemFile)
-//}
+#warning("Remove `import Virtualization`")
 
 
 struct RestoreImageLibraryDocumentView: View {
@@ -108,9 +104,7 @@ struct RestoreImageLibraryDocumentView: View {
                         
         }
       }.onAppear {
-        Task {
-          await self.document.updateBaseURL(self.url)
-        }
+        self.document.updateBaseURL(self.url)
       }
     }
 }

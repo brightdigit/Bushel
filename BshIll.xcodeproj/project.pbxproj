@@ -190,21 +190,16 @@
 			children = (
 				B319CF332890600900B58F17 /* Virtualization */,
 				B319CF322890600200B58F17 /* macOS */,
-				B3636C5028820E00000C4F6D /* App.swift */,
 				B301F25A286402160038E9F7 /* BshIll.entitlements */,
-				B301F24E286402160038E9F7 /* BshIllApp.swift */,
 				B3636C6A28820E01000C4F6D /* Configuration.swift */,
-				B3636C5D28820E01000C4F6D /* CreatableFileDocument.swift */,
 				B3636C5228820E00000C4F6D /* CryptoSHA256.swift */,
 				B3636C6228820E01000C4F6D /* DirectoryExists.swift */,
 				B3D3E990286BDCF50046C6F9 /* Downloader.swift */,
 				B3EDD308288489F400383011 /* FileCreationError.swift */,
 				B3636C5C28820E01000C4F6D /* FileManager.swift */,
 				B3636C5728820E00000C4F6D /* FileRestoreImageLoader.swift */,
-				B3636C5F28820E01000C4F6D /* FileWrapperAccessor.swift */,
 				B3636C5E28820E01000C4F6D /* Formatters.swift */,
 				B3636C6D28820E01000C4F6D /* Future.swift */,
-				B3636C5628820E00000C4F6D /* Image.swift */,
 				B3636C6C28820E01000C4F6D /* ImageContainer.swift */,
 				B3636C5B28820E00000C4F6D /* ImageInstaller.swift */,
 				B3636C6428820E01000C4F6D /* ImageMetadata.swift */,
@@ -301,6 +296,10 @@
 		B319CF322890600200B58F17 /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				B301F24E286402160038E9F7 /* BshIllApp.swift */,
+				B3636C5628820E00000C4F6D /* Image.swift */,
+				B3636C5028820E00000C4F6D /* App.swift */,
+				B3636C5D28820E01000C4F6D /* CreatableFileDocument.swift */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -308,6 +307,7 @@
 		B319CF332890600900B58F17 /* Virtualization */ = {
 			isa = PBXGroup;
 			children = (
+				B3636C5F28820E01000C4F6D /* FileWrapperAccessor.swift */,
 			);
 			path = Virtualization;
 			sourceTree = "<group>";

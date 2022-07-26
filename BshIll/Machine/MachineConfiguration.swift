@@ -1,6 +1,5 @@
 
-import Virtualization
-import Combine
+import Foundation
 
 protocol MachineConfiguration {
   var currentURL : URL { get }

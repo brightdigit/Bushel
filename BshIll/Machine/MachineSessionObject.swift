@@ -8,6 +8,7 @@
 import SwiftUI
 import Virtualization
 
+#warning("Remove `import Virtualization`")
 
 class MachineSessionObject : NSObject, ObservableObject, VZVirtualMachineDelegate {
   @Published var session : MachineSession? {
