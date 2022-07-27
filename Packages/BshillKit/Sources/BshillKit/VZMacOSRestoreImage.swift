@@ -47,13 +47,6 @@ extension VZMacOSRestoreImage : ImageInstaller {
     
     return response.allHeaderFields
   }
-  //    var isImageSupported: Bool {
-  //        if #available(macOS 13.0, *) {
-  //            return self.isSupported
-  //        } else {
-  //            return self.mostFeaturefulSupportedConfiguration?.hardwareModel.isSupported == true
-  //        }
-  //    }
 }
 
 

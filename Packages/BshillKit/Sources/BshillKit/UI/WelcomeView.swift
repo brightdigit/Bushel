@@ -20,7 +20,8 @@ struct WelcomeView: View {
                 
                 VStack(alignment: .leading){
                     WelcomeActionButton(imageSystemName: "plus.app", title: "Create a new Machine", description: "Create a new Virtual Machine for Testing Your App") {
-                        BshIllApp.showNewDocumentWindow(ofType: .virtualMachine)
+                      
+                      Windows.showNewDocumentWindow(ofType: .virtualMachine)
                     }
                     
                     WelcomeActionButton(imageSystemName: "square.and.arrow.down", title: "Open an existing Machine", description: "Open and Run an existing virtual machine.") {
@@ -29,18 +30,18 @@ struct WelcomeView: View {
                                     [UTType(filenameExtension: "bshvm")!]
                     ) { result in
                         if let url = try? result.get() {
-                            BshIllApp.openDocumentAtURL(url)
+                          Windows.openDocumentAtURL(url)
                         }
                     }
                     //WelcomeActionButton().padding()
                     
                     WelcomeActionButton(imageSystemName: "server.rack", title: "Start an Image Library", description: "Create a library for your Restore Images.") {
-                      BshIllApp.showNewDocumentWindow(ofType: .restoreImageLibrary)
+                      Windows.showNewDocumentWindow(ofType: .restoreImageLibrary)
                     }
                     
                     
                     WelcomeActionButton(imageSystemName: "square.and.arrow.down.on.square", title: "Download a Restore Image", description: "Download a new version of macOS.") {
-                      BshIllApp.openWindow(withHandle: BasicWindowOpenHandle.remoteSources)
+                      Windows.openWindow(withHandle: BasicWindowOpenHandle.remoteSources)
                     }
                 }
             }

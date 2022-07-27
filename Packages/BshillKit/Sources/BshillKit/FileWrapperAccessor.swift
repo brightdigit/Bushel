@@ -1,6 +1,4 @@
-import SwiftUI
-
-
+import Foundation
 struct FileWrapperAccessor : FileAccessor {
   
   func getData() -> Data? {

@@ -2,8 +2,8 @@ import AppKit
 import SwiftUI
 import UniformTypeIdentifiers
 
-extension App {
-    static func showNewDocumentWindow(ofType type: UTType) {
+public enum Windows {
+     static func showNewDocumentWindow(ofType type: UTType) {
         
         let dc = NSDocumentController.shared
         if let newDocument = try? dc.makeUntitledDocument(ofType: type.identifier) {
@@ -32,7 +32,7 @@ extension App {
           
   }
     
-    static func openDocumentAtURL(_ url: URL, andDisplay display: Bool = true) {
+  static func openDocumentAtURL(_ url: URL, andDisplay display: Bool = true) {
         
         let dc = NSDocumentController.shared
         dc.openDocument(withContentsOf: url, display: display) { document, alreadyDisplayed, error in
@@ -47,7 +47,7 @@ extension App {
         }
     }
     
-    static func openWindow(withHandle handle: WindowOpenHandle) {
+  static func openWindow(withHandle handle: WindowOpenHandle) {
         NSWorkspace.shared.open(URL(forHandle: handle))
     }
 }
