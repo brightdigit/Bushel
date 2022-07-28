@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		B301F262286402270038E9F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3BB2FAF283E7B3B00F3E336 /* Assets.xcassets */; };
+		B34A9E8628920C9000BA3343 /* BshillUI in Frameworks */ = {isa = PBXBuildFile; productRef = B34A9E8528920C9000BA3343 /* BshillUI */; };
 		B364B19F28750875006799DC /* Raleway-Italic-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B364B19928750875006799DC /* Raleway-Italic-VariableFont_wght.ttf */; };
 		B364B1A028750875006799DC /* Raleway-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B364B19E28750875006799DC /* Raleway-VariableFont_wght.ttf */; };
-		B3CFB3952890C0C70092AFC2 /* BshillKit in Frameworks */ = {isa = PBXBuildFile; productRef = B3CFB3942890C0C70092AFC2 /* BshillKit */; };
 		B3CFB3972890C0FB0092AFC2 /* BshIllApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CFB3962890C0FB0092AFC2 /* BshIllApp.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,7 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3CFB3952890C0C70092AFC2 /* BshillKit in Frameworks */,
+				B34A9E8628920C9000BA3343 /* BshillUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,7 +102,7 @@
 			);
 			name = BshIll;
 			packageProductDependencies = (
-				B3CFB3942890C0C70092AFC2 /* BshillKit */,
+				B34A9E8528920C9000BA3343 /* BshillUI */,
 			);
 			productName = BshIll;
 			productReference = B301F24C286402160038E9F7 /* BshIll.app */;
@@ -361,9 +361,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B3CFB3942890C0C70092AFC2 /* BshillKit */ = {
+		B34A9E8528920C9000BA3343 /* BshillUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = BshillKit;
+			productName = BshillUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
