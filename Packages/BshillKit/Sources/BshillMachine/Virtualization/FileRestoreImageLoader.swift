@@ -1,10 +1,15 @@
 import Foundation
-import Virtualization
+
+public protocol ImageManager {
+  associatedtype ImageType
+  func loadFromAccessor(_ accessor: FileAccessor) async throws -> ImageType
+  func imageContainer(vzRestoreImage : ImageType, sha256 : SHA256?) async throws -> ImageContainer
+}
+
 
 #warning("Remove `import Virtualization`")
 public class FileRestoreImageLoader : RestoreImageLoader {
-  public init () {}
-  public func load(from file: FileAccessor) async throws -> RestoreImage {
+  public func load<ImageManagerType>(from file: FileAccessor, using manager: ImageManagerType) async throws -> RestoreImage where ImageManagerType : ImageManager {
     try await Task{
       let sha256 : Result<SHA256,Error>
       if let filesha256 = file.sha256 {
@@ -15,16 +20,16 @@ public class FileRestoreImageLoader : RestoreImageLoader {
         }.result
         sha256 = await asha256
       }
-      async let vzMacOSRestoreImage = await Task {
-        try await Result{ try file.getURL()}.flatMap(VZMacOSRestoreImage.loadFromURL).get()
-      }.result
-      let virtualImageResultArgs : Result<(VZMacOSRestoreImage, SHA256),Error> = await vzMacOSRestoreImage.tupleWith(sha256)
+      async let vzMacOSRestoreImage =  Result{  try await manager.loadFromAccessor(file) }
+      
+      let virtualImageResultArgs : Result<(ImageManagerType.ImageType, SHA256),Error> = await vzMacOSRestoreImage.tupleWith(sha256)
 
-      let virtualImageResult = await virtualImageResultArgs.flatMap(VirtualizationMacOSRestoreImage.init)
+      let virtualImageResult = await virtualImageResultArgs.flatMap(manager.imageContainer)
       return try virtualImageResult.map(RestoreImage.init(imageContainer:)).get()
     }.value
   }
   
+  public init () {}
 //
 //  var restoreImageResult : Result<RestoreImage, Error>? = nil
 //

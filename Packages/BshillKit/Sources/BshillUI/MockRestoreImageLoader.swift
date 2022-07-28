@@ -2,9 +2,10 @@
 import BshillMachine
 
 struct MockRestoreImageLoader : RestoreImageLoader {
-  func load(from file: FileAccessor) async throws -> RestoreImage {
+  func load<ImageManagerType>(from file: BshillMachine.FileAccessor, using manager: ImageManagerType) async throws -> BshillMachine.RestoreImage where ImageManagerType : BshillMachine.ImageManager {
     return try self.actualResult.get()
   }
+  
   
   let actualResult : Result<RestoreImage, Error>
   

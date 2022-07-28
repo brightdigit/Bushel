@@ -104,8 +104,10 @@ struct RestoreImageLibraryDocument: FileDocument {
       for (name, imageWrapper) in imageWrappers {
         let fileName = imageWrapper.filename ?? name
         let accessor = FileWrapperAccessor(fileWrapper: imageWrapper, url: url?.appendingPathComponent("Restore Images").appendingPathComponent(fileName), sha256: nil)
+        #warning("find the file type")
+        let manager : MockImageManager = .init(metadata: .Previews.venturaBeta3)
         group.addTask {
-          try? await loader.load(from: accessor)
+          try? await loader.load(from: accessor, using: manager)
         }
       }
         return await group.reduce(into: [RestoreImage?]()) { images, image in

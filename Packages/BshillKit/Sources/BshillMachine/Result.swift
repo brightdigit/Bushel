@@ -2,6 +2,14 @@
 
 
 extension Result {
+  public init(catching body: () async throws -> Success) async where Failure == Error {
+    do {
+      self = try await .success(body())
+    } catch {
+      self = .failure(error)
+    }
+  }
+  
   func tupleWith<OtherSuccessType>(_ other: Result<OtherSuccessType, Failure>) -> Result<(Success, OtherSuccessType),Failure> {
     self.flatMap { success in
       other.map { other in

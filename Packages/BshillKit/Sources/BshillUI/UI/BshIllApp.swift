@@ -7,10 +7,23 @@
 
 import SwiftUI
 import UniformTypeIdentifiers
+import BshillMachine
+import Virtualization
 
 public protocol BshIllAppExt: App {
 }
 
+struct VirtualizationImageManager : ImageManager {
+  
+  
+  func loadFromAccessor(_ accessor: FileAccessor) async throws -> VZMacOSRestoreImage {
+    try await VZMacOSRestoreImage.loadFromURL(accessor.getURL())
+  }
+  
+  func imageContainer(vzRestoreImage: VZMacOSRestoreImage, sha256: SHA256?) async throws -> ImageContainer {
+    try await VirtualizationMacOSRestoreImage(vzRestoreImage: vzRestoreImage, sha256: sha256)
+  }
+}
 public extension BshIllAppExt {
   
   func scene (@SceneBuilder builder: () -> some Scene ) -> some Scene {
@@ -47,7 +60,7 @@ public extension BshIllAppExt {
                 }
                 DocumentGroup(viewing: RestoreImageDocument.self) { file in
                   // https://stackoverflow.com/questions/67659770/how-to-read-large-files-using-swiftui-documentgroup-without-making-a-temporary-c
-                  RestoreImageDocumentView(document: file.document, url: file.fileURL)
+                  RestoreImageDocumentView(document: file.document, manager: VirtualizationImageManager() , url: file.fileURL)
                 }
                 WindowGroup {
                   RrisCollectionView()

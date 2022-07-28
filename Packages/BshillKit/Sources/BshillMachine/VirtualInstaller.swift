@@ -1,6 +1,6 @@
 
-import Virtualization
 import Combine
+import Foundation
 
 
 public protocol VirtualInstaller {

@@ -8,16 +8,43 @@
 import SwiftUI
 import BshillMachine
 
+struct MockImageContainer : ImageContainer {
+  let metadata: BshillMachine.ImageMetadata
+  
+  func installer() async throws -> BshillMachine.ImageInstaller {
+    return MockInstaller()
+  }
+  
+  
+}
+struct MockImageManager : ImageManager {
+  let metadata: BshillMachine.ImageMetadata
+  func loadFromAccessor(_ accessor: BshillMachine.FileAccessor) async throws -> Void {
+    return
+  }
+  
+  func imageContainer(vzRestoreImage: Void, sha256: BshillMachine.SHA256?) async throws -> BshillMachine.ImageContainer {
+    return MockImageContainer(metadata: metadata)
+  }
+  
+  typealias ImageType = Void
+  
+  
+}
 
-struct RestoreImageDocumentView: View {
-  internal init(url: URL?, _ fetchImage : @escaping () async throws -> RestoreImage) {
+struct RestoreImageDocumentView<ImageManagerType : ImageManager>: View {
+  let manager : ImageManagerType
+  
+  internal init(url: URL?, manager: ImageManagerType, _ fetchImage : @escaping () async throws -> RestoreImage) {
     self.url = url
     self.fetchImage = fetchImage
+    self.manager = manager
   }
-  internal init(document: RestoreImageDocument, url: URL? = nil, loader: RestoreImageLoader = FileRestoreImageLoader()) {
+  
+  internal init(document: RestoreImageDocument, manager: ImageManagerType, url: URL? = nil, loader: RestoreImageLoader = FileRestoreImageLoader()) {
     let accessor = FileWrapperAccessor(fileWrapper: document.fileWrapper, url: url, sha256: nil)
-    self.init(url: url) {
-      try await loader.load(from: accessor)
+    self.init(url: url, manager: manager) {
+      try await loader.load(from: accessor, using: manager)
     }
   }
   
@@ -58,7 +85,8 @@ struct RestoreImageDocumentView: View {
 
 struct RestoreImageDocumentView_Previews: PreviewProvider {
     static var previews: some View {
-      RestoreImageDocumentView(url: nil) {
+      
+      RestoreImageDocumentView(url: nil, manager: MockImageManager(metadata: .Previews.venturaBeta3)) {
         return .Previews.usingMetadata(.Previews.venturaBeta3)
       }
 //        RestoreImageDocumentView(document: RestoreImageDocument(loader: MockRestoreImageLoader(restoreImageResult: nil)))
