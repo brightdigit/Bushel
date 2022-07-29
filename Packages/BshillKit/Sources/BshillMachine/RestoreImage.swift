@@ -27,7 +27,7 @@ public  init(metadata : ImageMetadata, installer: @escaping () async throws -> I
     self.installer = installer
   }
   
-  init(imageContainer: ImageContainer) {
+  public init(imageContainer: ImageContainer) {
     self.init(metadata: imageContainer.metadata, installer: imageContainer.installer)
   }
   

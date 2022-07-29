@@ -10,12 +10,16 @@ import UniformTypeIdentifiers
 
 import BshillMachine
 
+
 struct RestoreImageLibraryDocument: FileDocument {
   
   let sourceFileWrapper: FileWrapper?
 
   var library: RestoreImageLibrary
   
+  let imageManagers : [AnyImageManager] = [
+    VirtualizationImageManager()
+  ]
   
   init(library : RestoreImageLibrary = .init(), sourceFileWrapper: FileWrapper? = nil) {
     self.library = library
@@ -104,10 +108,15 @@ struct RestoreImageLibraryDocument: FileDocument {
       for (name, imageWrapper) in imageWrappers {
         let fileName = imageWrapper.filename ?? name
         let accessor = FileWrapperAccessor(fileWrapper: imageWrapper, url: url?.appendingPathComponent("Restore Images").appendingPathComponent(fileName), sha256: nil)
-        #warning("find the file type")
-        let manager : MockImageManager = .init(metadata: .Previews.venturaBeta3)
+        let imageManagers = self.imageManagers
         group.addTask {
-          try? await loader.load(from: accessor, using: manager)
+          for manager in imageManagers {
+            
+            if let image = try? await manager.load(from: accessor, using: loader){
+              return image
+            }
+          }
+          return nil
         }
       }
         return await group.reduce(into: [RestoreImage?]()) { images, image in

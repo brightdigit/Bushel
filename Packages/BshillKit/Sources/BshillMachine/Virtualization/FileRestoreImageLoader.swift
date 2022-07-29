@@ -1,6 +1,21 @@
 import Foundation
 
-public protocol ImageManager {
+public protocol AnyImageManager {
+//  func loadFromAccessor(_ accessor: FileAccessor) async throws -> ImageType
+//  func imageContainer(vzRestoreImage : ImageType, sha256 : SHA256?) async throws -> ImageContainer
+  func load(from accessor: FileAccessor, using loader: RestoreImageLoader) async throws -> RestoreImage
+}
+
+extension AnyImageManager {
+  
+}
+
+extension ImageManager {
+  public func load(from accessor: FileAccessor, using loader: RestoreImageLoader) async throws -> RestoreImage {
+    try await loader.load(from: accessor, using: self)
+  }
+}
+public protocol ImageManager : AnyImageManager {
   associatedtype ImageType
   func loadFromAccessor(_ accessor: FileAccessor) async throws -> ImageType
   func imageContainer(vzRestoreImage : ImageType, sha256 : SHA256?) async throws -> ImageContainer
